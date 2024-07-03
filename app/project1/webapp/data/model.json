@@ -1,0 +1,47 @@
+{
+	"selectedKey": "page1",
+	
+
+	"navigation": [
+		{
+			"title": "All Slots",
+			"key": "page1"
+		},
+		{
+			"title": "Available Slots",
+			"key": "page2"
+		},
+		{
+			"title": "Assigned Slots",
+			
+					"key": "page4"
+				
+			
+		},
+		{
+			"title": "slot allotment",
+			"key": "page5"
+		},
+		{
+			"title": "Reservations",
+			"items": [
+				{
+					"title": "Reservations",
+					"key": "page6"
+				}
+			]
+		},
+		{
+			"title": "Vendor Book Slot",
+			"key": "page7"
+		},
+		{
+			"title": "Charts",
+			"key": "page8"
+		},
+		{
+			"title": "History",
+			"key": "page9"
+		}
+	]
+}
