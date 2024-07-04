@@ -7,10 +7,7 @@
 			"title": "All Slots",
 			"key": "page1"
 		},
-		{
-			"title": "Available Slots",
-			"key": "page2"
-		},
+		
 		{
 			"title": "Assigned Slots",
 			
@@ -24,12 +21,10 @@
 		},
 		{
 			"title": "Reservations",
-			"items": [
-				{
-					"title": "Reservations",
+			
 					"key": "page6"
-				}
-			]
+				
+			
 		},
 		{
 			"title": "Vendor Book Slot",

@@ -7,7 +7,6 @@
     xmlns:layout="sap.ui.layout"
     height="100%"
 >
- 
     <tnt:ToolPage id="toolPage">
         <tnt:header>
             <tnt:ToolHeader id="_IDGenToolHeader1">
@@ -30,63 +29,6 @@
                         />
                     </layoutData>
                 </Title>
-                <!-- <Text
-                    text="Second Title"
-                    wrapping="false"
-                    id="secondTitle"
-                >
-                    <layoutData>
-                        <OverflowToolbarLayoutData
-                            id="_IDGenOverflowToolbarLayoutData2"
-                            priority="Disappear"
-                        />
-                    </layoutData>
-                </Text> -->
-                <!-- <ToolbarSpacer id="_IDGenToolbarSpacer1" />
-                <SearchField
-                    width="16rem"
-                    id="searchField"
-                >
-                    <layoutData>
-                        <OverflowToolbarLayoutData
-                            id="_IDGenOverflowToolbarLayoutData3"
-                            priority="Low"
-                            group="1"
-                        />
-                    </layoutData>
-                </SearchField> -->
-               
-                <!-- <Button
-                    visible="false"
-                    icon="sap-icon://search"
-                    type="Transparent"
-                    id="searchButton"
-                    tooltip="Search"
-                /> -->
-                
-                <!-- <OverflowToolbarButton
-                    id="_IDGenOverflowToolbarButton2"
-                    icon="sap-icon://card"
-                    type="Transparent"
-                    tooltip="Action 2"
-                    text="Action 2"
-                >
-                    <layoutData>
-                        <OverflowToolbarLayoutData
-                            id="_IDGenOverflowToolbarLayoutData6"
-                            group="2"
-                        />
-                    </layoutData>
-                </OverflowToolbarButton> -->
-                <!-- <ToolbarSeparator id="_IDGenToolbarSeparator1">
-                    <layoutData>
-                        <OverflowToolbarLayoutData
-                            id="_IDGenOverflowToolbarLayoutData7"
-                            group="2"
-                        />
-                    </layoutData>
-                </ToolbarSeparator> -->
-                
                 <Button
                     id="_IDGenButton1"
                     icon="sap-icon://bell"
@@ -95,7 +37,7 @@
                 >
                     <layoutData>
                         <OverflowToolbarLayoutData
-                            id="_IDGenOverflowToolbarLayoutData8"
+                            id="_IDGenOverflowToolbarLayoutData81"
                             priority="NeverOverflow"
                         />
                     </layoutData>
@@ -107,24 +49,26 @@
                     id="_IDGenToolbarSpacer2"
                     width="1.125rem"
                 />
-                
+                <Text>
                     <layoutData>
                         <OverflowToolbarLayoutData
                             id="_IDGenOverflowToolbarLayoutData9"
                             priority="NeverOverflow"
                         />
                     </layoutData>
-              
+                </Text>
             </tnt:ToolHeader>
         </tnt:header>
         <tnt:subHeader>
             <tnt:ToolHeader id="_IDGenToolHeader2">
-               <IconTabHeader
-						selectedKey="{/selectedKey}"
-						items="{path: '/navigation'}"
-						select=".onItemSelect"
-						mode="Inline">
-					<layoutData>
+                <IconTabHeader
+                    id="bjbhdf"
+                    selectedKey="{/selectedKey}"
+                    items="{path: '/navigation'}"
+                    select=".onItemSelect"
+                    mode="Inline"
+                >
+                    <layoutData>
                         <OverflowToolbarLayoutData
                             id="_IDGenOverflowToolbarLayoutData10"
                             priority="NeverOverflow"
@@ -163,17 +107,15 @@
                         vertical="true"
                         height="100%"
                         class="sapUiContentPadding"
-                        
                     >
                         <Table
                             id="table"
                             items="{/PlotNOs}"
-                                mode="MultiSelect"
-                              
+                            
                         >
                             <columns>
                                 <Column>
-                                    <Text text="plot number" />
+                                    <Text text="Plot Number" />
                                 </Column>
                                 <Column>
                                     <Text text="Type" />
@@ -181,73 +123,22 @@
                                 <Column>
                                     <Text text="Availability" />
                                 </Column>
-                                <Column>
-                                    <Text text="vehical" />
-                                </Column>
                             </columns>
                             <items>
                                 <ColumnListItem>
                                     <cells>
                                         <Text text="{plot_NO}" />
-                                        
                                     </cells>
                                     <cells>
                                         <Text text="{inBoundOroutBound}" />
-                                        
                                     </cells>
                                     <cells>
                                         <Text text="{available}" />
-                                        
-                                    </cells>
-                                    <cells>
-                                        <Text text="" />
-                                        
                                     </cells>
                                 </ColumnListItem>
                             </items>
                         </Table>
                     </ScrollContainer>
-                    <ScrollContainer
-                        id="page2"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
-                        class="sapUiContentPadding"
-                    >
-                         <Table
-                            id="table1"
-                            items="{tableModel>/items}"
-                        >
-                            <columns>
-                                <Column>
-                                    <Text text="Parking Lot Number" />
-                                </Column>
-                                <Column>
-                                    <Text text="Type" />
-                                </Column>
-                            </columns>
-                            <items>
-                                <ColumnListItem>
-                                    <cells>
-                                        <Text text="{tableModel>name}" />
-                                        <Text text="{tableModel>description}" />
-                                    </cells>
-                                </ColumnListItem>
-                            </items>
-                        </Table>
-                    </ScrollContainer>
-                    <!-- <ScrollContainer
-                        id="page3"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
-                        class="sapUiContentPadding"
-                    >
-                        <Text
-                            id="_IDGenText3"
-                            text="Users and Groups"
-                        />
-                    </ScrollContainer> -->
                     <ScrollContainer
                         id="page4"
                         horizontal="false"
@@ -255,9 +146,10 @@
                         height="100%"
                         class="sapUiContentPadding"
                     >
-                    <Table
-                            id="table4"
+                        <Table
+                            id="table9"
                             items="{tableModel>/items}"
+                            mode="MultiSelect"
                         >
                             <columns>
                                 <Column>
@@ -269,26 +161,31 @@
                                 <Column>
                                     <Text text="Driver Mobile Number" />
                                 </Column>
-                                 <Column>
-                                    <Text text="Parking lot number" />
+                                <Column>
+                                    <Text text="Parking Lot Number" />
                                 </Column>
                                 <Column>
-                                    <Text text="Assigned on" />
+                                    <Text text="Assigned Date and Time" />
                                 </Column>
+                                 
                                 <Column>
-                                    <Text text="Process Type" />
+                                    <Text text="Actions" />
                                 </Column>
                             </columns>
                             <items>
                                 <ColumnListItem>
                                     <cells>
-                                        <Text text="{tableModel>name}" />
-                                        <Text text="{tableModel>description}" />
+                                        <Text text="{tableModel>vehicalDetails_vehicalNo}" />
+                                        <Text text="{tableModel>driverName}" />
+                                        <Text text="{tableModel>drivernumber}" />
+                                        <Text text="{tableModel>plotNo_plot_NO}" />
+                                        <Text text="{tableModel>assignedDate}" />
+                                        <Button text="Unassign" press="onUnassignSinglePress" />
                                     </cells>
                                 </ColumnListItem>
                             </items>
                         </Table>
-                       
+                        <Button text="Unassign Selected" press="onUnassignSelectedPress" type="Reject" />
                     </ScrollContainer>
                     <ScrollContainer
                         id="page5"
@@ -297,114 +194,84 @@
                         height="100%"
                         class="sapUiContentPadding"
                     >
-                                <FlexBox
+                        <FlexBox
                             justifyContent="Center"
                             alignItems="Center"
                             height="50%"
                         >
                             <VBox width="30%">
-                                <VBox
-                                    width="30%"
+                                <VBox alignItems="Center" />
+                                <VBox width="100%">
+                                    <Label text="Driver Name" />
+                                    <Input
+                                        id="driverNameInput"
+                                        placeholder="Enter driver's name"
+                                        width="100%"
+                                    />
+                                </VBox>
+                                <VBox width="100%">
+                                    <Label text="Driver Phone Number" />
+                                    <Input
+                                        id="driverPhoneInput"
+                                        placeholder="Enter driver's phone number"
+                                        width="100%"
+                                        type="Tel"
+                                    />
+                                </VBox>
+                                <!-- <VBox width="100%">
+                                    <Label text="Vehicle Type" />
+                                    <Select id="vehicleTypeSelect" width="100%" />
+                                </VBox> -->
+                                <VBox width="100%">
+                                    <Label text="Vehicle Number" />
+                                    <Input
+                                        id="Vehiclenumber"
+                                        placeholder="Enter vehicle number"
+                                        width="100%"
+                                    />
+                                </VBox>
+                                <VBox width="100%">
+                                    <Label text="Parking Lot Number" />
+                                    <Input
+                                        id="parkingLotInput"
+                                        placeholder="Enter parking lot number"
+                                        width="100%"
+                                    />
+                                </VBox>
+                                <VBox width="100%">
+                                    <Label text="Inward or Outward" />
+                                    <RadioButtonGroup
+                                        id="inOutRadioGroup"
+                                        columns="2"
+                                        width="100%"
+                                    >
+                                        <buttons>
+                                            <RadioButton text="Inward" selected="true" />
+                                            <RadioButton text="Outward" />
+                                        </buttons>
+                                    </RadioButtonGroup>
+                                </VBox>
+                                <VBox width="100%">
+                                    <Label text="Date and Time" />
+                                    <DateTimePicker
+                                        id="dateTimePicker"
+                                        width="100%"
+                                        value="{path: '/date'}"
+                                        displayFormat="yyyy/MM/dd HH:mm:ss"
+                                    />
+                                </VBox>
+                                <HBox
+                                    justifyContent="End"
+                                    width="100%"
                                     alignItems="Center"
                                 >
-                                    
-                                </VBox>
- 
-                                <VBox width="100%">
-                                    <VBox width="100%">
-                                        <Label text="Driver Name" />
-                                        <Input
-                                            id="driverNameInput"
-                                            placeholder="Enter driver's name"
-                                            width="100%"
-                                        />
-                                    </VBox>
- 
-                                    <VBox width="100%">
-                                        <Label text="Driver Phone Number" />
-                                        <Input
-                                            id="driverPhoneInput"
-                                            placeholder="Enter driver's phone number"
-                                            width="100%"
-                                            type="Tel"
-                                        />
-                                    </VBox>
- 
-                                    <VBox width="100%">
-                                        <Label text="Vehicle Type" />
-                                        <Select
-                                            id="vehicleTypeSelect"
-                                            width="100%"
-                                        >
-                                           
-                                        </Select>
-                                    </VBox>
- 
-                                    <VBox width="100%">
-                                        <Label text="Parking Lot Number" />
-                                        <Input
-                                            id="parkingLotInput"
-                                            placeholder="Enter parking lot number"
-                                            width="100%"
-                                        />
-                                    </VBox>
- 
-                                    <VBox width="100%">
-                                        <Label text="Inward or Outward" />
-                                        <RadioButtonGroup
-                                            id="inOutRadioGroup"
-                                            columns="2"
-                                            width="100%"
-                                        >
-                                            <buttons>
-                                                <RadioButton
-                                                    text="Inward"
-                                                    selected="true"
-                                                />
-                                                <RadioButton text="Outward" />
-                                            </buttons>
-                                        </RadioButtonGroup>
-                                    </VBox>
- 
-                                    <VBox width="100%">
-                                        <Label text="Date and Time" />
-                                        <DateTimePicker
-                                            id="dateTimePicker"
-                                            width="100%"
-                                            value="{path: '/date'}"
-                                            displayFormat="yyyy/MM/dd HH:mm:ss"
-                                        />
-                                    </VBox>
- 
-                                    <VBox width="100%">
-                                        <Label text="Comments" />
-                                        <TextArea
-                                            id="commentsTextArea"
-                                            placeholder="Enter any additional comments"
-                                            width="100%"
-                                            height="100px"
-                                        />
-                                    </VBox>
- 
-                                    <HBox
-                                        justifyContent="End"
-                                        width="100%"
-                                        alignItems="Center"
-                                    >
-                                        <Button
-                                            text="Assign"
-                                            press="onAssignPress"
-                                            width="120px"
-                                            type="Success"
-                                        />
-                                        <Button
-                                            text="Unassign"
-                                            press="onUnassignPress"
-                                            width="120px"
-                                            type="Reject"
-                                        />
-                                    </HBox>
-                                </VBox>
+                                    <Button
+                                        text="Assign"
+                                        press="onAssignPress"
+                                        width="120px"
+                                        type="Success"
+                                    />
+                                </HBox>
                             </VBox>
                         </FlexBox>
                     </ScrollContainer>
@@ -445,17 +312,50 @@
                         />
                     </ScrollContainer>
                     <ScrollContainer
-                        id="page9"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
-                        class="sapUiContentPadding"
-                    >
-                        <Text
-                            id="_IDGenText9"
-                            text="History"
-                        />
-                    </ScrollContainer>
+        id="page9"
+        horizontal="false"
+        vertical="true"
+        height="100%"
+        class="sapUiContentPadding"
+    >
+        <Table
+            id="unassignedTable"
+            items="{unassignedModel>/unassignedItems}"
+        >
+            <columns>
+                <Column>
+                    <Text text="Vehicle Number" />
+                </Column>
+                <Column>
+                    <Text text="Driver Name" />
+                </Column>
+                <Column>
+                    <Text text="Driver Mobile Number" />
+                </Column>
+                <Column>
+                    <Text text="Parking Lot Number" />
+                </Column>
+                <Column>
+                    <Text text="Assigned Date and Time" />
+                </Column>
+                <Column>
+                    <Text text="Unassigned Date and Time" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem>
+                    <cells>
+                        <Text text="{unassignedModel>vehicalDetails_vehicalNo}" />
+                        <Text text="{unassignedModel>driverName}" />
+                        <Text text="{unassignedModel>drivernumber}" />
+                        <Text text="{unassignedModel>plotNo_plot_NO}" />
+                        <Text text="{unassignedModel>assignedDate}" />
+                        <Text text="{unassignedModel>unassignedDate}" />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </ScrollContainer>
                 </pages>
             </NavContainer>
         </tnt:mainContents>
