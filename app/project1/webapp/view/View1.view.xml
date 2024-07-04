@@ -147,7 +147,7 @@
                         class="sapUiContentPadding"
                     >
                         <Table
-                            id="table9"
+                            id="table4"
                             items="{tableModel>/items}"
                             mode="MultiSelect"
                         >
@@ -312,12 +312,17 @@
                         />
                     </ScrollContainer>
                     <ScrollContainer
-        id="page9"
-        horizontal="false"
-        vertical="true"
-        height="100%"
-        class="sapUiContentPadding"
-    >
+                        id="page9"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                        <Text
+                            id="_IDGenText9"
+                            text="History"
+                        />
+                    
         <Table
             id="unassignedTable"
             items="{unassignedModel>/unassignedItems}"
