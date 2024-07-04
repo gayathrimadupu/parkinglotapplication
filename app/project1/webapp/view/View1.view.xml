@@ -233,14 +233,16 @@
             width="100%"
             items="{
                 path: '/PlotNOs',
-                templateShareable: false
-            }"
-        >
-            <core:Item
-                key="{plot_NO}"
-                text="{plot_NO}"
-            />
-        </Select>
+            templateShareable: false,
+            filters: [{ path: 'available', operator: 'EQ', value1: 'Available' }]
+        }"
+    >
+        <core:Item
+            key="{plot_NO}"
+            text="{plot_NO}"
+        />
+    </Select>
+
     </VBox>
             <VBox width="100%">
                 <Label text="Inward or Outward" />
