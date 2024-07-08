@@ -337,22 +337,19 @@
                                         />
                                     </VBox>
 
-                                    <VBox
-                                        id="_IDGenVBox6"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel3"
-                                            text="Vehicle Type"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            id="idvehiceltype"
-                                            placeholder="Enter vehicel type"
-                                            width="100%"
-                                            value="{localModel>/VehicalDeatils/vehicalType}"
-                                        />
-                                    </VBox>
+                                    <VBox id="_IDGenVBox6" width="100%">
+    <Label id="_IDGenLabel3" text="Vehicle Type" class="bold-red-label"/>
+    <ComboBox
+        id="idvehiceltype"
+        placeholder="Select vehicle type"
+        width="100%"
+        items="{path: 'localModel>/vehicleTypes'}"
+        selectedKey="{localModel>/VehicalDeatils/vehicalType}"
+    >
+        <core:ListItem key="inward" text="Inward"/>
+        <core:ListItem key="outward" text="Outward"/>
+    </ComboBox>
+</VBox>
 
                                     <VBox
                                         id="_IDGenVBox7"

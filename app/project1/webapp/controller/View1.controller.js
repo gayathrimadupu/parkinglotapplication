@@ -28,7 +28,11 @@ sap.ui.define([
 				},
 				plotNo: {
 					available: false
-				}
+				},
+				vehicleTypes: [
+					{ key: "inward", text: "Inward" },
+					{ key: "outward", text: "Outward" }
+				]
 			});
 			this.getView().setModel(oLocalModel, "localModel");
 
