@@ -35,7 +35,7 @@ sap.ui.define([
 			var oModelV2 = this.getOwnerComponent().getModel("ModelV2");
 			this.getView().byId("pageContainer").setModel(oModelV2);
 			var oViewModel = new JSONModel({
-				ImageURL: "https://www.bing.com/images/blob?bcid=r6G9IPLJCj0Hkw"
+				ImageURL: "https://wonderfulengineering.com/wp-content/uploads/2014/05/truck-1-1024x768.jpg"
 			});
 			this.getView().setModel(oViewModel, "viewModel");
 		

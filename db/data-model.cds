@@ -38,3 +38,21 @@ entity History : cuid {
   unassignedDate : DateTime;
   plotNo         :  String;
 }
+entity reservations : cuid {
+
+  driverName    : String;
+  driverMobile  : String;
+  vehicleNumber : String;
+  deliveryType  : String;
+
+}
+
+entity reserved : cuid {
+
+  driverName    : String;
+  driverMobile  : String;
+  vehicleNumber : String;
+  deliveryType  : String;
+  reservedSlot : Association to PlotNOs;
+
+}

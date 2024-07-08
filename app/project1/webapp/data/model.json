@@ -2,7 +2,7 @@
 	"selectedKey": "page0",
 	"navigation": [
 		{
-			"title": "parking lot ",
+			"title": "Parking Lot ",
 			"key": "page0"
 		},
 		{
@@ -25,11 +25,11 @@
 			"key": "page4"
 		},
 		{
-			"title": "ReserveLot",
+			"title": "Reserve a lot",
 			"key": "page5"
 		},
 		{
-			"title": "Monitoring",
+			"title": "Reservations",
 			
 			"key":"page6"
 		},
