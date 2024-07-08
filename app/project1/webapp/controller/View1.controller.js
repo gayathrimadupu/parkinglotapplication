@@ -101,6 +101,7 @@ sap.ui.define([
 			const oModel = this.getView().byId("pageContainer").getModel("ModelV2"); // Assuming "ModelV2" is your ODataModel
 			const plotNo = this.getView().byId("productInput").getValue();
 			oPayload.VehicalDeatils.plotNo_plot_NO = plotNo;
+			 
 
 			//Assingning the current time to the vehicel data.
 			const Intime = new Date;
@@ -111,14 +112,27 @@ sap.ui.define([
 				MessageToast.show("Enter all details")
 				return
 			}
+			// Validate vehicle number format
+			if (!vehicalNo.match(/^([A-Za-z]{2}\s?\d{2}\s?[A-Za-z]{2}\s?\d{4})$/)) {
+				MessageToast.show("Please enter a valid vehicle number format (e.g., AB 12 CD 3456) or (e.g.,AB12CD3456)");
+				return;
+			}
+		
+			// Validate driver name format
+			if (!driverName.match(/^[a-zA-Z\s]{3,}$/)) {
+				MessageToast.show("Please enter a valid driver name (at least 3 letters, no special characters or numbers)");
+				return;
+			}
+		
+			// Validate phone number format
 			var trimmedPhone = phone.trim();
-
-			// Validate phone number
 			var phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
-			if (!(phoneRegex.test(trimmedPhone))) {
+			if (!phoneRegex.test(trimmedPhone)) {
 				MessageToast.show("Please enter a valid phone number");
 				return;
 			}
+		
+			
 
 			var oVehicleExist = await this.checkVehicleNo(oModel, oPayload.VehicalDeatils.vehicalNo)
 			if (oVehicleExist) {
@@ -218,72 +232,7 @@ sap.ui.define([
 			})
 		},
 
-		
-		// Method to handle unassigning selected slots
-        // onUnassignPress: function () {
-		// 	debugger
-        //     var oTable = this.getView().byId("AssignedSlotsTable");
-        //     var aSelectedItems = oTable.getSelectedItems();
-
-        //     if (aSelectedItems.length === 0) {
-        //         MessageBox.error("Please select at least one row to unassign");
-        //         return;
-        //     }
-
-        //     var oModel = this.getOwnerComponent().getModel("ModelV2"); 
-
-        //     // Loop through selected items to unassign each
-        //     for (var i = 0; i < aSelectedItems.length; i++) {
-        //         var oSelectedItem = aSelectedItems[i];
-        //         var oBindingContext = oSelectedItem.getBindingContext();
-        //         var sPath = oBindingContext.getPath();
-        //         var oSlot = oBindingContext.getObject();
-
-        //         try {
-        //             // Move to History
-        //             this.moveToHistory(oModel, oSlot);
-
-        //             // Delete from VehicalDeatils
-        //             this.deleteFromVehicalDetails(oModel, sPath);
-        //         } catch (error) {
-        //             MessageBox.error("Failed to unassign slots: " + error.message);
-        //             return;
-        //         }
-        //     }
-
-        //     MessageBox.success("Selected slots unassigned successfully");
-        // },
-
-        // moveToHistory: function (oModel, oSlot) {
-        //     var oHistory = {
-        //         vehicalNo: oSlot.vehicalNo,
-        //         driverName: oSlot.driverName,
-        //         phone: oSlot.phone,
-        //         vehicalType: oSlot.vehicalType,
-        //         assignedDate: oSlot.assignedDate,
-        //         unassignedDate: new Date(),
-        //         plotNo: oSlot.plotNo_plot_NO
-        //     };
-
-        //     this.createData(oModel, oHistory, "/History");
-        // },
-
-        // deleteFromVehicalDetails: function (oModel, sPath) {
-        //     oModel.remove(sPath);
-        // },
-
-        // createData: function (oModel, oData, sEntitySet) {
-        //     oModel.create(sEntitySet, oData, {
-        //         success: function () {
-        //             // Optional success handling
-        //         },
-        //         error: function (oError) {
-        //             MessageBox.error("Error creating history entry: " + oError.message);
-        //         }
-        //     });
-        // },
-
-      
+	
 // Method to handle unassigning selected slots
 onUnassignPress: function () {
     var oTable = this.getView().byId("AssignedSlotsTable");

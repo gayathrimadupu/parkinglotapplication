@@ -201,6 +201,7 @@
                                             id="commentsTextArea"
                                             placeholder="Enter Vehicel Number"
                                             value="{localModel>/VehicalDeatils/vehicalNo}"
+                                            tooltip="Format: AB 12 CD 3456,AB12CD3456"
                                         />
                                     </VBox>
 
@@ -218,6 +219,7 @@
                                             placeholder="Enter driver's name"
                                             width="100%"
                                             value="{localModel>/VehicalDeatils/driverName}"
+                                             tooltip="Enter driver's name (at least 3 letters, no special characters or numbers)"
                                         />
                                     </VBox>
 
@@ -236,6 +238,8 @@
                                             width="100%"
                                             type="Tel"
                                             value="{localModel>/VehicalDeatils/phone}"
+                                            tooltip="Enter driver's phone number (10 digits)"
+                                            
                                         />
                                     </VBox>
 
