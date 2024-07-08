@@ -1,209 +1,371 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
-    "sap/m/MessageToast",
-    "sap/ui/model/Filter",
-    "sap/ui/model/FilterOperator",
-    "sap/ui/model/json/JSONModel"
-], function (Controller, MessageToast, Filter, FilterOperator, JSONModel) {
-    "use strict";
-
+    "./Basecontroller",
+    "sap/ui/model/json/JSONModel",
+	"sap/ui/Device",
+	"sap/m/MessageToast",
+	"sap/ui/core/Fragment",
+	"sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator",
+	"sap/m/MessageBox",
+	
+], function (Controller, JSONModel, Device, MessageToast, Fragment, Filter, FilterOperator, MessageBox) {
+	"use strict";
     return Controller.extend("com.app.project1.controller.View1", {
         onInit: function () {
             // Load local JSON model for the view
             var oModel = new JSONModel(sap.ui.require.toUrl("com/app/project1/data/model.json"));
             this.getView().setModel(oModel);
-        
 
-            // Set a second model (assuming it's defined in the manifest and Component.js)
-            var oModelV2 = this.getOwnerComponent().getModel("ModelV2");
-            this.getView().byId("pageContainer").setModel(oModelV2);
+			const oLocalModel = new JSONModel({
+				VehicalDeatils: {
+					vehicalNo: "",
+					driverName: "",
+					phone: 0,
+					vehicalType: "",
+					assignedDate: "",
+					unassignedDate: "",
+					plotNo_plot_NO: "",
+				},
+				plotNo: {
+					available: false
+				}
+			});
+			this.getView().setModel(oLocalModel, "localModel");
 
-// Initialize unassignedModel
-var unassignedModel = new JSONModel({ unassignedItems: [] });
-this.getView().setModel(unassignedModel, "unassignedModel");
+			var oModelV2 = this.getOwnerComponent().getModel("ModelV2");
+			this.getView().byId("pageContainer").setModel(oModelV2);
 
-            if (!this.getView().getModel("tableModel")) {
-                var tableModel = new JSONModel();
-                this.getView().setModel(tableModel, "tableModel");
-            }
-            
-        },
+		},
 
-        onItemSelect: function (oEvent) {
-            var oItem = oEvent.getParameter("item");
-            this.byId("pageContainer").to(this.getView().createId(oItem.getKey()));
-        },
-        onAssignPress: function () {
-            var oView = this.getView();
-        
-            // Fetch input fields
-            var oDriverNameInput = oView.byId("driverNameInput");
-            var oDriverPhoneInput = oView.byId("driverPhoneInput");
-            var oVehicleNumberInput = oView.byId("Vehiclenumber");
-            var oParkingLotSelect = oView.byId("parkingLotSelect");
-            var oDateTimePicker = oView.byId("dateTimePicker");
-            var oInOutRadioGroup = oView.byId("inOutRadioGroup");
-        
-            // Debug logs to check if inputs are found
-            console.log("Driver Name Input:", oDriverNameInput);
-            console.log("Driver Phone Input:", oDriverPhoneInput);
-            console.log("Vehicle Number Input:", oVehicleNumberInput);
-            console.log("Parking Lot Select:", oParkingLotSelect);
-            console.log("Date Time Picker:", oDateTimePicker);
-            console.log("In/Out Radio Group:", oInOutRadioGroup);
-        
-            // Check if any input field is not found
-            if (!oDriverNameInput || !oDriverPhoneInput || !oVehicleNumberInput || !oParkingLotSelect || !oDateTimePicker || !oInOutRadioGroup) {
-                console.error("One or more input fields not found in the view.");
-                return;
-            }
-        
-            // Get values from input fields
-            var sDriverName = oDriverNameInput.getValue().trim();
-            var sPhone = oDriverPhoneInput.getValue().trim();
-            var sVehicleNumber = oVehicleNumberInput.getValue().trim();
-            var sParkingLot = oParkingLotSelect.getSelectedKey(); // Assuming selectedKey is used for plot_NO
-            var sDateTime = oDateTimePicker.getValue();
-            var sInOut = oInOutRadioGroup.getSelectedButton().getText(); // Assuming getText() retrieves selected radio button text
-        
-            console.log("Driver Name:", sDriverName);
-            console.log("Phone:", sPhone);
-            console.log("Vehicle Number:", sVehicleNumber);
-            console.log("Parking Lot:", sParkingLot);
-            console.log("Date Time:", sDateTime);
-            console.log("In/Out:", sInOut);
-        
-            // Perform basic validation
-            if (!sDriverName || !sPhone || !sVehicleNumber || !sParkingLot || !sDateTime || !sInOut) {
-                console.log("Validation failed: Please fill in all required fields.");
-                sap.m.MessageToast.show("Please fill in all required fields.");
-                return;
-            }
-        
-            // Assuming oModel contains an array of items to which assignments are added
-            var oModel = oView.getModel("tableModel");
-            if (!oModel) {
-                console.error("tableModel not found in the view.");
-                return;
-            }
-        
-            // Create new assignment object
-            var oNewAssignment = {
-                driverName: sDriverName,
-                drivernumber: sPhone,
-                vehicalDetails_vehicalNo: sVehicleNumber, // Replace with actual vehicle number
-                plotNo_plot_NO: sParkingLot,
-                assignedDate: sDateTime,
-                inwardOrOutward: sInOut
-            };
-        
-            // Add the new assignment to the model
-            var aItems = oModel.getProperty("/items") || [];
-            aItems.push(oNewAssignment);
-            oModel.setProperty("/items", aItems);
-        
-            // Show confirmation message
-            sap.m.MessageToast.show("Assignment added successfully");
-        
-            // Clear input fields after successful assignment
-            oDriverNameInput.setValue("");
-            oDriverPhoneInput.setValue("");
-            oVehicleNumberInput.setValue("");
-            oParkingLotSelect.setSelectedKey(""); // Clear selection
-            oDateTimePicker.setValue("");
-            oInOutRadioGroup.setSelectedIndex(-1); // Clear selection
-        },
-        onUnassignSinglePress: function (oEvent) {
-            var oItem = oEvent.getSource().getParent();
-            var oBindingContext = oItem.getBindingContext("tableModel");
-            var sPath = oBindingContext.getPath();
-            var oModel = this.getView().getModel("tableModel");
+		onItemSelect: function (oEvent) {
+			var oItem = oEvent.getParameter("item");
+			this.byId("pageContainer").to(this.getView().createId(oItem.getKey()));
+		},
 
-            // Remove the item from tableModel
-            var aItems = oModel.getProperty("/items");
-            var iIndex = parseInt(sPath.split("/").pop(), 10);
-            // aItems.splice(iIndex, 1);
-            // oModel.setProperty("/items", aItems);
+		onExit: function () {
+			Device.media.detachHandler(this._handleMediaChange, this);
+		},
+		statusTextFormatter: function (bStatus) {
+			return bStatus ? "Empty" : "Not Empty"; // Modify as per your requirement
+		},
 
-            // // Update unassignedModel
-            // var unassignedItems = this._getUnassignedItems(aItems); // Assuming a function to filter unassigned items
-            // var unassignedModel = this.getView().getModel("unassignedModel");
-            // unassignedModel.setProperty("/unassignedItems", unassignedItems);
+		//
+		onValueHelpRequest: function (oEvent) {
+			var sInputValue = oEvent.getSource().getValue(),
+				oView = this.getView();
 
-            // // Show confirmation message
-            // MessageToast.show("Assignment removed successfully");
-            var oUnassignedItem = aItems.splice(iIndex, 1)[0];
-        
-            var oUnassignedModel = this.getView().getModel("unassignedModel");
-            var aUnassignedItems = oUnassignedModel.getProperty("/unassignedItems");
-        
-            oUnassignedItem.unassignedDate = new Date().toLocaleString();
-            aUnassignedItems.push(oUnassignedItem);
-            oUnassignedModel.setProperty("/unassignedItems", aUnassignedItems);
-        
-            oModel.setProperty("/items", aItems);
-            sap.m.MessageToast.show("Assignment removed successfully");
-        },
+			if (!this._pValueHelpDialog) {
+				this._pValueHelpDialog = Fragment.load({
+					id: oView.getId(),
+					name: "com.app.project1.fragment.valuehelp",
+					controller: this
+				}).then(function (oDialog) {
+					oView.addDependent(oDialog);
+					return oDialog;
+				});
+			}
+			this._pValueHelpDialog.then(function (oDialog) {
+				// Create a filter for the binding
+				oDialog.setModel(this.getView().getModel("ModelV2"));
+				oDialog.getBinding("items").filter([new Filter("plot_NO", FilterOperator.Contains, sInputValue)]);
+				// Open ValueHelpDialog filtered by the input's value
+				oDialog.open(sInputValue);
+			}.bind(this));
+		},
 
-        onUnassignSelectedPress: function () {
-            var oView = this.getView();
-            var oTable = oView.byId("table4");
-            var oModel = oView.getModel("tableModel");
-            var aItems = oModel.getProperty("/items");
+		onValueHelpDialogSearch: function (oEvent) {
+			var sValue = oEvent.getParameter("value");
+			var oFilter = new Filter("plot_NO", FilterOperator.Contains, sValue);
 
-            // Remove selected items from tableModel
+			oEvent.getSource().getBinding("items").filter([oFilter]);
+		},
+
+		onValueHelpDialogClose: function (oEvent) {
+			var sDescription,
+				oSelectedItem = oEvent.getParameter("selectedItem");
+			oEvent.getSource().getBinding("items").filter([]);
+
+			if (!oSelectedItem) {
+				return;
+			}
+
+			sDescription = oSelectedItem.getDescription();
+
+			this.byId("productInput").setSelectedKey(sDescription);
+		},
+
+		//Assign the vehicel to the parking lot
+		onAssignPress: async function () {
+			const oPayload = this.getView().byId("page1").getModel("localModel").getProperty("/");
+			const { driverName, phone, vehicalNo, vehicalType } = this.getView().byId("page1").getModel("localModel").getProperty("/").VehicalDeatils;
+			const oModel = this.getView().byId("pageContainer").getModel("ModelV2"); // Assuming "ModelV2" is your ODataModel
+			const plotNo = this.getView().byId("productInput").getValue();
+			oPayload.VehicalDeatils.plotNo_plot_NO = plotNo;
+
+			//Assingning the current time to the vehicel data.
+			const Intime = new Date;
+			oPayload.VehicalDeatils.assignedDate = Intime;
+
+
+			if (!(driverName && phone && vehicalNo && vehicalType && plotNo)) {
+				MessageToast.show("Enter all details")
+				return
+			}
+			var trimmedPhone = phone.trim();
+
+			// Validate phone number
+			var phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
+			if (!(phoneRegex.test(trimmedPhone))) {
+				MessageToast.show("Please enter a valid phone number");
+				return;
+			}
+
+			var oVehicleExist = await this.checkVehicleNo(oModel, oPayload.VehicalDeatils.vehicalNo)
+			if (oVehicleExist) {
+				MessageToast.show("Vehicle already exsist")
+				return
+			};
+			const plotAvailability = await this.checkPlotAvailability(oModel, plotNo);
+			if (!plotAvailability) {
+				sap.m.MessageBox.information(`${plotNo} is not available now.Choose another Parking Lot.`,
+					{
+						title: "Allocation Information",
+						actions: sap.m.MessageBox.Action.OK
+					}
+				);
+				return;
+			}
+
+			try {
+				// Assuming createData method sends a POST request
+				await this.createData(oModel, oPayload.VehicalDeatils, "/VehicalDeatils");
+				//await this.createData(oModel, oPayload.VehicalDeatils, "/History");
+				sap.m.MessageBox.information(
+					`Vehicel No ${vehicalNo} allocated to Slot No ${plotNo}`,
+					{
+						title: "Allocation Information",
+						actions: sap.m.MessageBox.Action.OK
+					}
+				);
+				oModel.update("/PlotNOs('" + plotNo + "')", oPayload.plotNo, {
+					success: function () {
+						this.getView().byId("page1").getModel("localModel").setProperty("/VehicalDeatils", {
+							vehicalNo: "",
+							driverName: "",
+							phone: "",
+							vehicalType: "",
+							plotNo_plot_NO: ""
+						});
+						this.getView().byId("productInput").setValue("");
+
+					}.bind(this),
+					error: function (oError) {
+
+						sap.m.MessageBox.error("Failed to update: " + oError.message);
+					}.bind(this)
+				});
+
+			} catch (error) {
+				console.error("Error:", error);
+			}
+		},
+		checkVehicleNo: async function (oModel, sVehicalNo) {
+			return new Promise((resolve, reject) => {
+				oModel.read("/VehicalDeatils", {
+					filters: [
+						new Filter("vehicalNo", FilterOperator.EQ, sVehicalNo),
+
+					],
+					success: function (oData) {
+						resolve(oData.results.length > 0);
+					},
+					error: function () {
+						reject(
+							"An error occurred while checking username existence."
+						);
+					}
+				})
+			})
+		},
+		checkPlotAvailability: async function (oModel, plotNo) {
+			return new Promise((resolve, reject) => {
+				oModel.read("/PlotNOs('" + plotNo + "')", {
+					success: function (oData) {
+						resolve(oData.available);
+					},
+					error: function (oError) {
+						reject("Error checking plot availability: " + oError.message);
+					}
+				});
+			});
+		},
+		checkPlotEmpty: async function (oModel, sVehicalNo) {
+			return new Promise((resolve, reject) => {
+				oModel.read("/VehicalDeatils", {
+					filters: [
+						new Filter("vehicalNo", FilterOperator.EQ, sVehicalNo),
+
+					],
+					success: function (oData) {
+						resolve(oData.results.length > 0);
+					},
+					error: function () {
+						reject(
+							"An error occurred while checking username existence."
+						);
+					}
+				})
+			})
+		},
+
+		
+		// Method to handle unassigning selected slots
+        // onUnassignPress: function () {
+		// 	debugger
+        //     var oTable = this.getView().byId("AssignedSlotsTable");
         //     var aSelectedItems = oTable.getSelectedItems();
-        //     var aSelectedIndices = aSelectedItems.map(function (oItem) {
-        //         return oTable.indexOfItem(oItem);
-        //     });
 
-        //     aSelectedIndices.sort(function (a, b) { return b - a; });
+        //     if (aSelectedItems.length === 0) {
+        //         MessageBox.error("Please select at least one row to unassign");
+        //         return;
+        //     }
 
-        //     aSelectedIndices.forEach(function (iIndex) {
-        //         aItems.splice(iIndex, 1);
-        //     });
+        //     var oModel = this.getOwnerComponent().getModel("ModelV2"); 
 
-        //     oModel.setProperty("/items", aItems);
-        //     oTable.removeSelections(true);
+        //     // Loop through selected items to unassign each
+        //     for (var i = 0; i < aSelectedItems.length; i++) {
+        //         var oSelectedItem = aSelectedItems[i];
+        //         var oBindingContext = oSelectedItem.getBindingContext();
+        //         var sPath = oBindingContext.getPath();
+        //         var oSlot = oBindingContext.getObject();
 
-        //     // Update unassignedModel
-        //     var unassignedItems = this._getUnassignedItems(aItems); // Assuming a function to filter unassigned items
-        //     var unassignedModel = this.getView().getModel("unassignedModel");
-        //     unassignedModel.setProperty("/unassignedItems", unassignedItems);
+        //         try {
+        //             // Move to History
+        //             this.moveToHistory(oModel, oSlot);
 
-        //     // Show confirmation message
-        //     MessageToast.show("Selected assignments unassigned successfully");
+        //             // Delete from VehicalDeatils
+        //             this.deleteFromVehicalDetails(oModel, sPath);
+        //         } catch (error) {
+        //             MessageBox.error("Failed to unassign slots: " + error.message);
+        //             return;
+        //         }
+        //     }
+
+        //     MessageBox.success("Selected slots unassigned successfully");
         // },
 
-        // _getUnassignedItems: function (items) {
-        //     // Implement logic to filter items for unassignedModel
-        //     // Example: Return items where assignedDate is empty or unassignedDate is not empty
-        //     return items.filter(function (item) {
-        //         return !item.assignedDate || item.unassignedDate;
+        // moveToHistory: function (oModel, oSlot) {
+        //     var oHistory = {
+        //         vehicalNo: oSlot.vehicalNo,
+        //         driverName: oSlot.driverName,
+        //         phone: oSlot.phone,
+        //         vehicalType: oSlot.vehicalType,
+        //         assignedDate: oSlot.assignedDate,
+        //         unassignedDate: new Date(),
+        //         plotNo: oSlot.plotNo_plot_NO
+        //     };
+
+        //     this.createData(oModel, oHistory, "/History");
+        // },
+
+        // deleteFromVehicalDetails: function (oModel, sPath) {
+        //     oModel.remove(sPath);
+        // },
+
+        // createData: function (oModel, oData, sEntitySet) {
+        //     oModel.create(sEntitySet, oData, {
+        //         success: function () {
+        //             // Optional success handling
+        //         },
+        //         error: function (oError) {
+        //             MessageBox.error("Error creating history entry: " + oError.message);
+        //         }
         //     });
-        // }
-        var oUnassignedModel = oView.getModel("unassignedModel");
-            var aUnassignedItems = oUnassignedModel.getProperty("/unassignedItems");
-        
-            var aSelectedItems = oTable.getSelectedItems();
-            var aSelectedIndices = aSelectedItems.map(function (oItem) {
-                return oTable.indexOfItem(oItem);
-            });
-        
-            aSelectedIndices.sort(function (a, b) { return b - a; });
-        
-            aSelectedIndices.forEach(function (iIndex) {
-                var oUnassignedItem = aItems.splice(iIndex, 1)[0];
-                oUnassignedItem.unassignedDate = new Date().toLocaleString();
-                aUnassignedItems.push(oUnassignedItem);
-            });
-        
-            oUnassignedModel.setProperty("/unassignedItems", aUnassignedItems);
-            oModel.setProperty("/items", aItems);
-            oTable.removeSelections(true);
-        
-            sap.m.MessageToast.show("Selected assignments unassigned successfully");
+        // },
+
+      
+// Method to handle unassigning selected slots
+onUnassignPress: function () {
+    var oTable = this.getView().byId("AssignedSlotsTable");
+    var aSelectedItems = oTable.getSelectedItems();
+
+    if (aSelectedItems.length === 0) {
+        MessageBox.error("Please select at least one row to unassign");
+        return;
+    }
+
+    var oModel = this.getOwnerComponent().getModel("ModelV2");
+
+    // Loop through selected items to unassign each
+    for (var i = 0; i < aSelectedItems.length; i++) {
+        var oSelectedItem = aSelectedItems[i];
+        var oBindingContext = oSelectedItem.getBindingContext();
+        var sPath = oBindingContext.getPath();
+        var oSlot = oBindingContext.getObject();
+
+        try {
+            // Move to History
+            this.moveToHistory(oModel, oSlot);
+
+            // Delete from VehicalDeatils
+            this.deleteFromVehicalDetails(oModel, sPath);
+
+            // Update PlotNOs availability to 'empty'
+            this.updatePlotAvailability(oModel, oSlot.plotNo_plot_NO);
+        } catch (error) {
+            MessageBox.error("Failed to unassign slots: " + error.message);
+            return;
         }
-        
+    }
+
+    MessageBox.success("Selected slots unassigned successfully");
+},
+
+moveToHistory: function (oModel, oSlot) {
+    var oHistory = {
+        vehicalNo: oSlot.vehicalNo,
+        driverName: oSlot.driverName,
+        phone: oSlot.phone,
+        vehicalType: oSlot.vehicalType,
+        assignedDate: oSlot.assignedDate,
+        unassignedDate: new Date(),
+        plotNo: oSlot.plotNo_plot_NO
+    };
+
+    this.createData(oModel, oHistory, "/History");
+},
+
+deleteFromVehicalDetails: function (oModel, sPath) {
+    oModel.remove(sPath);
+},
+
+createData: function (oModel, oData, sEntitySet) {
+    oModel.create(sEntitySet, oData, {
+        success: function () {
+            // Optional success handling
+        },
+        error: function (oError) {
+            MessageBox.error("Error creating history entry: " + oError.message);
+        }
     });
+},
+
+updatePlotAvailability: function (oModel, plotNo) {
+    // Update PlotNOs availability to 'empty'
+    var oPayload = {
+        available: true // Change 'true' to whatever indicates 'empty' in your data model
+    };
+
+    oModel.update("/PlotNOs('" + plotNo + "')", oPayload, {
+        success: function () {
+            // Optional success handling
+        },
+        error: function (oError) {
+            MessageBox.error("Failed to update plot availability: " + oError.message);
+        }
+    });
+},
+        
+
+	});
 });

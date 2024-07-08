@@ -25,4 +25,12 @@
 /* .sapUiSmallMarginTop{
     margin: auto;
 } */
- 
+.statusAvailable {
+    color: green; /* Green color for 'Available' */
+}
+
+.statusUnavailable {
+    color: red; /* Red color for 'Unavailable' */
+}
+
+

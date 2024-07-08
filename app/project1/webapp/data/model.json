@@ -1,42 +1,37 @@
 {
 	"selectedKey": "page1",
-	
-
 	"navigation": [
 		{
-			"title": "All Slots",
+			"title": "Lot Allocation",
 			"key": "page1"
 		},
-		
 		{
-			"title": "Assigned Slots",
-			
-					"key": "page4"
-				
-			
+			"title": "All Parking lots",
+			"key": "page2"
 		},
 		{
-			"title": "slot allotment",
+			"title": "Assigned Lots",
+			
+			"key": "page3"
+		},
+		{
+			"title": "Empty Lots",
+			
+			"key": "page4"
+		},
+		{
+			"title": "ReserveLot",
 			"key": "page5"
 		},
 		{
-			"title": "Reservations",
+			"title": "Monitoring",
 			
-					"key": "page6"
-				
-			
-		},
-		{
-			"title": "Vendor Book Slot",
-			"key": "page7"
-		},
-		{
-			"title": "Charts",
-			"key": "page8"
+			"key":"page6"
 		},
 		{
 			"title": "History",
-			"key": "page9"
+			
+			"key": "page7"
 		}
 	]
 }
