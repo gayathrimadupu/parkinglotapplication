@@ -61,6 +61,7 @@
                         />
                     </layoutData>
                 </OverflowToolbarButton>
+                
                 <ToolbarSeparator id="_IDGenToolbarSeparator1">
                     <layoutData>
                         <OverflowToolbarLayoutData
@@ -328,6 +329,16 @@
                                         width="100%"
                                         alignItems="Center"
                                     >
+                                        
+                                        <VBox
+                                            id="idvboxemptyspace"
+                                            width="10%"
+                                        />
+                                        
+                                        <VBox
+                                            id="idvboxemptyspace2"
+                                            width="10%"
+                                        />
                                         <VBox id="idbuttonvboxassign">
                                             <Button
                                                 id="idbuttonassign"
@@ -337,32 +348,6 @@
                                                 type="Success"
                                             />
                                         </VBox>
-                                        <VBox
-                                            id="idvboxemptyspace"
-                                            width="10%"
-                                        />
-                                        <!-- <VBox id="idbuttonvboxunassign">
-                                            <Button
-                                                id="idbuttonunassign"
-                                                text="Unassign"
-                                                press="onUnassignPress1"
-                                                width="100px"
-                                                type="Reject"
-                                            />
-                                        </VBox> -->
-                                        <VBox
-                                            id="idvboxemptyspace2"
-                                            width="10%"
-                                        />
-                                        <!-- <VBox id="idbuttonvboxclear">
-                                            <Button
-                                                id="idbuttonunclear"
-                                                text="clear"
-                                                press="onclearPress"
-                                                width="100px"
-                                                type="Default"
-                                            />
-                                        </VBox> -->
                                     </HBox>
                                 </VBox>
                             </VBox>
@@ -477,7 +462,9 @@
                                         text="Print"
                                         press="OnPrintpress"
                                     />
+                                    <Button text="Multiple Unassign " press=".onUnassignAllPress"  type="Success"/>
                                 </OverflowToolbar>
+                       
                             </headerToolbar>
                             <columns>
                                 <Column id="idcolvehicleno">
@@ -519,6 +506,7 @@
                                 
             <Column>
                 <Text text="Unassign"/>
+               
            </Column>
                             </columns>
                             <items>
@@ -560,12 +548,16 @@
                                         <Text
                                             id="_IDGenText18"
                                             text="{assignedDate}"
+                                            
                                         />
                                     </cells>
-                                    <Button text="Unassign" press=".onUnassignPress"/>
+                                    <Button text="Unassign" press=".onUnassignPress" 
+                                     type= "Success" />
                                 </ColumnListItem>
                             </items>
+
                         </Table>
+                        
                     </ScrollContainer>
                     <ScrollContainer
                         id="page4"

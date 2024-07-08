@@ -113,7 +113,7 @@ sap.ui.define([
 				return
 			}
 			// Validate vehicle number format
-			if (!vehicalNo.match(/^([A-Za-z]{2}\s?\d{2}\s?[A-Za-z]{2}\s?\d{4})$/)) {
+			if (!vehicalNo.match(/^([A-Z]{2}\s?\d{2}\s?[A-Z]{2}\s?\d{4})$/)) {
 				MessageToast.show("Please enter a valid vehicle number format (e.g., AB 12 CD 3456) or (e.g.,AB12CD3456)");
 				return;
 			}
@@ -234,10 +234,92 @@ sap.ui.define([
 
 	
 // Method to handle unassigning selected slots
-onUnassignPress: function () {
+// onUnassignPress: function () {
+//     var oTable = this.getView().byId("AssignedSlotsTable");
+//     var aSelectedItems = oTable.getSelectedItems();
+
+//     if (aSelectedItems.length === 0) {
+//         MessageBox.error("Please select at least one row to unassign");
+//         return;
+//     }
+
+//     var oModel = this.getOwnerComponent().getModel("ModelV2");
+
+//     // Loop through selected items to unassign each
+//     for (var i = 0; i < aSelectedItems.length; i++) {
+//         var oSelectedItem = aSelectedItems[i];
+//         var oBindingContext = oSelectedItem.getBindingContext();
+//         var sPath = oBindingContext.getPath();
+//         var oSlot = oBindingContext.getObject();
+
+//         try {
+//             // Move to History
+//             this.moveToHistory(oModel, oSlot);
+
+//             // Delete from VehicalDeatils
+//             this.deleteFromVehicalDetails(oModel, sPath);
+
+//             // Update PlotNOs availability to 'empty'
+//             this.updatePlotAvailability(oModel, oSlot.plotNo_plot_NO);
+//         } catch (error) {
+//             MessageBox.error("Failed to unassign slots: " + error.message);
+//             return;
+//         }
+//     }
+
+//     MessageBox.success("Selected slots unassigned successfully");
+// },
+
+
+// moveToHistory: function (oModel, oSlot) {
+//     var oHistory = {
+//         vehicalNo: oSlot.vehicalNo,
+//         driverName: oSlot.driverName,
+//         phone: oSlot.phone,
+//         vehicalType: oSlot.vehicalType,
+//         assignedDate: oSlot.assignedDate,
+//         unassignedDate: new Date(),
+//         plotNo: oSlot.plotNo_plot_NO
+//     };
+
+//     this.createData(oModel, oHistory, "/History");
+// },
+
+// deleteFromVehicalDetails: function (oModel, sPath) {
+//     oModel.remove(sPath);
+// },
+
+// createData: function (oModel, oData, sEntitySet) {
+//     oModel.create(sEntitySet, oData, {
+//         success: function () {
+//             // Optional success handling
+//         },
+//         error: function (oError) {
+//             MessageBox.error("Error creating history entry: " + oError.message);
+//         }
+//     });
+// },
+
+// updatePlotAvailability: function (oModel, plotNo) {
+//     // Update PlotNOs availability to 'empty'
+//     var oPayload = {
+//         available: true // Change 'true' to whatever indicates 'empty' in your data model
+//     };
+
+//     oModel.update("/PlotNOs('" + plotNo + "')", oPayload, {
+//         success: function () {
+//             // Optional success handling
+//         },
+//         error: function (oError) {
+//             MessageBox.error("Failed to update plot availability: " + oError.message);
+//         }
+//     });
+// },
+onUnassignAllPress: function () {
     var oTable = this.getView().byId("AssignedSlotsTable");
     var aSelectedItems = oTable.getSelectedItems();
 
+    // Check if at least one item is selected
     if (aSelectedItems.length === 0) {
         MessageBox.error("Please select at least one row to unassign");
         return;
@@ -245,7 +327,7 @@ onUnassignPress: function () {
 
     var oModel = this.getOwnerComponent().getModel("ModelV2");
 
-    // Loop through selected items to unassign each
+    // Iterate through selected items to unassign each
     for (var i = 0; i < aSelectedItems.length; i++) {
         var oSelectedItem = aSelectedItems[i];
         var oBindingContext = oSelectedItem.getBindingContext();
@@ -268,6 +350,41 @@ onUnassignPress: function () {
     }
 
     MessageBox.success("Selected slots unassigned successfully");
+},
+
+onUnassignPress: function () {
+    var oTable = this.getView().byId("AssignedSlotsTable");
+    var aSelectedItems = oTable.getSelectedItems();
+
+    // Check if multiple items are selected
+    if (aSelectedItems.length !== 1) {
+        MessageBox.error("Please select exactly one row to unassign");
+        return;
+    }
+
+    var oModel = this.getOwnerComponent().getModel("ModelV2");
+
+    // Get the selected item
+    var oSelectedItem = aSelectedItems[0];
+    var oBindingContext = oSelectedItem.getBindingContext();
+    var sPath = oBindingContext.getPath();
+    var oSlot = oBindingContext.getObject();
+
+    try {
+        // Move to History
+        this.moveToHistory(oModel, oSlot);
+
+        // Delete from VehicalDeatils
+        this.deleteFromVehicalDetails(oModel, sPath);
+
+        // Update PlotNOs availability to 'empty'
+        this.updatePlotAvailability(oModel, oSlot.plotNo_plot_NO);
+    } catch (error) {
+        MessageBox.error("Failed to unassign slot: " + error.message);
+        return;
+    }
+
+    MessageBox.success("Slot unassigned successfully");
 },
 
 moveToHistory: function (oModel, oSlot) {
@@ -314,7 +431,6 @@ updatePlotAvailability: function (oModel, plotNo) {
         }
     });
 },
-        
 
 	});
-});
+ });
