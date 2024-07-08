@@ -1,14 +1,19 @@
 {
-	"selectedKey": "page1",
+	"selectedKey": "page0",
 	"navigation": [
 		{
-			"title": "Lot Allocation",
-			"key": "page1"
+			"title": "parking lot ",
+			"key": "page0"
 		},
 		{
 			"title": "All Parking lots",
+			"key": "page1"
+		},
+		{
+			"title": "Lot Allocation",
 			"key": "page2"
 		},
+		
 		{
 			"title": "Assigned Lots",
 			
@@ -33,5 +38,6 @@
 			
 			"key": "page7"
 		}
+		
 	]
 }

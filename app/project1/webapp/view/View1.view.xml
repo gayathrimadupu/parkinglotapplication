@@ -152,15 +152,108 @@
         <tnt:mainContents>
             <NavContainer
                 id="pageContainer"
-                initialPage="page1"
+                initialPage="page0"
             >
                 <pages>
-                    <ScrollContainer
+                
+                <ScrollContainer
+                        id="page0"
+                        horizontal="true"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                       <Image
+        id="page0Image"
+        src="{viewModel>/ImageURL}"
+        width="100%"
+        height="auto"
+    />
+                    </ScrollContainer>
+                 <ScrollContainer
                         id="page1"
                         horizontal="false"
                         vertical="true"
                         height="100%"
-                        class="classpage1"
+                        class="sapUiContentPadding"
+                    >
+                        <Table
+                            id="AllSlotsTable"
+                            class="tableclass"
+                            alternateRowColors="true"
+                            growing="true"
+                            width="100%"
+                            growingThreshold="5"
+                            items="{/PlotNOs}"
+                        >
+                            <headerToolbar>
+                                <OverflowToolbar id="idSlotsTableHeadertable2">
+                                    <Title
+                                        id="idTableHeaderTitletable2"
+                                        text="All Parking Slots"
+                                    />
+                                    <ToolbarSpacer
+                                        id="idTableHeaderSpacertable2"
+                                    />
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column id="idcolslotno">
+                                    <Text
+                                        id="idtextslotno"
+                                        text="Slot Number"
+                                    />
+                                </Column>
+                                <Column id="idcolparkintype">
+                                    <Text
+                                        id="idtextparkintype"
+                                        text="Parking Type"
+                                    />
+                                </Column>
+                                <Column id="idcolstatus">
+                                    <Text
+                                        id="idtextstatus"
+                                        text="Status"
+                                    />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    id="AllslotsCLI"
+                                    class="classtable2"
+                                >
+                                    <cells>
+                                        <Text
+                                            id="idtextitemsno"
+                                            text="{plot_NO}"
+                                        />
+                                    </cells>
+                                    <cells>
+                                        <Text
+                                            id="idtextitemstype"
+                                            text="{inBoundOroutBound}"
+                                        />
+                                    </cells>
+                                    <cells>
+                                        <Text
+                                            id="idProcessvalue"
+                                            text="{
+                                               path: 'available',
+                                                formatter:'.statusTextFormatter'
+                                            }"
+                                        />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </ScrollContainer>
+                   
+                    <ScrollContainer
+                        id="page2"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="classpage2"
                     >
                         <FlexBox
                             id="idflex"
@@ -354,83 +447,7 @@
                         </FlexBox>
                     </ScrollContainer>
 
-                    <ScrollContainer
-                        id="page2"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
-                        class="sapUiContentPadding"
-                    >
-                        <Table
-                            id="AllSlotsTable"
-                            class="tableclass"
-                            alternateRowColors="true"
-                            growing="true"
-                            width="100%"
-                            growingThreshold="5"
-                            items="{/PlotNOs}"
-                        >
-                            <headerToolbar>
-                                <OverflowToolbar id="idSlotsTableHeadertable2">
-                                    <Title
-                                        id="idTableHeaderTitletable2"
-                                        text="All Parking Slots"
-                                    />
-                                    <ToolbarSpacer
-                                        id="idTableHeaderSpacertable2"
-                                    />
-                                </OverflowToolbar>
-                            </headerToolbar>
-                            <columns>
-                                <Column id="idcolslotno">
-                                    <Text
-                                        id="idtextslotno"
-                                        text="Slot Number"
-                                    />
-                                </Column>
-                                <Column id="idcolparkintype">
-                                    <Text
-                                        id="idtextparkintype"
-                                        text="Parking Type"
-                                    />
-                                </Column>
-                                <Column id="idcolstatus">
-                                    <Text
-                                        id="idtextstatus"
-                                        text="Status"
-                                    />
-                                </Column>
-                            </columns>
-                            <items>
-                                <ColumnListItem
-                                    id="AllslotsCLI"
-                                    class="classtable2"
-                                >
-                                    <cells>
-                                        <Text
-                                            id="idtextitemsno"
-                                            text="{plot_NO}"
-                                        />
-                                    </cells>
-                                    <cells>
-                                        <Text
-                                            id="idtextitemstype"
-                                            text="{inBoundOroutBound}"
-                                        />
-                                    </cells>
-                                    <cells>
-                                        <Text
-                                            id="idProcessvalue"
-                                            text="{
-                                               path: 'available',
-                                                formatter:'.statusTextFormatter'
-                                            }"
-                                        />
-                                    </cells>
-                                </ColumnListItem>
-                            </items>
-                        </Table>
-                    </ScrollContainer>
+                   
                     <ScrollContainer
                         id="page3"
                         horizontal="false"
@@ -779,6 +796,21 @@
                             </items>
                         </Table>
                     </ScrollContainer>
+                    <!-- <ScrollContainer
+                        id="page8"
+                        horizontal="true"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPadding"
+                    >
+                       <Image
+        id="page8Image"
+        src="{viewModel>/ImageURL}"
+        width="100%"
+        height="auto"
+    />
+                    </ScrollContainer> -->
+
                 </pages>
             </NavContainer>
         </tnt:mainContents>

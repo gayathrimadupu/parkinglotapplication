@@ -34,7 +34,14 @@ sap.ui.define([
 
 			var oModelV2 = this.getOwnerComponent().getModel("ModelV2");
 			this.getView().byId("pageContainer").setModel(oModelV2);
-
+			var oViewModel = new JSONModel({
+				ImageURL: "https://www.bing.com/images/blob?bcid=r6G9IPLJCj0Hkw"
+			});
+			this.getView().setModel(oViewModel, "viewModel");
+		
+			// Optionally log to verify the model and property
+			var imageURL = this.getView().getModel("viewModel").getProperty("/ImageURL");
+			console.log("Image URL:", imageURL);
 		},
 
 		onItemSelect: function (oEvent) {
