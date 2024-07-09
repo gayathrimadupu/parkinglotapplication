@@ -280,11 +280,11 @@ onUnassignAllPress: function () {
 
     MessageBox.success("Selected slots unassigned successfully");
 },
-onUnassignPress: function () {
+onUnassignPress: function() {
     var oTable = this.getView().byId("AssignedSlotsTable");
     var aSelectedItems = oTable.getSelectedItems();
 
-    // Check if multiple items are selected
+    // Check if exactly one item is selected
     if (aSelectedItems.length !== 1) {
         MessageBox.error("Please select exactly one row to unassign");
         return;
@@ -306,7 +306,15 @@ onUnassignPress: function () {
         this.deleteFromVehicalDetails(oModel, sPath);
 
         // Update PlotNOs availability to 'empty'
-        this.updatePlotAvailability(oModel, oSlot.plotNo_plot_NO);
+        oModel.update("/PlotNOs('" + oSlot.plotNo_plot_NO + "')", {
+            available: true
+        });
+
+        // Refresh page1 to reflect updated status
+        var oPage1 = this.getView().byId("page1"); // Replace with your actual ID
+        // Refresh page1 content or update necessary properties
+        // Example: oPage1.refresh(); or oPage1.setProperty("/status", updatedStatus);
+
     } catch (error) {
         MessageBox.error("Failed to unassign slot: " + error.message);
         return;
@@ -314,7 +322,6 @@ onUnassignPress: function () {
 
     MessageBox.success("Slot unassigned successfully");
 },
-
 moveToHistory: function (oModel, oSlot) {
     var oHistory = {
         vehicalNo: oSlot.vehicalNo,
@@ -360,67 +367,92 @@ updatePlotAvailability: function (oModel, plotNo) {
     });
 },
 onUpdateSlotPress: function() {
-	var oTable = this.getView().byId("AssignedSlotsTable");
-	var aSelectedItems = oTable.getSelectedItems();
+    var oTable = this.getView().byId("AssignedSlotsTable");
+    var aSelectedItems = oTable.getSelectedItems();
 
-	// Check if exactly one item is selected
-	if (aSelectedItems.length === 1) {
-		var oSelectedItem = aSelectedItems[0];
-		var oContext = oSelectedItem.getBindingContext();
-		var oSelectedObject = oContext.getObject();
+    // Check if exactly one item is selected
+    if (aSelectedItems.length === 1) {
+        var oSelectedItem = aSelectedItems[0];
+        var oContext = oSelectedItem.getBindingContext();
+        var oSelectedObject = oContext.getObject();
 
-		// Load fragment
-		this.loadFragment(oSelectedObject);
-	} else {
-		MessageBox.error("Please select exactly one row to update");
-	}
+        // Load fragment
+        this.loadFragment(oSelectedObject);
+    } else {
+        MessageBox.error("Please select exactly one row to update");
+    }
 },
 
 loadFragment: function(oSelectedObject) {
-	// Load fragment
-	Fragment.load({
-		id: this.getView().getId(),
-		name: "com.app.project1.fragment.UpdateSlotDialog",
-		controller: this
-	}).then(function(oFragment) {
-		// Set data to fragment model
-		var oFragmentModel = new JSONModel(oSelectedObject);
-		oFragment.setModel(oFragmentModel, "localModel");
+    // Load fragment
+    Fragment.load({
+        id: this.getView().getId(),
+        name: "com.app.project1.fragment.UpdateSlotDialog",
+        controller: this
+    }).then(function(oFragment) {
+        // Set data to fragment model
+        var oFragmentModel = new JSONModel(oSelectedObject);
+        this.getView().setModel(oFragmentModel, "localModel");
 
-		// Open fragment as dialog
-		this.getView().addDependent(oFragment);
-		oFragment.open();
-	}.bind(this));
+        // Open fragment as dialog
+        this.getView().addDependent(oFragment);
+        oFragment.open();
+    }.bind(this));
 },
 
 onUpdateDialogSave: function() {
-	var oModel = this.getOwnerComponent().getModel("ModelV2");
-	var oLocalModel = this.getView().getModel("localModel");
-	var oPayload = oLocalModel.getData();
+    var oModel = this.getOwnerComponent().getModel("ModelV2");
+    var oLocalModel = this.getView().getModel("localModel");
+    var oPayload = oLocalModel.getData();
 
-	// Perform validation or additional logic if needed
+    // Perform validation or additional logic if needed
 
-	// Update the selected row with updated plot number
-	oModel.update("/VehicalDeatils('" + oPayload.vehicalNo + "')", oPayload, {
-		success: function() {
-			MessageBox.success("Slot updated successfully");
+    // Update the selected row with updated plot number
+    oModel.update("/VehicalDeatils('" + oPayload.vehicalNo + "')", oPayload, {
+        success: function() {
+            // Update the old plot number to "Available"
+            oModel.update("/PlotNOs('" + oPayload.oldPlotNo + "')", {
+                available: true
+            });
 
-			// Update the table binding to reflect changes
-			var oTable = this.getView().byId("AssignedSlotsTable");
-			oTable.getBinding("items").refresh();
+            // Update the new plot number to "Unavailable"
+            oModel.update("/PlotNOs('" + oPayload.plotNo_plot_NO + "')", {
+                available: false
+            });
 
-			// Close dialog on success
-			this.getView().byId("updateDialog").close();
-		}.bind(this),
-		error: function(oError) {
-			MessageBox.error("Failed to update slot: " + oError.message);
-		}
-	});
+            MessageBox.success("Slot updated successfully");
+
+            // Update the table binding to reflect changes
+            var oTable = this.getView().byId("AssignedSlotsTable");
+            oTable.getBinding("items").refresh();
+
+            // Refresh page1 to reflect status changes
+            var oPage1 = this.getView().byId("page1"); // Replace with your actual ID
+            // Refresh page1 content or update necessary properties
+            // Example: oPage1.refresh(); or oPage1.setProperty("/status", updatedStatus);
+
+            // Close dialog on success
+            this.getView().byId("updateDialog").close();
+        }.bind(this),
+        error: function(oError) {
+            MessageBox.error("Failed to update slot: " + oError.message);
+        }
+    });
+},
+onUpdateDialogCancel: function() {
+    // Close dialog on cancel
+    this.getView().byId("updateDialog").close();
 },
 
-onUpdateDialogCancel: function() {
-	// Close dialog on cancel
-	this.getView().byId("updateDialog").close();
+onSuggestionItemSelected: function(oEvent) {
+    // Handle suggestion item selection for plot number
+    var oSelectedItem = oEvent.getParameter("selectedItem");
+    var sPlotNo = oSelectedItem.getText(); // Assuming text is the plot number
+
+    // Update local model with selected plot number
+    var oLocalModel = this.getView().getModel("localModel");
+    oLocalModel.setProperty("/plotNo_plot_NO", sPlotNo);
 }
+
 });
 });
