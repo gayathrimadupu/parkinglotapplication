@@ -28,18 +28,13 @@ sap.ui.define([
 				},
 				plotNo: {
 					available: false
-				},
-				vehicleTypes: [
-					{ key: "inward", text: "Inward" },
-					{ key: "outward", text: "Outward" }
-				]
+				}
 			});
 			this.getView().setModel(oLocalModel, "localModel");
-
 			var oModelV2 = this.getOwnerComponent().getModel("ModelV2");
 			this.getView().byId("pageContainer").setModel(oModelV2);
 			var oViewModel = new JSONModel({
-				ImageURL: "https://wonderfulengineering.com/wp-content/uploads/2014/05/truck-1-1024x768.jpg"
+				ImageURL: "https://www.bing.com/images/blob?bcid=r6G9IPLJCj0Hkw"
 			});
 			this.getView().setModel(oViewModel, "viewModel");
 		
@@ -107,11 +102,14 @@ sap.ui.define([
 
 		//Assign the vehicel to the parking lot
 		onAssignPress: async function () {
+			debugger
 			const oPayload = this.getView().byId("page1").getModel("localModel").getProperty("/");
-			const { driverName, phone, vehicalNo, vehicalType } = this.getView().byId("page1").getModel("localModel").getProperty("/").VehicalDeatils;
+			const { driverName, phone, vehicalNo } = this.getView().byId("page1").getModel("localModel").getProperty("/").VehicalDeatils;
+			const vehicalType  = this.getView().byId("idvehiceltype1").getSelectedKey();
 			const oModel = this.getView().byId("pageContainer").getModel("ModelV2"); // Assuming "ModelV2" is your ODataModel
 			const plotNo = this.getView().byId("productInput").getValue();
 			oPayload.VehicalDeatils.plotNo_plot_NO = plotNo;
+			oPayload.VehicalDeatils.vehicalType = vehicalType;
 			 
 
 			//Assingning the current time to the vehicel data.
@@ -182,6 +180,7 @@ sap.ui.define([
 							plotNo_plot_NO: ""
 						});
 						this.getView().byId("productInput").setValue("");
+						this.getView().byId("page1").getModel("localModel").setProperty("/VehicalDeatils/vehicalType", vehicalType);
 
 					}.bind(this),
 					error: function (oError) {

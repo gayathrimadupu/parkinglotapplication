@@ -155,8 +155,8 @@
                 initialPage="page0"
             >
                 <pages>
-                
-                <!-- <ScrollContainer
+<!--                 
+                <ScrollContainer
                         id="page0"
                         horizontal="true"
                         vertical="true"
@@ -249,202 +249,170 @@
                     </ScrollContainer>
                    
                     <ScrollContainer
-                        id="page2"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
-                        class="classpage2"
-                    >
-                        <FlexBox
-                            id="idflex"
-                            justifyContent="Center"
-                            alignItems="Center"
-                            height="50%"
-                        >
-                            <VBox
-                                id="_IDGenVBox1"
-                                width="30%"
-                            >
-                                <VBox
-                                    id="_IDGenVBox2"
-                                    width="30%"
-                                    alignItems="Center"
-                                >
-                                    <Image
-                                        id="_IDGenImage2"
-                                        src="path_to_your_image"
-                                        width="80%"
-                                        height="auto"
-                                    />
-                                </VBox>
-
-                                <VBox
-                                    id="_IDGenVBox3"
-                                    width="100%"
-                                >
-                                    <VBox
-                                        id="_IDGenVBox10"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel7"
-                                            text="Vehicel Number"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            id="commentsTextArea"
-                                            placeholder="Enter Vehicel Number"
-                                            value="{localModel>/VehicalDeatils/vehicalNo}"
-                                            tooltip="Format: AB 12 CD 3456,AB12CD3456"
-                                        />
-                                    </VBox>
-
-                                    <VBox
-                                        id="_IDGenVBox4"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel1"
-                                            text="Driver Name"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            id="driverNameInput"
-                                            placeholder="Enter driver's name"
-                                            width="100%"
-                                            value="{localModel>/VehicalDeatils/driverName}"
-                                             tooltip="Enter driver's name (at least 3 letters, no special characters or numbers)"
-                                        />
-                                    </VBox>
-
-                                    <VBox
-                                        id="_IDGenVBox5"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel2"
-                                            text="Driver Phone Number"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            id="driverPhoneInput"
-                                            placeholder="Enter driver's phone number"
-                                            width="100%"
-                                            type="Tel"
-                                            value="{localModel>/VehicalDeatils/phone}"
-                                            tooltip="Enter driver's phone number (10 digits)"
-                                            
-                                        />
-                                    </VBox>
-
-                                    <VBox id="_IDGenVBox6" width="100%">
-    <Label id="_IDGenLabel3" text="Vehicle Type" class="bold-red-label"/>
-    <ComboBox
-        id="idvehiceltype"
-        placeholder="Select vehicle type"
-        width="100%"
-        items="{path: 'localModel>/vehicleTypes'}"
-        selectedKey="{localModel>/VehicalDeatils/vehicalType}"
+    id="page2"
+    horizontal="false"
+    vertical="true"
+    height="100%"
+    class="classpage2"
+>
+    <FlexBox
+        id="idflex"
+        justifyContent="Center"
+        alignItems="Center"
+        height="50%"
     >
-        <core:ListItem key="inward" text="Inward"/>
-        <core:ListItem key="outward" text="Outward"/>
-    </ComboBox>
-</VBox>
+        <VBox id="_IDGenVBox1" width="30%">
+            <VBox id="_IDGenVBox2" width="30%" alignItems="Center">
+                <Image
+                    id="_IDGenImage2"
+                    src="path_to_your_image"
+                    width="80%"
+                    height="auto"
+                />
+            </VBox>
 
-                                    <VBox
-                                        id="_IDGenVBox7"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel4"
-                                            text="Parking Lot Number"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            id="productInput"
-                                            placeholder="Select ParkingLot"
-                                            showSuggestion="true"
-                                            showValueHelp="true"
-                                            visible="{ path: 'available'}"
-                                            valueHelpRequest=".onValueHelpRequest"
-                                            suggestionItems="{
-                                                 path: '/PlotNOs',
-                                                 sorter: {
-                                                            path: 'plot_NO',
-                                                            descending: false
-                                                          },
-                                                    filters: [
-                                                          {
-                                                            path: 'available',
-                                                            operator: 'EQ',
-                                                            value1: true
-                                                          }
-                                                              ]
-                                                        }"
-                                            suggestionItemSelected=".onSuggestionItemSelected"
-                                            value="{localModel>/plotNo_plot_NO}"
-                                        >
-                                            <suggestionItems>
-                                                <core:ListItem
-                                                    id="idlistitem1"
-                                                    key="{plot_NO}"
-                                                    text="{plot_NO}"
-                                                    additionalText="{plot_NO}"
-                                                />
-                                            </suggestionItems>
-                                        </Input>
-                                    </VBox>
+            <VBox id="_IDGenVBox3" width="100%">
+                <VBox id="_IDGenVBox10" width="100%">
+                    <Label
+                        id="_IDGenLabel7"
+                        text="Vehicel Number"
+                        class="bold-red-label"
+                    />
+                    <Input
+                        id="commentsTextArea"
+                        placeholder="Enter Vehicel Number"
+                        value="{localModel>/VehicalDeatils/vehicalNo}"
+                        tooltip="Format: AB 12 CD 3456,AB12CD3456"
+                    />
+                </VBox>
 
-                                    <VBox
-                                        id="_IDGenVBox8"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            visible="false"
-                                            id="_IDGenLabel5"
-                                            text="Inward or Outward"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            visible="false"
-                                            id="idinputinout"
-                                            placeholder="Inward/outward"
-                                            width="100%"
-                                        />
-                                    </VBox>
+                <VBox id="_IDGenVBox4" width="100%">
+                    <Label
+                        id="_IDGenLabel1"
+                        text="Driver Name"
+                        class="bold-red-label"
+                    />
+                    <Input
+                        id="driverNameInput"
+                        placeholder="Enter driver's name"
+                        width="100%"
+                        value="{localModel>/VehicalDeatils/driverName}"
+                        tooltip="Enter driver's name (at least 3 letters, no special characters or numbers)"
+                    />
+                </VBox>
 
-                                    <HBox
-                                        id="_IDGenHBox1"
-                                        justifyContent="End"
-                                        width="100%"
-                                        alignItems="Center"
-                                    >
-                                        
-                                        <VBox
-                                            id="idvboxemptyspace"
-                                            width="10%"
-                                        />
-                                        
-                                        <VBox
-                                            id="idvboxemptyspace2"
-                                            width="10%"
-                                        />
-                                        <VBox id="idbuttonvboxassign">
-                                            <Button
-                                                id="idbuttonassign"
-                                                text="Assign"
-                                                press="onAssignPress"
-                                                width="100px"
-                                                type="Success"
-                                            />
-                                        </VBox>
-                                    </HBox>
-                                </VBox>
-                            </VBox>
-                        </FlexBox>
-                    </ScrollContainer>
+                <VBox id="_IDGenVBox5" width="100%">
+                    <Label
+                        id="_IDGenLabel2"
+                        text="Driver Phone Number"
+                        class="bold-red-label"
+                    />
+                    <Input
+                        id="driverPhoneInput"
+                        placeholder="Enter driver's phone number"
+                        width="100%"
+                        type="Tel"
+                        value="{localModel>/VehicalDeatils/phone}"
+                        tooltip="Enter driver's phone number (10 digits)"
+                    />
+                </VBox>
 
-                   
+                <VBox id="_IDGenVBox611" width="100%">
+                    <Label
+                        id="_IDGenLabel131"
+                        text="Delivery Type"
+                        class="bold-red-label"
+                    />
+                    <Select
+                        id="idvehiceltype1"
+                        width="100%"
+                        >
+                        <items>
+                            <core:Item key="InBound" text="InBound" />
+                            <core:Item key="OutBound" text="OutBound" />
+                        </items>
+                    </Select>
+                </VBox>
+
+                <VBox id="_IDGenVBox7" width="100%">
+                    <Label
+                        id="_IDGenLabel4"
+                        text="Parking Lot Number"
+                        class="bold-red-label"
+                    />
+                    <Input
+                        id="productInput"
+                        placeholder="Select ParkingLot"
+                        showSuggestion="true"
+                        showValueHelp="true"
+                        visible="{ path: 'available'}"
+                        valueHelpRequest=".onValueHelpRequest"
+                        suggestionItems="{
+                            path: '/PlotNOs',
+                            sorter: {
+                                path: 'plot_NO',
+                                descending: false
+                            },
+                            filters: [
+                                {
+                                    path: 'available',
+                                    operator: 'EQ',
+                                    value1: true
+                                }
+                            ]
+                        }"
+                        suggestionItemSelected=".onSuggestionItemSelected"
+                        value="{localModel>/plotNo_plot_NO}"
+                    >
+                        <suggestionItems>
+                            <core:ListItem
+                                id="idlistitem1"
+                                key="{plot_NO}"
+                                text="{plot_NO}"
+                                additionalText="{plot_NO}"
+                            />
+                        </suggestionItems>
+                    </Input>
+                </VBox>
+
+                <VBox id="_IDGenVBox8" width="100%">
+                    <Label
+                        visible="false"
+                        id="_IDGenLabel5"
+                        text="Inward or Outward"
+                        class="bold-red-label"
+                    />
+                    <Input
+                        visible="false"
+                        id="idinputinout"
+                        placeholder="Inward/outward"
+                        width="100%"
+                    />
+                </VBox>
+
+                <HBox
+                    id="_IDGenHBox1"
+                    justifyContent="End"
+                    width="100%"
+                    alignItems="Center"
+                >
+                    <VBox id="idvboxemptyspace" width="10%" />
+                    <VBox id="idvboxemptyspace2" width="10%" />
+                    <VBox id="idbuttonvboxassign">
+                        <Button
+                            id="idbuttonassign"
+                            text="Assign"
+                            press="onAssignPress"
+                            width="100px"
+                            type="Success"
+                        />
+                    </VBox>
+                </HBox>
+            </VBox>
+        </VBox>
+    </FlexBox>
+</ScrollContainer>
+
                     <ScrollContainer
                         id="page3"
                         horizontal="false"
@@ -657,7 +625,7 @@
                         height="100%"
                         class="sapUiContentPadding"
                     >
-                        <FlexBox
+                        <!-- <FlexBox
                             id="idflex11"
                             justifyContent="Center"
                             alignItems="Center"
@@ -846,7 +814,7 @@
                                     </HBox>
                                 </VBox>
                             </VBox>
-                        </FlexBox>
+                        </FlexBox> -->
                     </ScrollContainer>
                     <ScrollContainer
                         id="page6"
