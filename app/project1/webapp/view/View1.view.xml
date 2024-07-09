@@ -333,8 +333,7 @@
                         </items>
                     </Select>
                 </VBox>
-
-                <VBox id="_IDGenVBox7" width="100%">
+<VBox id="_IDGenVBox7" width="100%">
                     <Label
                         id="_IDGenLabel4"
                         text="Parking Lot Number"
@@ -445,6 +444,8 @@
                                         press="OnPrintpress"
                                     />
                                     <Button text="Multiple Unassign " press=".onUnassignAllPress"  type="Success"/>
+                                     <Button text="Update Slot" press=".onUpdateSlotPress" type="Emphasized" />
+           
                                 </OverflowToolbar>
                        
                             </headerToolbar>
@@ -540,6 +541,7 @@
 
                         </Table>
                         
+                        
                     </ScrollContainer>
                     <ScrollContainer
                         id="page4"
@@ -633,7 +635,7 @@
                         >
                             <VBox
                                 id="_IDGenVBox11"
-                                width="30%"
+                                width="30%"loadFragment
                             >
                                 <VBox
                                     id="_IDGenVBox12"

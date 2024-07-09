@@ -359,6 +359,68 @@ updatePlotAvailability: function (oModel, plotNo) {
         }
     });
 },
+onUpdateSlotPress: function() {
+	var oTable = this.getView().byId("AssignedSlotsTable");
+	var aSelectedItems = oTable.getSelectedItems();
 
+	// Check if exactly one item is selected
+	if (aSelectedItems.length === 1) {
+		var oSelectedItem = aSelectedItems[0];
+		var oContext = oSelectedItem.getBindingContext();
+		var oSelectedObject = oContext.getObject();
+
+		// Load fragment
+		this.loadFragment(oSelectedObject);
+	} else {
+		MessageBox.error("Please select exactly one row to update");
+	}
+},
+
+loadFragment: function(oSelectedObject) {
+	// Load fragment
+	Fragment.load({
+		id: this.getView().getId(),
+		name: "com.app.project1.fragment.UpdateSlotDialog",
+		controller: this
+	}).then(function(oFragment) {
+		// Set data to fragment model
+		var oFragmentModel = new JSONModel(oSelectedObject);
+		oFragment.setModel(oFragmentModel, "localModel");
+
+		// Open fragment as dialog
+		this.getView().addDependent(oFragment);
+		oFragment.open();
+	}.bind(this));
+},
+
+onUpdateDialogSave: function() {
+	var oModel = this.getOwnerComponent().getModel("ModelV2");
+	var oLocalModel = this.getView().getModel("localModel");
+	var oPayload = oLocalModel.getData();
+
+	// Perform validation or additional logic if needed
+
+	// Update the selected row with updated plot number
+	oModel.update("/VehicalDeatils('" + oPayload.vehicalNo + "')", oPayload, {
+		success: function() {
+			MessageBox.success("Slot updated successfully");
+
+			// Update the table binding to reflect changes
+			var oTable = this.getView().byId("AssignedSlotsTable");
+			oTable.getBinding("items").refresh();
+
+			// Close dialog on success
+			this.getView().byId("updateDialog").close();
+		}.bind(this),
+		error: function(oError) {
+			MessageBox.error("Failed to update slot: " + oError.message);
+		}
 	});
- });
+},
+
+onUpdateDialogCancel: function() {
+	// Close dialog on cancel
+	this.getView().byId("updateDialog").close();
+}
+});
+});

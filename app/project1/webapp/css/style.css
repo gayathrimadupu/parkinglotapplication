@@ -32,5 +32,15 @@
 .statusUnavailable {
     color: red; /* Red color for 'Unavailable' */
 }
+.updateDialog {
+    width: 150px; /* Adjust the width as per your requirements */
+}
+/* CSS file (e.g., styles.css) */
+.sapMDialog.updateDialog {
+    width: 300px; /* Adjust the width as needed */
+}
 
+.sapMDialog .sapMDialogScrollCont {
+    max-height: 80vh; /* Adjust the maximum height as needed */
+}
 
