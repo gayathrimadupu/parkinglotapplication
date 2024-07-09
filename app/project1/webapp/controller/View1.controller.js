@@ -280,11 +280,11 @@ onUnassignAllPress: function () {
 
     MessageBox.success("Selected slots unassigned successfully");
 },
-onUnassignPress: function() {
+onUnassignPress: function () {
     var oTable = this.getView().byId("AssignedSlotsTable");
     var aSelectedItems = oTable.getSelectedItems();
 
-    // Check if exactly one item is selected
+    // Check if multiple items are selected
     if (aSelectedItems.length !== 1) {
         MessageBox.error("Please select exactly one row to unassign");
         return;
@@ -306,15 +306,7 @@ onUnassignPress: function() {
         this.deleteFromVehicalDetails(oModel, sPath);
 
         // Update PlotNOs availability to 'empty'
-        oModel.update("/PlotNOs('" + oSlot.plotNo_plot_NO + "')", {
-            available: true
-        });
-
-        // Refresh page1 to reflect updated status
-        var oPage1 = this.getView().byId("page1"); // Replace with your actual ID
-        // Refresh page1 content or update necessary properties
-        // Example: oPage1.refresh(); or oPage1.setProperty("/status", updatedStatus);
-
+        this.updatePlotAvailability(oModel, oSlot.plotNo_plot_NO);
     } catch (error) {
         MessageBox.error("Failed to unassign slot: " + error.message);
         return;
@@ -322,6 +314,7 @@ onUnassignPress: function() {
 
     MessageBox.success("Slot unassigned successfully");
 },
+
 moveToHistory: function (oModel, oSlot) {
     var oHistory = {
         vehicalNo: oSlot.vehicalNo,
