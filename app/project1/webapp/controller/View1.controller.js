@@ -330,9 +330,9 @@ onUnassignAllPress: function () {
     var oTable = this.getView().byId("AssignedSlotsTable");
     var aSelectedItems = oTable.getSelectedItems();
 
-    // Check if at least one item is selected
-    if (aSelectedItems.length === 0) {
-        MessageBox.error("Please select at least one row to unassign");
+    // Check if at least two items are selected
+    if (aSelectedItems.length < 2) {
+        MessageBox.error("Please select at least two rows to unassign");
         return;
     }
 
@@ -362,7 +362,6 @@ onUnassignAllPress: function () {
 
     MessageBox.success("Selected slots unassigned successfully");
 },
-
 onUnassignPress: function () {
     var oTable = this.getView().byId("AssignedSlotsTable");
     var aSelectedItems = oTable.getSelectedItems();
