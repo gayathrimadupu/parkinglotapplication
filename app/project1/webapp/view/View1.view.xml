@@ -256,17 +256,18 @@
     class="classpage2"
 >
     <FlexBox
-        id="idflex"
-        justifyContent="Center"
-        alignItems="Center"
-        height="50%"
-    >
+            id="idFlexBox"
+            justifyContent="Center"
+            alignItems="Center"
+            width="100%"
+            class="animated-border"
+        >
         <VBox id="_IDGenVBox1" width="30%">
             <VBox id="_IDGenVBox2" width="30%" alignItems="Center">
                 <Image
                     id="_IDGenImage2"
                     src="path_to_your_image"
-                    width="80%"
+                    width="100%"
                     height="auto"
                 />
             </VBox>

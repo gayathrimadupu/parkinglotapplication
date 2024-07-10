@@ -41,6 +41,12 @@ sap.ui.define([
 			// Optionally log to verify the model and property
 			var imageURL = this.getView().getModel("viewModel").getProperty("/ImageURL");
 			console.log("Image URL:", imageURL);
+			// var oPage2 = this.byId("page2");
+            // if (oPage2) {
+            //     oPage2.addStyleClass("pageBackground");
+            // }
+        
+
 		},
 
 		onItemSelect: function (oEvent) {
