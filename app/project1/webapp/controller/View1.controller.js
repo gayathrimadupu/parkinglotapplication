@@ -377,6 +377,7 @@ onUpdateSlotPress: function() {
 },
 
 loadFragment: function(oSelectedObject) {
+	debugger
     // Load fragment
     Fragment.load({
         id: this.getView().getId(),
@@ -394,17 +395,19 @@ loadFragment: function(oSelectedObject) {
 },
 
 onUpdateDialogSave: function() {
+	debugger
     var oModel = this.getOwnerComponent().getModel("ModelV2");
     var oLocalModel = this.getView().getModel("localModel");
-    var oPayload = oLocalModel.getData();
-
+    var oPayload = oLocalModel.getData(),
+	oSelected = this.getView().byId("AssignedSlotsTable").getSelectedItem().getBindingContext().getObject(),
+	oOldSlot = oSelected.plotNo_plot_NO
     // Perform validation or additional logic if needed
 
     // Update the selected row with updated plot number
     oModel.update("/VehicalDeatils('" + oPayload.vehicalNo + "')", oPayload, {
         success: function() {
             // Update the old plot number to "Available"
-            oModel.update("/PlotNOs('" + oPayload.oldPlotNo + "')", {
+            oModel.update("/PlotNOs('" + oOldSlot + "')", {
                 available: true
             });
 
