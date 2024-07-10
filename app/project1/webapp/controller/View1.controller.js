@@ -34,7 +34,7 @@ sap.ui.define([
 			var oModelV2 = this.getOwnerComponent().getModel("ModelV2");
 			this.getView().byId("pageContainer").setModel(oModelV2);
 			var oViewModel = new JSONModel({
-				ImageURL: "https://www.bing.com/images/blob?bcid=r6G9IPLJCj0Hkw"
+				ImageURL: "https://i.postimg.cc/4s7Np4CT/loading-docks-19268044-transformed-1.jpg"
 			});
 			this.getView().setModel(oViewModel, "viewModel");
 		
