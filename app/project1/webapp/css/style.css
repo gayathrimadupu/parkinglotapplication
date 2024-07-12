@@ -85,3 +85,11 @@
     max-width: 50%; /* Adjust maximum width as needed */
     margin: 0 auto; /* Center horizontally */
 }
+.dashboardContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

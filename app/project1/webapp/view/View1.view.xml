@@ -1,10 +1,13 @@
 <mvc:View
     controllerName="com.app.project1.controller.View1"
     xmlns="sap.m"
+    
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:tnt="sap.tnt"
     xmlns:core="sap.ui.core"
     xmlns:layout="sap.ui.layout"
+      xmlns:f="sap.ui.layout.form"
+      xmlns:smartTable="sap.ui.comp.smarttable"
     height="100%"
 >
       <tnt:ToolPage id="toolPage">
@@ -544,7 +547,7 @@
                         
                         
                     </ScrollContainer>
-                    <ScrollContainer
+                    <!-- <ScrollContainer
                         id="page4"
                         horizontal="false"
                         vertical="true"
@@ -620,217 +623,188 @@
                                 </ColumnListItem>
                             </items>
                         </Table>
-                    </ScrollContainer>
+                    </ScrollContainer> -->
                     <ScrollContainer
-                        id="page5"
+                         id="page5"
                         horizontal="false"
                         vertical="true"
                         height="100%"
                         class="sapUiContentPadding"
                     >
-                        <!-- <FlexBox
-                            id="idflex11"
-                            justifyContent="Center"
-                            alignItems="Center"
-                            height="50%"
+                        <Table
+                            id="ReservationTable"
+                            class="sapUiResponsiveMargin"
+                            inset="false"
+                            width="auto"
+                            mode="MultiSelect"
+                            items="{/Reservation}"
+                            alternateRowColors="true"
+                            growingThreshold="5"
+                            growing="true"
                         >
-                            <VBox
-                                id="_IDGenVBox11"
-                                width="30%"loadFragment
-                            >
-                                <VBox
-                                    id="_IDGenVBox12"
-                                    width="30%"
-                                    alignItems="Center"
-                                >
-                                    <Image
-                                        id="_IDGenImage12"
-                                        src="path_to_your_image"
-                                        width="80%"
-                                        height="auto"
+                            <headerToolbar>
+                                <OverflowToolbar id="idreservationtoolbar">
+                                    <Title
+                                        id="idtitlereservation"
+                                        text="Reservations"
                                     />
-                                </VBox>
-
-                                <VBox
-                                    id="_IDGenVBox13"
-                                    width="100%"
+                                    <ToolbarSpacer id="idTableHeaderreserve" />
+                                    <Button
+                                        id="idassign"
+                                        press="onpressassignrd"
+                                        text="assign"
+                                        type="Success"
+                                    />
+                                </OverflowToolbar>
+                            </headerToolbar>
+                            <columns>
+                                <Column
+                                    id="idcolumnreservation1"
+                                    class="class01"
                                 >
-                                    <VBox
-                                        id="_IDGenVBox110"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel71"
-                                            text="Vehicel Number"
-                                            class="bold-red-label"
+                                    <Text
+                                        text="Vehicle Number"
+                                        id="idtextreservaton1"
+                                        class="class01"
+                                    />
+                                </Column>
+                                <Column
+                                    id="idcolumnreservation2"
+                                    class="class01"
+                                >
+                                    <Text
+                                        text="Driver Name"
+                                        id="idtextreservaton2"
+                                        class="class01"
+                                    />
+                                </Column>
+                                <Column
+                                    id="idcolumnreservation3"
+                                    class="class01"
+                                >
+                                    <Text
+                                        text="Phone"
+                                        id="idtextreservaton3"
+                                        class="class01"
+                                    />
+                                </Column>
+                                <Column id="idcolumnreservation4">
+                                    <Text
+                                        text="Vehicle Type"
+                                        id="idtextreservaton4"
+                                        class="class01"
+                                    />
+                                </Column>
+                                <Column id="idcolumnreservation5">
+                                    <Text
+                                        text="Expected Time"
+                                        id="idtextreservaton5"
+                                    />
+                                </Column>
+                                <Column id="idcolumnreservation6">
+                                    <Text
+                                        text="Plot Number"
+                                        id="idtextreservaton6"
+                                    />
+                                </Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    id="idcolumlistreservation"
+                                    press="onListItemPress"
+                                    class="classreservedlots"
+                                >
+                                    <cells>
+                                        <Text
+                                            text="{vehicalNo}"
+                                            id="idtextreservationvno"
                                         />
-                                        <Input
-                                            id="commentsTextArea1"
-                                            placeholder="Enter Vehicel Number"
-                                            value="{localModel>/VehicalDeatils/vehicalNo}"
-                                            tooltip="Format: AB 12 CD 3456,AB12CD3456"
+                                        <Text
+                                            text="{driverName}"
+                                            id="idtextreservationdname"
                                         />
-                                    </VBox>
-
-                                    <VBox
-                                        id="_IDGenVBox41"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel11"
-                                            text="Driver Name"
-                                            class="bold-red-label"
+                                        <Text
+                                            text="{phone}"
+                                            id="idtextreservationpno"
                                         />
-                                        <Input
-                                            id="driverNameInput1"
-                                            placeholder="Enter driver's name"
-                                            width="100%"
-                                            value="{localModel>/VehicalDeatils/driverName}"
-                                             tooltip="Enter driver's name (at least 3 letters, no special characters or numbers)"
+                                        <Text
+                                            text="{vehicalType}"
+                                            id="idtextreservationvtype"
                                         />
-                                    </VBox>
-
-                                    <VBox
-                                        id="_IDGenVBox51"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel21"
-                                            text="Driver Phone Number"
-                                            class="bold-red-label"
+                                        <Text
+                                            text="{Expectedtime}"
+                                            id="idtextreservationetime"
                                         />
-                                        <Input
-                                            id="driverPhoneInput1"
-                                            placeholder="Enter driver's phone number"
-                                            width="100%"
-                                            type="Tel"
-                                            value="{localModel>/VehicalDeatils/phone}"
-                                            tooltip="Enter driver's phone number (10 digits)"
-                                            
+                                        <Text
+                                            text="{plotNo_plot_NO}"
+                                            id="idtextreservationptno"
                                         />
-                                    </VBox>
-
-                                    <VBox
-                                        id="_IDGenVBox61"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel31"
-                                            text="Delivery Type"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            id="idvehiceltype1"
-                                            placeholder="Enter Delivery type"
-                                            width="100%"
-                                            value="{localModel>/VehicalDeatils/vehicalType}"
-                                        />
-                                    </VBox>
-
-                                    <VBox
-                                        id="_IDGenVBox71"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            id="_IDGenLabel14"
-                                            text="Parking Lot Number"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            id="productInput1"
-                                            placeholder="Select ParkingLot"
-                                            showSuggestion="true"
-                                            showValueHelp="true"
-                                            visible="{ path: 'available'}"
-                                            valueHelpRequest=".onValueHelpRequest"
-                                            suggestionItems="{
-                                                 path: '/PlotNOs',
-                                                 sorter: {
-                                                            path: 'plot_NO',
-                                                            descending: false
-                                                          },
-                                                    filters: [
-                                                          {
-                                                            path: 'available',
-                                                            operator: 'EQ',
-                                                            value1: true
-                                                          }
-                                                              ]
-                                                        }"
-                                            suggestionItemSelected=".onSuggestionItemSelected"
-                                            value="{localModel>/plotNo_plot_NO}"
-                                        >
-                                            <suggestionItems>
-                                                <core:ListItem
-                                                    id="idlistitem11"
-                                                    key="{plot_NO}"
-                                                    text="{plot_NO}"
-                                                    additionalText="{plot_NO}"
-                                                />
-                                            </suggestionItems>
-                                        </Input>
-                                    </VBox>
-
-                                    <VBox
-                                        id="_IDGenVBox81"
-                                        width="100%"
-                                    >
-                                        <Label
-                                            visible="false"
-                                            id="_IDGenLabel15"
-                                            text="Inward or Outward"
-                                            class="bold-red-label"
-                                        />
-                                        <Input
-                                            visible="false"
-                                            id="idinputinou1t"
-                                            placeholder="Inward/outward"
-                                            width="100%"
-                                        />
-                                    </VBox>
-
-                                    <HBox
-                                        id="_IDGenHBox11"
-                                        justifyContent="End"
-                                        width="100%"
-                                        alignItems="Center"
-                                    >
-                                        
-                                        <VBox
-                                            id="idvboxemptyspac1e"
-                                            width="10%"
-                                        />
-                                        
-                                        <VBox
-                                            id="idvboxemptyspa1ce2"
-                                            width="10%"
-                                        />
-                                        <VBox id="idbuttonvboxassign1">
-                                            <Button
-                                                id="idbuttonassign1"
-                                                text="Reserve"
-                                                press="onReservePress"
-                                                width="100px"
-                                                type="Success"
-                                            />
-                                        </VBox>
-                                    </HBox>
-                                </VBox>
-                            </VBox>
-                        </FlexBox> -->
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                        
                     </ScrollContainer>
-                    <ScrollContainer
-                        id="page6"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
-                        class="sapUiContentPadding"
-                    >
-                        <Text
-                            id="_IDGenText6"
-                            text="Reservations"
-                        />
-                    </ScrollContainer>
+                      <ScrollContainer
+        id="page6"
+        horizontal="false"
+        vertical="true"
+        height="100%"
+        class="sapUiContentPadding"
+    >
+        <VBox width="100%" height="100%">
+            <Toolbar>
+                <content>
+                    <Title text="Reservation Requests" level="H2" />
+                    <ToolbarSpacer />
+                    <Button
+                        icon="sap-icon://bell"
+                        type="Transparent"
+                        press="onNotificationPress"
+                        tooltip="Notifications"
+                    />
+                </content>
+            </Toolbar>
+            <Table
+                id="requestTable"
+                items="{/VehicalDeatils}"
+                class="sapUiResponsiveMargin"
+                mode="SingleSelectMaster"
+                growing="true"
+                growingScrollToLoad="true"
+                updateStarted=".onUpdateStarted"
+            >
+                <columns>
+                    <Column>
+                        <Text text="Vehicle Number" />
+                    </Column>
+                    <Column>
+                        <Text text="Driver Name" />
+                    </Column>
+                    <Column>
+                        <Text text="Driver Phone" />
+                    </Column>
+                    <Column>
+                        <Text text="Vendor Name" />
+                    </Column>
+                    <Column>
+                        <Text text="Requested Date" />
+                    </Column>
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{vehicleNumber}" />
+                            <Text text="{driverName}" />
+                            <Text text="{driverPhone}" />
+                            <Text text="{vehicleType}" />
+                            <Text text="{assignedDate}" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </VBox>
+    </ScrollContainer>
                     <ScrollContainer
                         id="page7"
                         horizontal="false"
@@ -950,6 +924,142 @@
                             </items>
                         </Table>
                     </ScrollContainer>
+                    <ScrollContainer
+                        id="page8"
+                        horizontal="false"
+                        vertical="true"
+                        height="100%"
+                        class="sapUiContentPaddingreserve"
+                    >
+                        <content>
+                            <VBox
+                                id="idreservevbox"
+                                alignItems="Center"
+                                justifyContent="Center"
+                            >
+                                <f:SimpleForm
+                                    id="reservationForm"
+                                    layout="ResponsiveGridLayout"
+                                    editable="true"
+                                    columnsM="2"
+                                    columnsL="3"
+                                    columnsXL="4"
+                                    class="SimpleForm"
+                                >
+                                    <Title
+                                        id="idtitlereserva"
+                                    
+                                        text="LOT RESERVATION"
+                                        class="Reserveheading"
+                                    />
+                                    <VBox id="ReserveVbox">
+                                        <Label
+                                            id="idVehicleNumberLabel"
+                                            text="Vehicle No"
+                                            class="Bold"
+                                        />
+                                        <Input
+                                            id="InputVehicleno"
+                                            value="{}"
+                                            placeholder="Enter Vehicle Number"
+                                        />
+                                        <Label
+                                            id="idDriverNameLabel"
+                                            text="Driver Name"
+                                            class="Bold"
+                                        />
+                                        <Input
+                                            id="InputDriverName"
+                                            value="{}"
+                                            placeholder="Enter Driver Name"
+                                        />
+                                        <Label
+                                            id="idphonenumberLabel"
+                                            text="Phone Number"
+                                            class="Bold"
+                                        />
+                                        <Input
+                                            id="InputPhonenumber"
+                                            value="{}"
+                                            placeholder="Enter Phone number"
+                                        />
+                                        <Label
+                                            id="idVehicletypeLabel"
+                                            text="Vehicle Type"
+                                            class="Bold"
+                                        />
+                                        <Input
+                                            id="InputVehicletype"
+                                            placeholder="Enter Vehicle Type"
+                                            value="{}"
+                                        />
+                                        <Label
+                                            id="idParkinglotLabel"
+                                            text="Parking lot"
+                                            class="Bold"
+                                        />
+                                        
+                                        <ComboBox
+                                            id="idcombox1"
+                                            placeholder="select your lot"
+                                            value="{newmodel>/plotNo_plot_NO}"
+                                            items="{
+                                            path: '/PlotNOs',
+                                             sorter: {
+                                             path: 'plot_NO'
+                                                      },
+                                               filters: [{
+                                               path: 'available',
+                                               operator: 'EQ',
+                                                value1: true
+                                               }]
+                                             }"
+                                        >
+                                           
+                                            <core:Item
+                                                id="idcoreitems"
+                                                text="{plot_NO}"
+                                            />
+                                        </ComboBox>
+                                        <Label
+                                            id="idtypedate"
+                                            text="Date"
+                                            class="Bold"
+                                        />
+                                        <DateTimePicker
+                                            id="idinputdatepicker"
+                                            value="{
+				                            path: '/dtValue',
+			                             	type: 'sap.ui.model.type.DateTime'}"
+                                        />
+
+                                        <HBox
+                                            id="_IDReserveHBox1"
+                                            alignItems="Center"
+                                            class="classHbox"
+                                            justifyContent="Start"
+                                        >
+                                            <Button
+                                                id="idbuttonreserve"
+                                                text="Reserve"
+                                                press="onReservePressbtn"
+                                                type="Success"
+                                                class="classButton"
+                                            />
+                                            <Button
+                                                id="idbuttonreservew"
+                                                text="clear"
+                                                press="onReservePressbtnclear"
+                                                type="Critical"
+                                                class="classButton1"
+                                            />
+                                        </HBox>
+                                    </VBox>
+                                </f:SimpleForm>
+                            </VBox>
+                        </content>
+                    </ScrollContainer>
+                    
                     
 
                 </pages>

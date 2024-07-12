@@ -15,11 +15,16 @@
     "@cap-js/sqlite": "^1",
     "@sap/cds-dk": "^7",
     "@sap/eslint-plugin-cds": "^3",
-    "@sap/ux-specification": "^1.120.13",
-    "eslint": "^9"
+    "@sap/ux-specification": "^1.120.14",
+    "eslint": "^9",
+    "rimraf": "^5.0.5"
   },
   "scripts": {
     "start": "cds-serve",
-    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-project1": "cds watch --open project1/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-vendorapp": "cds watch --open vendorapp/webapp/index.html?sap-ui-xx-viewCache=false",
+    "undeploy": "cf undeploy parkinglot --delete-services --delete-service-keys --delete-service-brokers",
+    "build": "rimraf resources mta_archives && mbt build --mtar archive",
+    "deploy": "cf deploy mta_archives/archive.mtar --retries 1"
   }
 }

@@ -19,11 +19,7 @@
 			
 			"key": "page3"
 		},
-		{
-			"title": "Empty Lots",
-			
-			"key": "page4"
-		},
+		
 		{
 			"title": "Reserve a lot",
 			"key": "page5"
@@ -37,6 +33,11 @@
 			"title": "History",
 			
 			"key": "page7"
+		},
+		{
+			"title": "Vendor Pre-Booking ",
+			
+			"key": "page8"
 		}
 		
 	]
