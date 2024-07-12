@@ -94,7 +94,7 @@
     flex-direction: column;
 }
 .title {
-    background-color: #09c8f5;
-    background-image: linear-gradient(to bottom, #09c8f5, #ffffff);
+    background-color: #aac2e8;
+    background-image: linear-gradient(to bottom, #aac2e8, #ffffff);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }

@@ -76,25 +76,7 @@
                         />
                     </layoutData>
                 </ToolbarSeparator>
-                <!-- <OverflowToolbarButton
-                    id="_IDGenOverflowToolbarButton3"
-                    icon="sap-icon://action-settings"
-                    type="Transparent"
-                    text="Settings"
-                /> -->
-                <!-- <Button
-                    id="_IDGenButton1"
-                    icon="sap-icon://bell"
-                    type="Transparent"
-                    tooltip="Notification"
-                >
-                    <layoutData>
-                        <OverflowToolbarLayoutData
-                            id="_IDGenOverflowToolbarLayoutData8"
-                            priority="NeverOverflow"
-                        />
-                    </layoutData>
-                </Button> -->
+              
                 <tnt:ToolHeaderUtilitySeparator
                     id="_IDGenToolHeaderUtilitySeparator1"
                 />
@@ -102,20 +84,15 @@
                     id="_IDGenToolbarSpacer2"
                     width="1.125rem"
                 />
-                <Avatar
+                <!-- <Avatar
                     id="_IDGenAvatar1"
                     src="test-resources/sap/tnt/images/Woman_avatar_01.png"
                     displaySize="XS"
                     press=".onAvatarPressed"
                     tooltip="Profile"
                 >
-                    <layoutData>
-                        <OverflowToolbarLayoutData
-                            id="_IDGenOverflowToolbarLayoutData9"
-                            priority="NeverOverflow"
-                        />
-                    </layoutData>
-                </Avatar>
+                    
+                </Avatar> -->
             </tnt:ToolHeader>
         </tnt:header>
         <tnt:subHeader>
@@ -181,14 +158,15 @@
                         horizontal="false"
                         vertical="true"
                         height="100%"
-                        class="sapUiContentPadding"
+                       class="sapUiContentPadding pageBackground dimEffect"
+                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
                     >
                         <Table
                             id="AllSlotsTable"
                             class="tableclass"
                             alternateRowColors="true"
                             growing="true"
-                            width="100%"
+                            width="50%"
                    
                             items="{/PlotNOs}"
                         >
@@ -249,6 +227,9 @@
                                             }"
                                         />
                                     </cells>
+                                     <cells>
+                    
+                </cells>
                                 </ColumnListItem>
                             </items>
                         </Table>
@@ -259,7 +240,8 @@
     horizontal="false"
     vertical="true"
     height="100%"
-    class="classpage2"
+   class="sapUiContentPadding pageBackground dimEffect"
+                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
 >
     <FlexBox
             id="idFlexBox"
@@ -424,7 +406,8 @@
                         horizontal="false"
                         vertical="true"
                         height="100%"
-                        class="sapUiContentPadding"
+                        class="sapUiContentPadding pageBackground dimEffect"
+                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
                     >
                         <Table
                             id="AssignedSlotsTable"
@@ -632,7 +615,8 @@
                         horizontal="false"
                         vertical="true"
                         height="100%"
-                        class="sapUiContentPadding"
+                        class="sapUiContentPadding pageBackground dimEffect"
+                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
                     >
                         <Table
                             id="ReservationTable"
@@ -753,7 +737,8 @@
         horizontal="false"
         vertical="true"
         height="100%"
-        class="sapUiContentPadding"
+       class="sapUiContentPadding pageBackground dimEffect"
+                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
     >
             <VBox
                 id="vbox"
@@ -876,7 +861,8 @@
                         horizontal="false"
                         vertical="true"
                         height="100%"
-                        class="classpagehistory"
+                       class="sapUiContentPadding pageBackground dimEffect"
+                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
                     >
                         <Table
                             id="AssignedhistoryTable"
@@ -995,7 +981,8 @@
                         horizontal="false"
                         vertical="true"
                         height="100%"
-                        class="sapUiContentPaddingreserve"
+                       class="sapUiContentPadding pageBackground dimEffect"
+                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
                     >
                         <content>
                             <VBox
