@@ -12,6 +12,7 @@ sap.ui.define([
 	"use strict";
     return Controller.extend("com.app.project1.controller.View1", {
         onInit: function () {
+			this._setParkingLotModel();
             // Load local JSON model for the view
             var oModel = new JSONModel(sap.ui.require.toUrl("com/app/project1/data/model.json"));
             this.getView().setModel(oModel);
@@ -551,37 +552,92 @@ onReservePressbtn: async function () {
 				return
 			};
 
-
-			var oSelectedRow = this.byId("ReservationTable").getSelectedItem().getBindingContext().getObject()
-
-			var resmodel = new JSONModel ({
-				vehicalNo:oSelectedRow.vehicalNo,
-				driverName:oSelectedRow.driverName,
-				phone:oSelectedRow.phone,
-				vehicalType:oSelectedRow.vehicalType,
-				assignedDate:"",
-				plotNo_plot_NO:oSelectedRow.plotNo_plot_NO,
-			});
+			var oSelectedRow = this.byId("ReservationTable").getSelectedItem().getBindingContext().getObject();
+			var orow = this.byId("ReservationTable").getSelectedItem().getBindingContext().getPath();
 			const intime = new Date;
-
-
+			var resmodel = new JSONModel({
+				vehicalNo: oSelectedRow.vehicalNo,
+				driverName: oSelectedRow.driverName,
+				phone: oSelectedRow.phone,
+				vehicalType: oSelectedRow.vehicalType,
+				assignedDate: intime,
+				plotNo_plot_NO: oSelectedRow.plotNo_plot_NO,
+			});
+			var temp = oSelectedRow.plotNo_plot_NO;
 			const oModel = this.getView().byId("pageContainer").getModel("ModelV2");
+			this.getView().byId("page8").setModel(resmodel, "resmodel");
+			this.getView().byId("page8").getModel("resmodel").getProperty("/");
+			oModel.create("/VehicalDeatils", resmodel.getData(), {
+				success: function (odata) {
+					sap.m.MessageToast.show("success");
+					debugger
+					oModel.remove(orow, {
+						success: function () {
+							sap.m.MessageToast.show("success");
+							oModel.refresh()
+							oModel.update("/PlotNOs('" + temp + "')", { available: false }, {
+								success: function () {
+									sap.m.MessageToast.show("success3");
+									oModel.refresh();
+								}, error: function () {
+									sap.m.MessageBox.error("HBJKLJHGVhb");
+								}
 
-			this.getView().byId("page5").setModel(resmodel, "resmodel");
-			const oPayload = this.getView().byId("page5").getModel("resmodel").getProperty("/");
+							})
+						},
+						error: function (oError) {
+							sap.m.MessageBox.error("Failed to update : " + oError.message);
+						}
 
-			oPayload.assignedDate = intime;
+					})
 
-			try {
-				await this.createData(oModel, oPayload, "/VehicalDeatils");
-				sap.m.MessageBox.success("Parking lot reserved  successfully");
-			} catch (error) {
-				sap.m.MessageBox.error("Failed to create reservation. Please try again.");
-				console.error("Error creating reservation:", error);
-			}
+				},
+				error: function (oError) {
+					sap.m.MessageBox.error("Failed to update : " + oError.message);
+				}
+			})
+		
+		},
+	
+        _setParkingLotModel: function () {
+            var oModel = this.getOwnerComponent().getModel("ModelV2");
+            var that = this;
 
+            oModel.read("/PlotNOs", {
+					success: function (oData) {
+						console.log("Fetched Data:", oData);
+                    var aItems = oData.results;
+                    var availableCount = aItems.filter(item => item.available === true).length;
+                    var occupiedCount = aItems.filter(item => item.available === false).length;
 
+                    var aChartData = {
+                        Items: [
+                            {
+                                available: true ,
+                                Count: availableCount
+                            },
+                            {
+                                available: false ,
+                                Count: occupiedCount
+                            }
+                        ]
+                    };
+                    var oParkingLotModel = new JSONModel();
+                    oParkingLotModel.setData(aChartData);
+                    that.getView().setModel(oParkingLotModel, "ParkingLotModel");
+                },
+                error: function (oError) {
+                    console.error(oError);
+                }
+            });
+        },
 
-		}
+        myOnClickHandler: function (oEvent) {
+            // Your click handler logic
+        },
+
+        handleRenderComplete: function (oEvent) {
+            // Your render complete handler logic
+        }
 });
 });

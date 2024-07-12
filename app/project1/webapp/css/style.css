@@ -93,3 +93,8 @@
     align-items: center;
     flex-direction: column;
 }
+.title {
+    background-color: #09c8f5;
+    background-image: linear-gradient(to bottom, #09c8f5, #ffffff);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}

@@ -1,7 +1,6 @@
 <mvc:View
     controllerName="com.app.project1.controller.View1"
     xmlns="sap.m"
-    
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:tnt="sap.tnt"
     xmlns:core="sap.ui.core"
@@ -9,10 +8,14 @@
       xmlns:f="sap.ui.layout.form"
       xmlns:smartTable="sap.ui.comp.smarttable"
     height="100%"
+    xmlns:suite="sap.suite.ui.commons"
+    xmlns:viz="sap.viz.ui5.controls"
+    xmlns:viz.feeds="sap.viz.ui5.controls.common.feeds"
+    xmlns:viz.data="sap.viz.ui5.data"
 >
       <tnt:ToolPage id="toolPage">
         <tnt:header>
-            <tnt:ToolHeader id="_IDGenToolHeader1">
+            <tnt:ToolHeader id="_IDGenToolHeader1"  class="title">
                 <Image
                     id="_IDGenImage1"
                     height="1.5rem"
@@ -155,7 +158,7 @@
         <tnt:mainContents>
             <NavContainer
                 id="pageContainer"
-                initialPage="page0"
+                initialPage="page1"
             >
                 <pages>
                 
@@ -186,7 +189,7 @@
                             alternateRowColors="true"
                             growing="true"
                             width="100%"
-                            growingThreshold="5"
+                   
                             items="{/PlotNOs}"
                         >
                             <headerToolbar>
@@ -207,12 +210,12 @@
                                         text="Slot Number"
                                     />
                                 </Column>
-                                <Column id="idcolparkintype">
+                                <!-- <Column id="idcolparkintype">
                                     <Text
                                         id="idtextparkintype"
                                         text="Parking Type"
                                     />
-                                </Column>
+                                </Column> -->
                                 <Column id="idcolstatus">
                                     <Text
                                         id="idtextstatus"
@@ -231,12 +234,12 @@
                                             text="{plot_NO}"
                                         />
                                     </cells>
-                                    <cells>
+                                    <!-- <cells>
                                         <Text
                                             id="idtextitemstype"
                                             text="{inBoundOroutBound}"
                                         />
-                                    </cells>
+                                    </cells> -->
                                     <cells>
                                         <Text
                                             id="idProcessvalue"
@@ -752,7 +755,70 @@
         height="100%"
         class="sapUiContentPadding"
     >
-        <VBox width="100%" height="100%">
+            <VBox
+                id="vbox"
+                fitContainer="true"
+            >
+                <suite:ChartContainer id="chartContainer">
+                    <suite:content>
+                        <suite:ChartContainerContent id="chartContainerContent">
+                            <suite:content>
+                                <viz:VizFrame
+                                    id="idpiechart"
+                                    width="auto"
+                                    uiConfig="{applicationSet:'fiori'}"
+                                    vizType="pie"
+                                    vizProperties="{
+                                        plotArea: {
+                                            dataLabel: {visible: true}
+                                        },
+                                        title: {text:'Parking Lot Availability'}
+                                    }"
+                                    selectData="myOnClickHandler"
+                                    renderComplete="handleRenderComplete"
+                                >
+                                    <viz:dataset>
+                                        <viz.data:FlattenedDataset
+                                            id="flattenData"
+                                            data="{ParkingLotModel>/Items}"
+                                        >
+                                            <viz.data:dimensions>
+                                                <viz.data:DimensionDefinition
+                                                    id="_IDGenDimensionDefinition1"
+                                                    name="available"
+                                                    value="{ParkingLotModel>available}"
+                                                />
+                                            </viz.data:dimensions>
+                                            <viz.data:measures>
+                                                <viz.data:MeasureDefinition
+                                                    id="_IDGenMeasureDefinition1"
+                                                    name="Count"
+                                                    value="{ParkingLotModel>Count}"
+                                                />
+                                            </viz.data:measures>
+                                        </viz.data:FlattenedDataset>
+                                    </viz:dataset>
+                                    <viz:feeds>
+                                        <viz.feeds:FeedItem
+                                            id="_IDGenFeedItem1"
+                                            uid="size"
+                                            type="Measure"
+                                            values="Count"
+                                        />
+                                        <viz.feeds:FeedItem
+                                            id="_IDGenFeedItem2"
+                                            uid="color"
+                                            type="Dimension"
+                                            values="available"
+                                        />
+                                    </viz:feeds>
+                                </viz:VizFrame>
+                            </suite:content>
+                        </suite:ChartContainerContent>
+                    </suite:content>
+                </suite:ChartContainer>
+            </VBox>
+        <!-- <VBox width="100%" height="100%">
             <Toolbar>
                 <content>
                     <Title text="Reservation Requests" level="H2" />
@@ -803,7 +869,7 @@
                     </ColumnListItem>
                 </items>
             </Table>
-        </VBox>
+        </VBox> -->
     </ScrollContainer>
                     <ScrollContainer
                         id="page7"
