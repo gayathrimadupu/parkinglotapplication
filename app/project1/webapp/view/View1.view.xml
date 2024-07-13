@@ -977,142 +977,137 @@
                         </Table>
                     </ScrollContainer>
                     <ScrollContainer
-                        id="page8"
-                        horizontal="false"
-                        vertical="true"
-                        height="100%"
-                       class="sapUiContentPadding pageBackground dimEffect"
-                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
+    id="page8"
+    horizontal="false"
+    vertical="true"
+    height="100%"
+    class="sapUiContentPadding pageBackground dimEffect"
+    style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
+>
+    <content>
+        <VBox
+            id="idreservevbox"
+            alignItems="Center"
+            justifyContent="Center"
+        >
+            <f:SimpleForm
+                id="reservationForm"
+                layout="ResponsiveGridLayout"
+                editable="true"
+                columnsM="2"
+                columnsL="3"
+                columnsXL="4"
+                class="SimpleForm"
+            >
+                <Title
+                    id="idtitlereserva"
+                    text="LOT RESERVATION"
+                    class="Reserveheading"
+                />
+                <VBox id="ReserveVbox">
+                    <Label
+                        id="idVehicleNumberLabel"
+                        text="Vehicle No"
+                        class="Bold"
+                    />
+                    <Input
+                        id="InputVehicleno"
+                        value="{}"
+                        placeholder="Enter Vehicle Number"
+                    />
+                    <Label
+                        id="idDriverNameLabel"
+                        text="Driver Name"
+                        class="Bold"
+                    />
+                    <Input
+                        id="InputDriverName"
+                        value="{}"
+                        placeholder="Enter Driver Name"
+                    />
+                    <Label
+                        id="idphonenumberLabel"
+                        text="Phone Number"
+                        class="Bold"
+                    />
+                    <Input
+                        id="InputPhonenumber"
+                        value="{}"
+                        placeholder="Enter Phone number"
+                    />
+                    <Label
+                        id="idVehicletypeLabel"
+                        text="Vehicle Type"
+                        class="Bold"
+                    />
+                    <ComboBox
+                        id="InputVehicletype"
+                        placeholder="Select Vehicle Type"
+                        selectedKey="{localModel>/VehicalDeatils/vehicalType}"
+                        items="{
+                            path: 'vehicleTypeModel>/vehicleTypes',
+                            templateShareable: false
+                        }"
                     >
-                        <content>
-                            <VBox
-                                id="idreservevbox"
-                                alignItems="Center"
-                                justifyContent="Center"
-                            >
-                                <f:SimpleForm
-                                    id="reservationForm"
-                                    layout="ResponsiveGridLayout"
-                                    editable="true"
-                                    columnsM="2"
-                                    columnsL="3"
-                                    columnsXL="4"
-                                    class="SimpleForm"
-                                >
-                                    <Title
-                                        id="idtitlereserva"
-                                    
-                                        text="LOT RESERVATION"
-                                        class="Reserveheading"
-                                    />
-                                    <VBox id="ReserveVbox">
-                                        <Label
-                                            id="idVehicleNumberLabel"
-                                            text="Vehicle No"
-                                            class="Bold"
-                                        />
-                                        <Input
-                                            id="InputVehicleno"
-                                            value="{}"
-                                            placeholder="Enter Vehicle Number"
-                                        />
-                                        <Label
-                                            id="idDriverNameLabel"
-                                            text="Driver Name"
-                                            class="Bold"
-                                        />
-                                        <Input
-                                            id="InputDriverName"
-                                            value="{}"
-                                            placeholder="Enter Driver Name"
-                                        />
-                                        <Label
-                                            id="idphonenumberLabel"
-                                            text="Phone Number"
-                                            class="Bold"
-                                        />
-                                        <Input
-                                            id="InputPhonenumber"
-                                            value="{}"
-                                            placeholder="Enter Phone number"
-                                        />
-                                        <Label
-                                            id="idVehicletypeLabel"
-                                            text="Vehicle Type"
-                                            class="Bold"
-                                        />
-                                        <Input
-                                            id="InputVehicletype"
-                                            placeholder="Enter Vehicle Type"
-                                            value="{}"
-                                        />
-                                        <Label
-                                            id="idParkinglotLabel"
-                                            text="Parking lot"
-                                            class="Bold"
-                                        />
-                                        
-                                        <ComboBox
-                                            id="idcombox1"
-                                            placeholder="select your lot"
-                                            value="{newmodel>/plotNo_plot_NO}"
-                                            items="{
-                                            path: '/PlotNOs',
-                                             sorter: {
-                                             path: 'plot_NO'
-                                                      },
-                                               filters: [{
-                                               path: 'available',
-                                               operator: 'EQ',
-                                                value1: true
-                                               }]
-                                             }"
-                                        >
-                                           
-                                            <core:Item
-                                                id="idcoreitems"
-                                                text="{plot_NO}"
-                                            />
-                                        </ComboBox>
-                                        <Label
-                                            id="idtypedate"
-                                            text="Date"
-                                            class="Bold"
-                                        />
-                                        <DateTimePicker
-                                            id="idinputdatepicker"
-                                            value="{
-				                            path: '/dtValue',
-			                             	type: 'sap.ui.model.type.DateTime'}"
-                                        />
-
-                                        <HBox
-                                            id="_IDReserveHBox1"
-                                            alignItems="Center"
-                                            class="classHbox"
-                                            justifyContent="Start"
-                                        >
-                                            <Button
-                                                id="idbuttonreserve"
-                                                text="Reserve"
-                                                press="onReservePressbtn"
-                                                type="Success"
-                                                class="classButton"
-                                            />
-                                            <!-- <Button
-                                                id="idbuttonreservew"
-                                                text="clear"
-                                                press="onReservePressbtnclear"
-                                                type="Critical"
-                                                class="classButton1"
-                                            /> -->
-                                        </HBox>
-                                    </VBox>
-                                </f:SimpleForm>
-                            </VBox>
-                        </content>
-                    </ScrollContainer>
-                    
+                        <core:Item key="{vehicleTypeModel>key}" text="{vehicleTypeModel>text}" />
+                    </ComboBox>
+                    <Label
+                        id="idParkinglotLabel"
+                        text="Parking lot"
+                        class="Bold"
+                    />
+                    <ComboBox
+                        id="idcombox1"
+                        placeholder="select your lot"
+                        value="{newmodel>/plotNo_plot_NO}"
+                        items="{
+                            path: '/PlotNOs',
+                            sorter: {
+                                path: 'plot_NO'
+                            },
+                            filters: [{
+                                path: 'available',
+                                operator: 'EQ',
+                                value1: true
+                            }]
+                        }"
+                    >
+                        <core:Item
+                            id="idcoreitems"
+                            text="{plot_NO}"
+                        />
+                    </ComboBox>
+                    <Label
+                        id="idtypedate"
+                        text="Date"
+                        class="Bold"
+                    />
+                    <DateTimePicker
+                        id="idinputdatepicker"
+                        value="{
+                            path: '/dtValue',
+                            type: 'sap.ui.model.type.DateTime'
+                        }"
+                    />
+                    <HBox
+                        id="_IDReserveHBox1"
+                        alignItems="Center"
+                        class="classHbox"
+                        justifyContent="Start"
+                    >
+                        <Button
+                            id="idbuttonreserve"
+                            text="Reserve"
+                            press="onReservePressbtn"
+                            type="Success"
+                            class="classButton"
+                        />
+                    </HBox>
+                </VBox>
+            </f:SimpleForm>
+        </VBox>
+    </content>
+</ScrollContainer>
                     
 
                 </pages>

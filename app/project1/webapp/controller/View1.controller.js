@@ -496,7 +496,7 @@ onReservePressbtn: async function () {
     }
 
     // Validation for Vehicle Type
-    if (!sVehicleType) {
+    if (sVehicleType !== "inbound" && sVehicleType !== "outbound") {
         sap.m.MessageBox.error("Please select either 'Inbound' or 'Outbound' for vehicle type.");
         return;
     }
@@ -537,6 +537,7 @@ onReservePressbtn: async function () {
         console.error("Error creating reservation:", error);
     }
 },
+
 // Function to check if vehicle number exists in backend
 checkVehicleExists: async function (oModel, sVehicleNo) {
     return new Promise((resolve, reject) => {
