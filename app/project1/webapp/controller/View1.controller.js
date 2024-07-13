@@ -13,11 +13,12 @@ sap.ui.define([
     return Controller.extend("com.app.project1.controller.View1", {
         onInit: function () {
 			this._setParkingLotModel();
-            // Load local JSON model for the view
-            var oModel = new JSONModel(sap.ui.require.toUrl("com/app/project1/data/model.json"));
-            this.getView().setModel(oModel);
-
-			const oLocalModel = new JSONModel({
+		
+			// Load local JSON model for the view
+			var oModel = new sap.ui.model.json.JSONModel(sap.ui.require.toUrl("com/app/project1/data/model.json"));
+			this.getView().setModel(oModel);
+		
+			const oLocalModel = new sap.ui.model.json.JSONModel({
 				VehicalDeatils: {
 					vehicalNo: "",
 					driverName: "",
@@ -33,12 +34,24 @@ sap.ui.define([
 				Requests: [] // To store requests for notifications
 			});
 			this.getView().setModel(oLocalModel, "localModel");
+		
 			var oModelV2 = this.getOwnerComponent().getModel("ModelV2");
 			this.getView().byId("pageContainer").setModel(oModelV2);
-			var oViewModel = new JSONModel({
+		
+			var oViewModel = new sap.ui.model.json.JSONModel({
 				ImageURL: "https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg"
 			});
 			this.getView().setModel(oViewModel, "viewModel");
+		
+			// Set the model for the vehicle type dropdown
+			const oVehicleTypeModel = new sap.ui.model.json.JSONModel({
+				vehicleTypes: [
+					{ key: "inbound", text: "Inbound" },
+					{ key: "outbound", text: "Outbound" }
+				]
+			});
+			this.getView().setModel(oVehicleTypeModel, "vehicleTypeModel");
+		
 		
 			// Optionally log to verify the model and property
 			var imageURL = this.getView().getModel("viewModel").getProperty("/ImageURL");
@@ -458,83 +471,128 @@ onSuggestionItemSelected: function(oEvent) {
     oLocalModel.setProperty("/plotNo_plot_NO", sPlotNo);
 },
 onReservePressbtn: async function () {
-			var oView = this.getView();
-			const oModel = oView.byId("pageContainer").getModel("ModelV2");
+    var oView = this.getView();
+    const oModel = oView.byId("pageContainer").getModel("ModelV2");
 
-			// Get input values
-			var sVehicleNo = oView.byId("InputVehicleno").getValue();
-			var sDriverName = oView.byId("InputDriverName").getValue();
-			var sPhoneNo = oView.byId("InputPhonenumber").getValue();
-			var sVehicleType = oView.byId("InputVehicletype").getValue();
-			var sParkingLot = oView.byId("idcombox1").getValue();
-			var oDateTimePicker = oView.byId("idinputdatepicker");
-			var oSelectedDateTime = oDateTimePicker.getDateValue();
+    // Get input values
+    var sVehicleNo = oView.byId("InputVehicleno").getValue();
+    var sDriverName = oView.byId("InputDriverName").getValue();
+    var sPhoneNo = oView.byId("InputPhonenumber").getValue();
+    var sVehicleType = oView.byId("InputVehicletype").getSelectedKey();
+    var sParkingLot = oView.byId("idcombox1").getValue();
+    var oDateTimePicker = oView.byId("idinputdatepicker");
+    var oSelectedDateTime = oDateTimePicker.getDateValue();
 
-			// Validation for Phone Number
-			if (!sPhoneNo || !sPhoneNo.match(/^[9876]\d{9}$/)) {
-				sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
-				return;
-			}
+    // Validation for Phone Number
+    if (!sPhoneNo || !sPhoneNo.match(/^[9876]\d{9}$/)) {
+        sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
+        return;
+    }
 
-			// Validation for Vehicle Number
-			if (!sVehicleNo || !sVehicleNo.match(/^[\w\d]{1,10}$/)) {
-				sap.m.MessageBox.error("Please enter a valid vehicle number (alphanumeric, up to 10 characters).");
-				return;
-			}
+    // Validation for Vehicle Number
+    if (!sVehicleNo || !sVehicleNo.match(/^[\w\d]{1,10}$/)) {
+        sap.m.MessageBox.error("Please enter a valid vehicle number (alphanumeric, up to 10 characters).");
+        return;
+    }
 
-			// Validation for Vehicle Type
-			if (sVehicleType !== "inward" && sVehicleType !== "outward") {
-				sap.m.MessageBox.error("Please enter either 'inward' or 'outward' for vehicle type.");
-				return;
-			}
+    // Validation for Vehicle Type
+    if (!sVehicleType) {
+        sap.m.MessageBox.error("Please select either 'Inbound' or 'Outbound' for vehicle type.");
+        return;
+    }
 
-			// Check if Vehicle Number already exists
-			const vehicleExists = await this.checkVehicleExists(oModel, sVehicleNo);
-			if (vehicleExists) {
-				sap.m.MessageBox.error("Vehicle number already exists. Please enter a different vehicle number.");
-				return;
-			}
+    // Check if Vehicle Number already exists
+    const vehicleExists = await this.checkVehicleExists(oModel, sVehicleNo);
+    if (vehicleExists) {
+        sap.m.MessageBox.error("Vehicle number already exists. Please enter a different vehicle number.");
+        return;
+    }
 
-			// Construct payload for reservation entity
-			var newmodel = new sap.ui.model.json.JSONModel({
-				vehicalNo: sVehicleNo,
-				driverName: sDriverName,
-				phone: sPhoneNo,
-				vehicalType: sVehicleType,
-				plotNo_plot_NO: sParkingLot,
-				Expectedtime: oSelectedDateTime
-			});
+    // Construct payload for reservation entity
+    var newmodel = new sap.ui.model.json.JSONModel({
+        vehicalNo: sVehicleNo,
+        driverName: sDriverName,
+        phone: sPhoneNo,
+        vehicalType: sVehicleType,
+        plotNo_plot_NO: sParkingLot,
+        Expectedtime: oSelectedDateTime
+    });
 
-			this.getView().byId("page5").setModel(newmodel, "newmodel");
-			const oPayload = this.getView().byId("page5").getModel("newmodel").getProperty("/");
+    this.getView().byId("page5").setModel(newmodel, "newmodel");
+    const oPayload = this.getView().byId("page5").getModel("newmodel").getProperty("/");
 
-			// Call OData service to create reservation
-			try {
-				await this.createData(oModel, oPayload, "/Reservation");
-				sap.m.MessageBox.success("Parking lot reserved  successfully");
-			} catch (error) {
-				sap.m.MessageBox.error("Failed to create reservation. Please try again.");
-				console.error("Error creating reservation:", error);
-			}
-		},
+    // Call OData service to create reservation
+    try {
+        await this.createData(oModel, oPayload, "/Reservation");
 
-		// Function to check if vehicle number exists in backend
-		// Function to check if vehicle number exists in backend
-		checkVehicleExists: async function (oModel, sVehicleNo) {
-			return new Promise((resolve, reject) => {
-				oModel.read("/VehicalDeatils", {
-					filters: [
-						new Filter("vehicalNo", FilterOperator.EQ, sVehicleNo)
-					],
-					success: function (oData) {
-						resolve(oData.results.length > 0);
-					},
-					error: function () {
-						reject("An error occurred while checking vehicle number existence.");
-					}
-				});
-			});
-		},
+        // Update the status of the parking slot in Page 1
+        await this.updateParkingSlotStatus(oModel, sParkingLot, false);
+
+        // Clear input fields after successful reservation
+        this.clearInputFields();
+
+        sap.m.MessageBox.success("Parking lot reserved successfully");
+    } catch (error) {
+        sap.m.MessageBox.error("Failed to create reservation. Please try again.");
+        console.error("Error creating reservation:", error);
+    }
+},
+// Function to check if vehicle number exists in backend
+checkVehicleExists: async function (oModel, sVehicleNo) {
+    return new Promise((resolve, reject) => {
+        oModel.read("/VehicalDeatils", {
+            filters: [
+                new sap.ui.model.Filter("vehicalNo", sap.ui.model.FilterOperator.EQ, sVehicleNo)
+            ],
+            success: function (oData) {
+                resolve(oData.results.length > 0);
+            },
+            error: function () {
+                reject("An error occurred while checking vehicle number existence.");
+            }
+        });
+    });
+},
+
+// Function to update the status of the parking slot
+updateParkingSlotStatus: async function (oModel, plotNo, available) {
+    return new Promise((resolve, reject) => {
+        oModel.update(`/PlotNOs('${plotNo}')`, { available: available }, {
+            success: function () {
+                resolve();
+            },
+            error: function (oError) {
+                reject("Failed to update parking slot status.");
+            }
+        });
+    });
+},
+
+// Function to clear input fields
+clearInputFields: function () {
+    var oView = this.getView();
+    oView.byId("InputVehicleno").setValue("");
+    oView.byId("InputDriverName").setValue("");
+    oView.byId("InputPhonenumber").setValue("");
+    oView.byId("InputVehicletype").setValue("");
+    oView.byId("idcombox1").setValue("");
+    oView.byId("idinputdatepicker").setDateValue(null);
+},
+
+// Function to create data in backend
+createData: async function (oModel, oPayload, sPath) {
+    return new Promise((resolve, reject) => {
+        oModel.create(sPath, oPayload, {
+            success: function (oData) {
+                resolve(oData);
+            },
+            error: function (oError) {
+                reject(oError);
+            }
+        });
+    });
+},
+
 		onReservePressbtnclear: function () {
 			var oView = this.getView();
 			oView.byId("InputVehicleno").setValue("");
