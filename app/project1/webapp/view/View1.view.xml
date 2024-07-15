@@ -732,17 +732,18 @@
                         </Table>
                         
                     </ScrollContainer>
-                      <ScrollContainer
-        id="page6"
-        horizontal="false"
-        vertical="true"
-        height="100%"
-       class="sapUiContentPadding pageBackground dimEffect"
-                         style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
-    >
+                    <ScrollContainer
+                    id="page6"
+                    horizontal="false"
+                    vertical="true"
+                    height="100%"
+                class="sapUiContentPadding pageBackground dimEffect"
+                style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
+                >
             <VBox
                 id="vbox"
                 fitContainer="true"
+                
             >
                 <suite:ChartContainer id="chartContainer">
                     <suite:content>
@@ -750,7 +751,8 @@
                             <suite:content>
                                 <viz:VizFrame
                                     id="idpiechart"
-                                    width="auto"
+                                      class="smaller-width-component"
+                                      
                                     uiConfig="{applicationSet:'fiori'}"
                                     vizType="pie"
                                     vizProperties="{
@@ -762,10 +764,11 @@
                                     selectData="myOnClickHandler"
                                     renderComplete="handleRenderComplete"
                                 >
-                                    <viz:dataset>
+                                    <viz:dataset >
                                         <viz.data:FlattenedDataset
                                             id="flattenData"
                                             data="{ParkingLotModel>/Items}"
+                                            class="dataset"
                                         >
                                             <viz.data:dimensions>
                                                 <viz.data:DimensionDefinition

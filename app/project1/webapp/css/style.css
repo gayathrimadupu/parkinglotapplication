@@ -98,3 +98,9 @@
     background-image: linear-gradient(to bottom, #aac2e8, #ffffff);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
+.smaller-width-component {
+
+}
+.dataset{
+    margin: 50rem;
+}
