@@ -205,6 +205,7 @@
                                 <ColumnListItem
                                     id="AllslotsCLI"
                                     class="classtable2"
+                                    
                                 >
                                     <cells>
                                         <Text
@@ -265,11 +266,11 @@
                     <Label
                         id="_IDGenLabel7"
                         text="Vehicel Number"
-                        class="bold-red-label"
+                         class="bold-label dark-black-text"
                     />
                     <Input
                         id="commentsTextArea"
-                        placeholder="Enter Vehicel Number"
+                        placeholder="Enter Vehicle Number"
                         value="{localModel>/VehicalDeatils/vehicalNo}"
                         tooltip="Format: AB 12 CD 3456,AB12CD3456"
                     />
@@ -279,7 +280,7 @@
                     <Label
                         id="_IDGenLabel1"
                         text="Driver Name"
-                        class="bold-red-label"
+                        class="bold-label dark-black-text"
                     />
                     <Input
                         id="driverNameInput"
@@ -294,7 +295,7 @@
                     <Label
                         id="_IDGenLabel2"
                         text="Driver Phone Number"
-                        class="bold-red-label"
+                         class="bold-label dark-black-text"
                     />
                     <Input
                         id="driverPhoneInput"
@@ -310,7 +311,7 @@
                     <Label
                         id="_IDGenLabel131"
                         text="Delivery Type"
-                        class="bold-red-label"
+                        class="bold-label dark-black-text"
                     />
                     <Select
                         id="idvehiceltype1"
@@ -326,7 +327,7 @@
                     <Label
                         id="_IDGenLabel4"
                         text="Parking Lot Number"
-                        class="bold-red-label"
+                         class="bold-label dark-black-text"
                     />
                     <Input
                         id="productInput"
@@ -368,7 +369,7 @@
                         visible="false"
                         id="_IDGenLabel5"
                         text="Inward or Outward"
-                        class="bold-red-label"
+                         class="bold-label dark-black-text"
                     />
                     <Input
                         visible="false"
@@ -439,11 +440,12 @@
                                 </OverflowToolbar>
                        
                             </headerToolbar>
-                            <columns>
+                            <columns >
                                 <Column id="idcolvehicleno">
                                     <Text
                                         id="_IDGenText8"
                                         text="Vehicle Number"
+                                         
                                     />
                                 </Column>
                                 <Column id="idcoldrivername">
@@ -483,6 +485,7 @@
                                 <ColumnListItem
                                     id="Assignedslots"
                                     class="classassigned"
+                                    
                                 >
                                     <cells>
                                         <Text
@@ -1081,13 +1084,12 @@
                         text="Date"
                         class="Bold"
                     />
-                    <DateTimePicker
-                        id="idinputdatepicker"
-                        value="{
-                            path: '/dtValue',
-                            type: 'sap.ui.model.type.DateTime'
-                        }"
-                    />
+                   <DatePicker
+    id="idinputdatepicker"
+    valueFormat="yyyy-MM-dd"
+    displayFormat="yyyy-MM-dd"
+    minDate="{ path: 'todayDate' }"
+/>
                     <HBox
                         id="_IDReserveHBox1"
                         alignItems="Center"

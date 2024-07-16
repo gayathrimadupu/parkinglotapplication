@@ -60,8 +60,19 @@ sap.ui.define([
             // if (oPage2) {
             //     oPage2.addStyleClass("pageBackground");
             // }
-        
+         // Get the current date
+    var today = new Date();
 
+    // Set the minimum date to tomorrow
+    var tomorrow = new Date(today);
+    tomorrow.setDate(today.getDate() + 1);
+
+    // Set the minimum date for the date picker
+    var oDateTimePicker = this.getView().byId("idinputdatepicker");
+    oDateTimePicker.setMinDate(tomorrow);
+
+    // Set display format to show only date
+    oDateTimePicker.setDisplayFormat("yyyy-MM-dd");
 		},
 
 		onItemSelect: function (oEvent) {
@@ -417,6 +428,7 @@ onUpdateDialogSave: function() {
 
             // Close dialog on success
             this.getView().byId("updateDialog").close();
+			
         }.bind(this),
         error: function(oError) {
             MessageBox.error("Failed to update slot: " + oError.message);
@@ -447,8 +459,8 @@ onReservePressbtn: async function () {
     var sPhoneNo = oView.byId("InputPhonenumber").getValue();
     var sVehicleType = oView.byId("InputVehicletype").getSelectedKey();
     var sParkingLot = oView.byId("idcombox1").getValue();
-    var oDateTimePicker = oView.byId("idinputdatepicker");
-    var oSelectedDateTime = oDateTimePicker.getDateValue();
+    var oDatePicker = oView.byId("idinputdatepicker");
+    var oSelectedDate = oDatePicker.getDateValue();
 
     // Validation for Phone Number
     if (!sPhoneNo || !sPhoneNo.match(/^[9876]\d{9}$/)) {
@@ -482,7 +494,7 @@ onReservePressbtn: async function () {
         phone: sPhoneNo,
         vehicalType: sVehicleType,
         plotNo_plot_NO: sParkingLot,
-        Expectedtime: oSelectedDateTime
+        Expectedtime: oSelectedDate // This will store only the date part
     });
 
     this.getView().byId("page5").setModel(newmodel, "newmodel");
@@ -599,14 +611,14 @@ createData: async function (oModel, oPayload, sPath) {
 					debugger
 					oModel.remove(orow, {
 						success: function () {
-							sap.m.MessageToast.show("success");
+							sap.m.MessageToast.show("Assigned successfully");
 							oModel.refresh()
 							oModel.update("/PlotNOs('" + temp + "')", { available: false }, {
 								success: function () {
-									sap.m.MessageToast.show("success3");
+									sap.m.MessageToast.show("Assigned successfully");
 									oModel.refresh();
 								}, error: function () {
-									sap.m.MessageBox.error("HBJKLJHGVhb");
+									sap.m.MessageBox.error("error");
 								}
 
 							})

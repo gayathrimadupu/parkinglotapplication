@@ -104,3 +104,14 @@
 .dataset{
     margin: 50rem;
 }
+.bold-label {
+    font-weight: bold;
+}
+
+.dark-black-text {
+    color: #000000; /* Dark black color */
+}
+.navy-blue-text {
+    color: #000080; /* Dark navy blue color */
+    font-weight: bold; /* Make text bold */
+}
