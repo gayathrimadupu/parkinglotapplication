@@ -265,76 +265,43 @@ sap.ui.define([
 
 	
 
-onUnassignAllPress: function () {
-    var oTable = this.getView().byId("AssignedSlotsTable");
-    var aSelectedItems = oTable.getSelectedItems();
-
-    // Check if at least two items are selected
-    if (aSelectedItems.length < 2) {
-        MessageBox.error("Please select at least two rows to unassign");
-        return;
-    }
-
-    var oModel = this.getOwnerComponent().getModel("ModelV2");
-
-    // Iterate through selected items to unassign each
-    for (var i = 0; i < aSelectedItems.length; i++) {
-        var oSelectedItem = aSelectedItems[i];
-        var oBindingContext = oSelectedItem.getBindingContext();
-        var sPath = oBindingContext.getPath();
-        var oSlot = oBindingContext.getObject();
-
-        try {
-            // Move to History
-            this.moveToHistory(oModel, oSlot);
-
-            // Delete from VehicalDeatils
-            this.deleteFromVehicalDetails(oModel, sPath);
-
-            // Update PlotNOs availability to 'empty'
-            this.updatePlotAvailability(oModel, oSlot.plotNo_plot_NO);
-        } catch (error) {
-            MessageBox.error("Failed to unassign slots: " + error.message);
-            return;
-        }
-    }
-
-    MessageBox.success("Selected slots unassigned successfully");
-},
-onUnassignPress: function () {
-    var oTable = this.getView().byId("AssignedSlotsTable");
-    var aSelectedItems = oTable.getSelectedItems();
-
-    // Check if multiple items are selected
-    if (aSelectedItems.length !== 1) {
-        MessageBox.error("Please select exactly one row to unassign");
-        return;
-    }
-
-    var oModel = this.getOwnerComponent().getModel("ModelV2");
-
-    // Get the selected item
-    var oSelectedItem = aSelectedItems[0];
-    var oBindingContext = oSelectedItem.getBindingContext();
-    var sPath = oBindingContext.getPath();
-    var oSlot = oBindingContext.getObject();
-
-    try {
-        // Move to History
-        this.moveToHistory(oModel, oSlot);
-
-        // Delete from VehicalDeatils
-        this.deleteFromVehicalDetails(oModel, sPath);
-
-        // Update PlotNOs availability to 'empty'
-        this.updatePlotAvailability(oModel, oSlot.plotNo_plot_NO);
-    } catch (error) {
-        MessageBox.error("Failed to unassign slot: " + error.message);
-        return;
-    }
-
-    MessageBox.success("Slot unassigned successfully");
-},
+		Unassign: function () {
+			var oTable = this.getView().byId("AssignedSlotsTable");
+			var aSelectedItems = oTable.getSelectedItems();
+		
+			// Check if at least one item is selected
+			if (aSelectedItems.length === 0) {
+				MessageBox.error("Please select at least one row to unassign");
+				return;
+			}
+		
+			var oModel = this.getOwnerComponent().getModel("ModelV2");
+		
+			// Iterate through selected items to unassign each
+			for (var i = 0; i < aSelectedItems.length; i++) {
+				var oSelectedItem = aSelectedItems[i];
+				var oBindingContext = oSelectedItem.getBindingContext();
+				var sPath = oBindingContext.getPath();
+				var oSlot = oBindingContext.getObject();
+		
+				try {
+					// Move to History
+					this.moveToHistory(oModel, oSlot);
+		
+					// Delete from VehicalDeatils
+					this.deleteFromVehicalDetails(oModel, sPath);
+		
+					// Update PlotNOs availability to 'empty'
+					this.updatePlotAvailability(oModel, oSlot.plotNo_plot_NO);
+				} catch (error) {
+					MessageBox.error("Failed to unassign slots: " + error.message);
+					return;
+				}
+			}
+		
+			MessageBox.success("Selected slots unassigned successfully");
+		},
+		
 
 moveToHistory: function (oModel, oSlot) {
     var oHistory = {
@@ -673,11 +640,13 @@ createData: async function (oModel, oPayload, sPath) {
                         Items: [
                             {
                                 available: true ,
-                                Count: availableCount
+                                Count: availableCount,
+								available: "Empty"
                             },
                             {
                                 available: false ,
-                                Count: occupiedCount
+                                Count: occupiedCount,
+								available: "Not Empty"
                             }
                         ]
                     };

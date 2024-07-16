@@ -433,7 +433,7 @@
                                         text="Print"
                                         press="OnPrintpress"
                                     />
-                                    <Button text="Multiple Unassign " press=".onUnassignAllPress"  type="Success"/>
+                                    <Button text=" Unassign " press=".Unassign"  type="Success"/>
                                      <Button text="Update Slot" press=".onUpdateSlotPress" type="Emphasized" />
            
                                 </OverflowToolbar>
@@ -477,10 +477,7 @@
                                     />
                                 </Column>
                                 
-            <Column>
-                <Text text="Unassign"/>
-               
-           </Column>
+            
                             </columns>
                             <items>
                                 <ColumnListItem
@@ -524,8 +521,7 @@
                                             
                                         />
                                     </cells>
-                                    <Button text="Unassign" press=".onUnassignPress" 
-                                     type= "Success" />
+                                    
                                 </ColumnListItem>
                             </items>
 
