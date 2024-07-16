@@ -111,7 +111,10 @@
 .dark-black-text {
     color: #000000; /* Dark black color */
 }
-.navy-blue-text {
-    color: #000080; /* Dark navy blue color */
-    font-weight: bold; /* Make text bold */
+.dark-blue-text {
+    color: #0000FF; /* Dark blue color */
+    font-weight: bold; /* Optional: Make text bold */
+}
+.text{
+    color:rgb(17, 45, 228)
 }

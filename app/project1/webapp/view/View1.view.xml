@@ -205,7 +205,7 @@
                                 <ColumnListItem
                                     id="AllslotsCLI"
                                     class="classtable2"
-                                    
+
                                 >
                                     <cells>
                                         <Text
@@ -442,40 +442,47 @@
                             </headerToolbar>
                             <columns >
                                 <Column id="idcolvehicleno">
-                                    <Text
+                                    <Title
                                         id="_IDGenText8"
                                         text="Vehicle Number"
+                                        class="text"
+                                        
                                          
                                     />
                                 </Column>
                                 <Column id="idcoldrivername">
-                                    <Text
+                                     <Title
                                         id="_IDGenText9"
                                         text="Driver Name"
+                                          class="text"
                                     />
                                 </Column>
                                 <Column id="idcoldriverph">
-                                    <Text
+                                       <Title
                                         id="_IDGenText10"
                                         text="Driver Ph Number"
+                                        class="text"
                                     />
                                 </Column>
                                 <Column id="idcolvehicletype">
-                                    <Text
+                                      <Title
                                         id="_IDGenText11"
                                         text="Vehicle Type"
+                                        class="text"
                                     />
                                 </Column>
                                 <Column id="idcolparkinglot">
-                                    <Text
+                                      <Title
                                         id="_IDGenText12"
                                         text="Parking Lot number"
+                                          class="text"
                                     />
                                 </Column>
                                 <Column id="idcomlparkinglot">
-                                    <Text
+                                      <Title
                                         id="_IDGenTextdate"
                                         text="Entry Date"
+                                          class="text"
                                     />
                                 </Column>
                                 
@@ -532,7 +539,7 @@
                         
                         
                     </ScrollContainer>
-                    <!-- <ScrollContainer
+                    <ScrollContainer
                         id="page4"
                         horizontal="false"
                         vertical="true"
@@ -608,7 +615,7 @@
                                 </ColumnListItem>
                             </items>
                         </Table>
-                    </ScrollContainer> -->
+                    </ScrollContainer>
                     <ScrollContainer
                          id="page5"
                         horizontal="false"
@@ -648,49 +655,51 @@
                                     id="idcolumnreservation1"
                                     class="class01"
                                 >
-                                    <Text
+                                    <Title
                                         text="Vehicle Number"
                                         id="idtextreservaton1"
-                                        class="class01"
+                                        class="text"
                                     />
                                 </Column>
                                 <Column
                                     id="idcolumnreservation2"
                                     class="class01"
                                 >
-                                    <Text
+                                     <Title
                                         text="Driver Name"
                                         id="idtextreservaton2"
-                                        class="class01"
+                                        class="text"
                                     />
                                 </Column>
                                 <Column
                                     id="idcolumnreservation3"
                                     class="class01"
                                 >
-                                    <Text
+                                    <Title
                                         text="Phone"
                                         id="idtextreservaton3"
-                                        class="class01"
+                                       class="text"
                                     />
                                 </Column>
                                 <Column id="idcolumnreservation4">
-                                    <Text
+                                   <Title
                                         text="Vehicle Type"
                                         id="idtextreservaton4"
-                                        class="class01"
+                                         class="text"
                                     />
                                 </Column>
                                 <Column id="idcolumnreservation5">
-                                    <Text
+                                    <Title
                                         text="Expected Time"
                                         id="idtextreservaton5"
+                                         class="text"
                                     />
                                 </Column>
                                 <Column id="idcolumnreservation6">
-                                    <Text
+                                   <Title
                                         text="Plot Number"
                                         id="idtextreservaton6"
+                                        class="text"
                                     />
                                 </Column>
                             </columns>
@@ -887,45 +896,52 @@
                             </headerToolbar>
                             <columns>
                                 <Column id="idcolvehiclenoHistory">
-                                    <Text
+                                    <Title
                                         id="idtexthistoryvhno"
                                         text="Vehicle Number"
+                                        class="text"
                                     />
                                 </Column>
                                 <Column id="idcoldrivernameHistory">
-                                    <Text
+                                    <Title
                                         id="idtexthistoryname"
                                         text="Driver Name"
+                                        class="text"
                                     />
                                 </Column>
                                 <Column id="idcoldriverphHistory">
-                                    <Text
+                                    <Title
                                         id="idtexthistoryphno"
                                         text="Driver Ph Number"
+                                        class="text"
                                     />
                                 </Column>
                                 <Column id="idcolvehicletypeHistory">
-                                    <Text
+                                     <Title
                                         id="idtexthistoryvtype"
                                         text="Vehicle Type"
+                                        class="text"
                                     />
                                 </Column>
                                 <Column id="idcolparkinglotHistory">
-                                    <Text
+                                          <Title
                                         id="idtexthistoryplot"
                                         text="Parking Lot Number"
+                                          class="text"
                                     />
                                 </Column>
                                 <Column id="idcolintime">
-                                    <Text
+                                      <Title
                                         id="idtexthistoryintime"
                                         text="In Time"
+                                          class="text"
                                     />
                                 </Column>
                                 <Column id="idcolouttime">
-                                    <Text
+                                    <Title
                                         id="idtexthistoryoutime"
                                         text="Out Time"
+                                        class="text"
                                     />
                                 </Column>
                             </columns>
@@ -1009,8 +1025,8 @@
                 <VBox id="ReserveVbox">
                     <Label
                         id="idVehicleNumberLabel"
-                        text="Vehicle No"
-                        class="Bold"
+                        text="Vehicle Number"
+                     class="bold-label dark-black-text"
                     />
                     <Input
                         id="InputVehicleno"
@@ -1020,7 +1036,7 @@
                     <Label
                         id="idDriverNameLabel"
                         text="Driver Name"
-                        class="Bold"
+                        class="bold-label dark-black-text"
                     />
                     <Input
                         id="InputDriverName"
@@ -1030,7 +1046,7 @@
                     <Label
                         id="idphonenumberLabel"
                         text="Phone Number"
-                        class="Bold"
+                       class="bold-label dark-black-text"
                     />
                     <Input
                         id="InputPhonenumber"
@@ -1040,7 +1056,7 @@
                     <Label
                         id="idVehicletypeLabel"
                         text="Vehicle Type"
-                        class="Bold"
+                        class="bold-label dark-black-text"
                     />
                     <ComboBox
                         id="InputVehicletype"
@@ -1056,7 +1072,7 @@
                     <Label
                         id="idParkinglotLabel"
                         text="Parking lot"
-                        class="Bold"
+                        class="bold-label dark-black-text"
                     />
                     <ComboBox
                         id="idcombox1"
@@ -1082,7 +1098,7 @@
                     <Label
                         id="idtypedate"
                         text="Date"
-                        class="Bold"
+                         class="bold-label dark-black-text"
                     />
                    <DatePicker
     id="idinputdatepicker"

@@ -165,11 +165,11 @@ sap.ui.define([
 				return;
 			}
 		
-			// Validate phone number format
-			var trimmedPhone = phone.trim();
-			var phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[789]\d{9}$/;
-			if (!phoneRegex.test(trimmedPhone)) {
-				MessageToast.show("Please enter a valid phone number");
+			
+			
+			 // Validation for Phone Number
+			 if (!phone || !phone.match(/^[9876]\d{9}$/)) {
+				sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
 				return;
 			}
 		
