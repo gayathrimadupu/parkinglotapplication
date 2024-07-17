@@ -1,1 +1,1 @@
-ID,vehicalNo,driverName,phone,vehicalType,Expectedtime,plotNo_plot_NO
+vehicalNo,driverName,phone,vehicalType,Expectedtime,plotNo_plot_NO,vendorname,vendorNumber

@@ -6,4 +6,7 @@ service CatalogService {
     entity Allotment      as projection on my.Allotment;
     entity History        as projection on my.History;
     entity Reservation    as projection on my.Reservation;
+    // entity Reservations as projection on my.Reservations;
+    // entity ReservedSlots as projection on my.ReservedSlots;
+
 }

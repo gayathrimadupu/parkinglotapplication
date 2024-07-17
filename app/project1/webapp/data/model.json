@@ -18,7 +18,7 @@
 		},
 		
 		{
-			"title": "Reserve a lot",
+			"title": "Reservation Requests",
 			"key": "page5"
 		},
 		{
@@ -36,6 +36,7 @@
 			
 			"key": "page8"
 		}
+		
 		
 	]
 }

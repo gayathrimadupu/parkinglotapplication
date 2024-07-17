@@ -661,6 +661,7 @@
                                         class="text"
                                     />
                                 </Column>
+                                 
                                 <Column
                                     id="idcolumnreservation2"
                                     class="class01"
@@ -702,6 +703,20 @@
                                         class="text"
                                     />
                                 </Column>
+                                <Column id="idcolumnreservation11">
+                                   <Title
+                                        text="Vendor name"
+                                        id="idtextreservaton44"
+                                         class="text"
+                                    />
+                                </Column>
+                                 <Column id="idcolumnreservation444">
+                                   <Title
+                                        text="Vendor number"
+                                        id="idtextreservaton444"
+                                         class="text"
+                                    />
+                                </Column>
                             </columns>
                             <items>
                                 <ColumnListItem
@@ -733,6 +748,14 @@
                                         <Text
                                             text="{plotNo_plot_NO}"
                                             id="idtextreservationptno"
+                                        />
+                                        <Text
+                                            text="{vendorname}"
+                                            id="idvendorname"
+                                        />
+                                        <Text
+                                            text="{vendorNumber}"
+                                            id="idvendornumber"
                                         />
                                     </cells>
                                 </ColumnListItem>
@@ -1125,6 +1148,8 @@
         </VBox>
     </content>
 </ScrollContainer>
+
+
                     
 
                 </pages>

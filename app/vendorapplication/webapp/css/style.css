@@ -1,1 +1,120 @@
+.hidden {
+    display: none;
+}
+ 
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-100%);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+ 
+.slideDown {
+    display: flex;
+    animation: slideDown 0.5s ease-out;
+}
+ 
+ 
+ 
 /* Enter your custom styles here */
+.HomePageBackground {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    padding: 2rem;
+}
+ 
+.mainContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    gap: 2rem;
+}
+ 
+.descriptionContainer {
+    padding: 1rem;
+    text-align: left;
+    margin: auto;
+    margin-top: 13rem;
+}
+.TextParkingLot{
+    color: rgb(30, 248, 230);
+    font-size: x-large;
+    font-style: oblique;
+}
+ 
+.ParkingSubtitle{
+    color: rgb(9, 231, 183);
+    font-size: medium;
+    font-style: normal;
+}
+ 
+.loginContainer {
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 100%;
+    text-align: start;
+    margin: auto;
+    margin-top: 0.5rem;
+    margin-left: 13rem;
+}
+ 
+.sapUiSmallMarginTop {
+    margin-top: 1rem;
+}
+ 
+ 
+.HeaderName{
+    margin: auto;
+    font-size: medium;
+    font-weight: bolder;
+}
+ 
+.header {
+    justify-content: flex-end;
+    background-color: rgba(0, 0, 0, 0.568);
+}
+ 
+.navButton1 {
+    margin: auto;
+    margin-top: 10px;
+}
+.navButton {
+    margin: 10px;
+    font-size: medium;
+}
+ 
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .mainContainer {
+        margin-top: 2rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+ 
+    .descriptionContainer,
+    .loginContainer {
+        max-width: 100%;
+        width: 100%;
+        margin: 0;
+    }
+ 
+    .descriptionContainer {
+        text-align: center;
+    }
+}

@@ -1,0 +1,121 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Dialog
+        id="dialog"
+        resizable="false"
+        draggable="true"
+        contentWidth="30%"
+        title="Confirmation to Reserve a Slot for Vendor:"
+    >
+        <beginButton>
+            <Button
+                id="idReserveConfirm"
+                text="Reserve"
+                press="onReserveSlotBtnPress"
+                type="Transparent"
+            />
+        </beginButton>
+        <endButton>
+            <Button
+                id="idCancelreserveslotButton"
+                text="Cancel"
+                press="onCloseReserveSlotDialog"
+                type="Transparent"
+            />
+        </endButton>
+        <content>
+            <form:SimpleForm
+                id="idReserveSlotConfirmForm"
+                editable="true"
+                layout="ResponsiveGridLayout"
+                labelSpanXL="3"
+                labelSpanL="3"
+                labelSpanM="3"
+                labelSpanS="12"
+                adjustLabelSpan="false"
+                emptySpanXL="4"
+                emptySpanL="4"
+                emptySpanM="4"
+                emptySpanS="0"
+                columnsXL="1"
+                columnsL="1"
+                columnsM="1"
+                singleContainerFullSize="false"
+            >
+                <Label
+                    id="idLableName"
+                    text="Vendor Name"
+                />
+                <Input
+                    id="idNewUserNameInput"
+                    value="{oConfirmRequestModel>/vendorName}"
+                    editable="false"
+                />
+                <Label
+                    id="idLableNumber"
+                    text="Vendor Number"
+                />
+                <Input
+                    id="idEmailInput"
+                    value="{oConfirmRequestModel>/vendorNumber}"
+                    editable="false"
+                />
+                <Label
+                    id="idLableDriverName"
+                    text="Driver Name"
+                />
+                <Input
+                    id="idUserNameInput"
+                    value="{oConfirmRequestModel>/driverName}"
+                    editable="false"
+                />
+                <Label
+                    id="idLablePhoneNumber"
+                    text="Driver Number"
+                />
+                <Input
+                    id="idPhoneNumberInput"
+                    value="{oConfirmRequestModel>/driverNumber}"
+                    editable="false"
+                />
+ 
+                <Label
+                    id="idLableVehicleType"
+                    text="Vehicle Type"
+                />
+                <Input
+                    id="idCreatePasswordInput"
+                    value="{oConfirmRequestModel>/vehicleType}"
+                    editable="false"
+                />
+                <Label
+                    id="idLableVehicleNumber"
+                    text="Vehicle Number"
+                />
+                <Input
+                    id="idInputuserType"
+                    value="{oConfirmRequestModel>/vehicleNumber}"
+                    editable="false"
+                />
+                <Label
+                    id="idLableSlotNum"
+                    text="Select Slot"
+                />
+                <Select
+                    id="idselectSlotReserve"
+                    width="80%"
+                    items="{path: '/AllSlots', filters: [{path: 'status', operator: 'EQ', value1: 'Available'}]}"
+                >
+                    <core:Item
+                        id="idCoreSelectSlot"
+                        key="{ID}"
+                        text="{slotNumber}"
+                    />
+                </Select>
+            </form:SimpleForm>
+        </content>
+    </Dialog>
+</core:FragmentDefinition>

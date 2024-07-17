@@ -20,7 +20,7 @@ entity VehicalDeatils {
       assignedDate   : DateTime;
       unassignedDate : String;
       plotNo         : Association to PlotNOs;
-      vendorname : String
+      
 
 }
 
@@ -37,13 +37,39 @@ entity History : cuid {
   vehicalType    : String;
   assignedDate   : DateTime;
   unassignedDate : DateTime;
-  plotNo         :  String;
+  plotNo         : String;
 }
+
 entity Reservation {
- key vehicalNo    : String;
+  key vehicalNo    : String;
       driverName   : String;
       phone        : Integer64;
       vehicalType  : String;
       Expectedtime : DateTime;
-      plotNo       : Association to PlotNOs
+      plotNo       : Association to PlotNOs;
+      vendorname     : String;
+      vendorNumber :Integer64
 }
+
+// entity Reservations {
+//   key ID            : UUID;
+//       vendorName    : String;
+//       vendorNumber  : String;
+//       driverName    : String;
+//       driverNumber  : String;
+//       vehicleType   : String;
+//       vehicleNumber : String;
+//       inTime        : DateTime;
+
+// }
+
+// entity ReservedSlots {
+//   key ID            : UUID;
+//       vendorName    : String;
+//       vendorNumber  : String;
+//       driverName    : String;
+//       driverNumber  : String;
+//       vehicleType   : String;
+//       vehicleNumber : String;
+//       reserveSlot   : Association to PlotNOs;
+// }

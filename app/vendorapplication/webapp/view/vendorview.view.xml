@@ -1,7 +1,169 @@
-<mvc:View controllerName="com.app.vendorapplication.controller.vendorview"
-    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
-    xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
-        <content />
+<mvc:View
+    controllerName="com.app.vendorapplication.controller.vendorview"
+    xmlns:mvc="sap.ui.core.mvc"
+    displayBlock="true"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+>
+    <Page
+        id="idPage"
+        showHeader="false"
+        class="HomePageBackground"
+    >
+        <content>
+            <VBox
+                id="idreservevbox"
+                alignItems="Center"
+                justifyContent="Center"
+                class="sapUiContentPadding pageBackground dimEffect"
+                style="background-image: url('https://i.postimg.cc/HxdccK23/loading-docks-19268044-transformed-3.jpg');"
+            >
+                <f:SimpleForm
+                    id="reservationForm"
+                    layout="ResponsiveGridLayout"
+                    editable="true"
+                    columnsM="2"
+                    columnsL="3"
+                    columnsXL="4"
+                    class="SimpleForm"
+                >
+                    <Title
+                        id="idtitlereserva"
+                        text="LOT RESERVATION"
+                        class="Reserveheading"
+                    />
+                     <Label
+                        id="idVendorNumberLabel"
+                        text="Vendor Number"
+                        class="bold-label dark-black-text"
+                    />
+                    <Input
+                        id="InputVendornumber"
+                        value=""
+                        placeholder="Enter Vendor number"
+                    />
+                    <Label
+                        id="idVendorNameLabel"
+                        text="Vendor Name"
+                        class="bold-label dark-black-text"
+                    />
+                    <Input
+                        id="InputVedorname"
+                        value=""
+                        placeholder="Enter Vendor Name"
+                    />
+
+                  
+                    <!-- Vehicle Number -->
+                    <Label
+                        id="idVehicleNumberLabel"
+                        text="Vehicle Number"
+                        class="bold-label dark-black-text"
+                    />
+                    <Input
+                        id="InputVehicleno"
+                        value=""
+                        placeholder="Enter Vehicle Number"
+                    />
+
+                    <!-- Driver Name -->
+                    <Label
+                        id="idDriverNameLabel"
+                        text="Driver Name"
+                        class="bold-label dark-black-text"
+                    />
+                    <Input
+                        id="InputDriverName"
+                        value=""
+                        placeholder="Enter Driver Name"
+                    />
+
+                    <!-- Phone Number -->
+                    <Label
+                        id="idphonenumberLabel"
+                        text="Phone Number"
+                        class="bold-label dark-black-text"
+                    />
+                    <Input
+                        id="InputPhonenumber"
+                        value=""
+                        placeholder="Enter Phone number"
+                    />
+
+                    <!-- Vehicle Type -->
+                    
+                    <!-- Parking Lot -->
+                    <Label
+                        id="idParkinglotLabel"
+                        text="Parking lot"
+                        class="bold-label dark-black-text"
+                    />
+                    <ComboBox
+                        id="idcombox1"
+                        placeholder="select your lot"
+                        value="{plotNo}"
+                        items="{
+                            path: '/PlotNOs',
+                            sorter: {
+                                path: 'plot_NO'
+                            },
+                            filters: [{
+                                path: 'available',
+                                operator: 'EQ',
+                                value1: true
+                            }]
+                        }"
+                    >
+                        <core:Item
+                            id="idcoreitems"
+                            text="{plot_NO}"
+                        />
+                    </ComboBox>
+                      <Label
+                        id="idVehicletypeLabel"
+                        text="Vehicle Type"
+                        class="bold-label dark-black-text"
+                    />
+                  <ComboBox
+    id="InputVehicletype"
+    placeholder="Select Vehicle Type"
+    selectedKey=""
+>
+    <core:Item key="inbound" text="Inbound" />
+    <core:Item key="outbound" text="Outbound" />
+</ComboBox>
+
+                    <!-- Date -->
+                    <Label
+                        id="idtypedate"
+                        text="Date"
+                        class="bold-label dark-black-text"
+                    />
+                    <DatePicker
+                        id="idinputdatepicker"
+                        valueFormat="yyyy-MM-dd"
+                        displayFormat="yyyy-MM-dd"
+                        minDate="{ path: 'todayDate' }"
+                        value=""
+                    />
+
+                    <HBox
+                        id="_IDReserveHBox1"
+                        alignItems="Center"
+                        class="classHbox"
+                        justifyContent="Start"
+                    >
+                        <Button
+                            id="idbuttonreserve"
+                            text="Reserve"
+                            press="onReservePressbtn"
+                            type="Success"
+                            class="classButton"
+                        />
+                    </HBox>
+                </f:SimpleForm>
+            </VBox>
+        </content>
     </Page>
 </mvc:View>
