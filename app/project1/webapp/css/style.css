@@ -118,3 +118,12 @@
 .text{
     color:rgb(17, 45, 228)
 }
+.customIconColor {
+    color: blue;
+}
+.customPopoverContent {
+    width: 600px;
+    height: 200px;
+    overflow: auto; /* Optional: Add this to handle overflow content */
+   
+}

@@ -87,7 +87,7 @@ sap.ui.define([
                 // await this.updateParkingSlotStatus(oModel, sParkingLot, false);
 
                 // Clear input fields after successful reservation
-                sap.m.MessageBox.success("Parking lot reserved successfully");
+                sap.m.MessageBox.success("Parking lot reservation request sent successfully");
                 setTimeout(() => {
                     oView.byId("InputVedorname").setValue("");
                     oView.byId("InputVendornumber").setValue("");
@@ -104,6 +104,7 @@ sap.ui.define([
                 console.error("Error creating reservation:", error);
             }
         },
+       
         
 
         // Function to check if vehicle number exists in backend
