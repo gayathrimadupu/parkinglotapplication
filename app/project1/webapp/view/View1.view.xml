@@ -45,13 +45,7 @@
                         />
                     </layoutData>
                 </ToolbarSpacer>
-                <Button
-                    visible="false"
-                    icon="sap-icon://search"
-                    type="Transparent"
-                    id="searchButton"
-                    tooltip="Search"
-                />
+                 
                 <OverflowToolbarButton
                     id="_IDGenOverflowToolbarButton1"
                     icon="sap-icon://print"
@@ -76,6 +70,29 @@
                         />
                     </layoutData>
                 </ToolbarSeparator>
+             
+
+                <Button
+                    id="_IDGenButton1"
+                    icon="sap-icon://bell"
+                    type="Transparent"
+                    tooltip="Notification"
+                    press="OnpressNotify"
+                >
+                    <customData>
+                        <BadgeCustomData
+                            id="idnotification7"
+                            value="{/Reservation/$count}"
+                            visible="true"
+                        />
+                    </customData>
+                    <layoutData>
+                        <OverflowToolbarLayoutData
+                            id="_IDGenOverflowToolbarLayoutData8"
+                            priority="NeverOverflow"
+                        />
+                    </layoutData>
+                </Button>
               
                 <tnt:ToolHeaderUtilitySeparator
                     id="_IDGenToolHeaderUtilitySeparator1"
@@ -179,6 +196,7 @@
                                     <ToolbarSpacer
                                         id="idTableHeaderSpacertable2"
                                     />
+                                    
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
@@ -1123,12 +1141,11 @@
                         text="Date"
                          class="bold-label dark-black-text"
                     />
-                   <DatePicker
-    id="idinputdatepicker"
-    valueFormat="yyyy-MM-dd"
-    displayFormat="yyyy-MM-dd"
-    minDate="{ path: 'todayDate' }"
-/>
+                     <DateTimePicker
+        id="idinputdatetimepicker"
+        valueFormat="yyyy-MM-dd HH:mm:ss"
+        displayFormat="yyyy-MM-dd HH:mm:ss"
+    />
                     <HBox
                         id="_IDReserveHBox1"
                         alignItems="Center"

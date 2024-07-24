@@ -8,6 +8,7 @@ sap.ui.define(
  
         return BaseController.extend("com.app.project1.controller.Basecontroller", {
             onInit: function () {
+                
  
             },
             //Performing curd operations
@@ -37,7 +38,19 @@ sap.ui.define(
                         }
                     })
                 })
-            }
+            },
+            getRouter: function () {
+                return this.getOwnerComponent().getRouter();
+              },
+              loadFragment: async function (sFragmentName) {
+                const oFragment = await Fragment.load({
+                  id: this.getView().getId(),
+                  name: `com.app.project1.fragment.${sFragmentName}`,
+                  controller: this
+                });
+                this.getView().addDependent(oFragment);
+                return oFragment
+              },
         });
     }
 );

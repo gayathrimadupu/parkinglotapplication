@@ -50,6 +50,12 @@ entity Reservation {
       vendorname     : String;
       vendorNumber :Integer64
 }
+// entity notifications {
+//   key ID : UUID;
+//   message : String(1000);
+//   timestamp : DateTime;
+//     reservationID: UUID; // Related reservation ID
+// }
 
 // entity Reservations {
 //   key ID            : UUID;
