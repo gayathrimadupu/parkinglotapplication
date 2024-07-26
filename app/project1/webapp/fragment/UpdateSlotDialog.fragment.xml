@@ -3,13 +3,14 @@
         <content>
             <VBox>
                 <Label text="Vehicle Number" />
-                <Input value="{localModel>/vehicalNo}" editable="false" />
+                <Input id="__hgvbn" value="{localModel>/vehicalNo}" editable="false" />
 
                 <Label text="Driver Name" />
-                <Input value="{localModel>/driverName}" editable="false" />
+                <Input id="_iuytfghj" value="{localModel>/driverName}" editable="false" />
 
                 <Label text="Plot Number" />
                 <Input
+                id="_iuytffghghj"
                     placeholder="Select ParkingLot"
                     showSuggestion="true"
                     showValueHelp="true"

@@ -48,13 +48,15 @@ entity Reservation {
       Expectedtime : DateTime;
       plotNo       : Association to PlotNOs;
       vendorname     : String;
-      vendorNumber :Integer64
+      vendorNumber :Integer64;
+      notify : String;
 }
-// entity notifications {
-//   key ID : UUID;
-//   message : String(1000);
-//   timestamp : DateTime;
-//     reservationID: UUID; // Related reservation ID
+// define entity Notifications {
+//     key id          : UUID;
+//         nvendorName : String;
+//         parkinglot  : Association to PlotNOs;
+//         message     : String;
+//         ndate       : Date;
 // }
 
 // entity Reservations {

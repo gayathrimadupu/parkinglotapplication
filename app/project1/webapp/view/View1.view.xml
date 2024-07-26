@@ -79,19 +79,20 @@
                     tooltip="Notification"
                     press="OnpressNotify"
                 >
+                
                     <customData>
                         <BadgeCustomData
                             id="idnotification7"
-                            value="{/Reservation/$count}"
-                            visible="true"
+                             value="{/Reservation/$count}"
+                               visible="{= ${/Reservation/$count} > 0 }"
                         />
                     </customData>
-                    <layoutData>
+                    <!-- <layoutData>
                         <OverflowToolbarLayoutData
                             id="_IDGenOverflowToolbarLayoutData8"
                             priority="NeverOverflow"
                         />
-                    </layoutData>
+                    </layoutData> -->
                 </Button>
               
                 <tnt:ToolHeaderUtilitySeparator
@@ -450,10 +451,11 @@
                                         type="Success"
                                         tooltip="Print"
                                         text="Print"
-                                        press="OnPrintpress"
+                                        press="onPrint"
                                     />
+                           
                                     <Button text=" Unassign " press=".Unassign"  type="Success"/>
-                                     <Button text="Update Slot" press=".onUpdateSlotPress" type="Emphasized" />
+                                    
            
                                 </OverflowToolbar>
                        
@@ -503,6 +505,13 @@
                                           class="text"
                                     />
                                 </Column>
+                                 <Column id="idcomlEMPTY">
+                                      <Title
+                                        id="_IDGenEMPTY"
+                                    
+                                          class="text"
+                                    />
+                                </Column>
                                 
             
                             </columns>
@@ -537,10 +546,27 @@
                                         />
                                     </cells>
                                     <cells>
-                                        <Text
-                                            id="_IDGenText17"
-                                            text="{plotNo_plot_NO}"
-                                        />
+                                         <VBox id="idedittext">
+                                            <Input
+                                                id="_IDGenText88"
+                                                value="{plotNo_plot_NO}"
+                                                editable="false"
+                                                visible="true"
+                                            />
+                                            <Select
+                                                visible="false"
+                                                id="parkingLotSelect"
+                                                required="true"
+                                                editable="true"
+                                                items="{path: '/PlotNOs', filters: [{path: 'available', operator: 'EQ', value1:true }], templateShareable: true}"
+                                            >
+                                                <core:Item
+                                                    id="_IDGenItem3"
+                                                    key="{plot_NO}"
+                                                    text="{plot_NO}"
+                                                />
+                                            </Select>
+                                        </VBox>
                                     </cells>
                                     <cells>
                                         <Text
@@ -548,6 +574,12 @@
                                             text="{assignedDate}"
                                             
                                         />
+                                    </cells>
+                                    <cells>
+                                   <Button text= "edit"
+                                    press="onEditpress"  
+                                    type="Success"/>
+
                                     </cells>
                                     
                                 </ColumnListItem>
@@ -666,6 +698,7 @@
                                         text="assign"
                                         type="Success"
                                     />
+                                      <Button id="_IDRefresh" icon="sap-icon://synchronize" press="onrefresh" type="Success" /> 
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
