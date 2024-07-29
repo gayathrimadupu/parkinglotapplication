@@ -29,7 +29,7 @@ sap.ui.define([
 				VehicalDeatils: {
 					vehicalNo: "",
 					driverName: "",
-					phone: 0,
+					phone: "",
 					vehicalType: "",
 					assignedDate: "",
 					unassignedDate: "",
@@ -141,255 +141,7 @@ sap.ui.define([
 			this.getView().byId("ReservationTable").getBinding("items").refresh();
 		},
 
-		//Assign the vehicel to the parking lot
-		// onAssignPress: async function () {
-		// 	debugger
-		// 	const oPayload = this.getView().byId("page1").getModel("localModel").getProperty("/");
-		// 	const { driverName, phone, vehicalNo } = this.getView().byId("page1").getModel("localModel").getProperty("/").VehicalDeatils;
-		// 	const vehicalType = this.getView().byId("idvehiceltype1").getSelectedKey();
-		// 	const oModel = this.getView().byId("pageContainer").getModel("ModelV2"); // Assuming "ModelV2" is your ODataModel
-		// 	const plotNo = this.getView().byId("productInput").getValue();
-		// 	oPayload.VehicalDeatils.plotNo_plot_NO = plotNo;
-		// 	oPayload.VehicalDeatils.vehicalType = vehicalType;
-
-
-		// 	//Assingning the current time to the vehicel data.
-		// 	const Intime = new Date;
-		// 	oPayload.VehicalDeatils.assignedDate = Intime;
-
-
-		// 	if (!(driverName && phone && vehicalNo && vehicalType && plotNo)) {
-		// 		MessageToast.show("Enter all details")
-		// 		return
-		// 	}
-		// 	// Validate vehicle number format
-		// 	if (!vehicalNo.match(/^([A-Z]{2}\s?\d{2}\s?[A-Z]{2}\s?\d{4})$/)) {
-		// 		MessageToast.show("Please enter a valid vehicle number format (e.g., AB 12 CD 3456) or (e.g.,AB12CD3456)");
-		// 		return;
-		// 	}
-
-		// 	// Validate driver name format
-		// 	if (!driverName.match(/^[a-zA-Z\s]{3,}$/)) {
-		// 		MessageToast.show("Please enter a valid driver name (at least 3 letters, no special characters or numbers)");
-		// 		return;
-		// 	}
-
-
-
-		// 	// Validation for Phone Number
-		// 	if (!phone || !phone.match(/^[9876]\d{9}$/)) {
-		// 		sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
-		// 		return;
-		// 	}
-		// 	var isReserved = await this.checkParkingLotReservation12(oModel, plotNo);
-		//     if (isReserved) {
-		//         sap.m.MessageBox.error(`Parking lot is already reserved. Please select another parking lot.`, {
-		//             title: "Reservation Information",
-		//             actions: sap.m.MessageBox.Action.OK
-		//         });
-		//         return;
-		//     }
-
-
-
-		// 	var oVehicleExist = await this.checkVehicleNo(oModel, oPayload.VehicalDeatils.vehicalNo)
-		// 	if (oVehicleExist) {
-		// 		MessageToast.show("Vehicle already exsist")
-		// 		return
-		// 	};
-		// 	const plotAvailability = await this.checkPlotAvailability(oModel, plotNo);
-		// 	if (!plotAvailability) {
-		// 		sap.m.MessageBox.information(`${plotNo} is not available now.Choose another Parking Lot.`,
-		// 			{
-		// 				title: "Allocation Information",
-		// 				actions: sap.m.MessageBox.Action.OK
-		// 			}
-		// 		);
-		// 		return;
-		// 	}
-
-		// 	try {
-		// 		// Assuming createData method sends a POST request
-		// 		var create = await this.createData(oModel, oPayload.VehicalDeatils, "/VehicalDeatils");
-		// 		if (create) {
-
-		// 			function makeAnnouncement(message, lang = 'en-US') {
-		// 				// Check if the browser supports the Web Speech API
-		// 				if ('speechSynthesis' in window) {
-		// 					// Create a new instance of SpeechSynthesisUtterance
-		// 					var utterance = new SpeechSynthesisUtterance(message);
-
-		// 					// Set properties (optional)
-		// 					utterance.pitch = 1; // Range between 0 (lowest) and 2 (highest)
-		// 					utterance.rate = 0.77;  // Range between 0.1 (lowest) and 10 (highest)
-		// 					utterance.volume = 1; // Range between 0 (lowest) and 1 (highest)
-		// 					utterance.lang = lang; // Set the language
-
-		// 					// Speak the utterance
-		// 					window.speechSynthesis.speak(utterance);
-		// 				} else {
-		// 					console.log('Sorry, your browser does not support the Web Speech API.');
-		// 				}
-		// 			}
-
-		// 			// Example usage
-		// 			// makeAnnouncement(`कृपया ध्यान दें। वाहन नंबर ${vehicalNo} को स्लॉट नंबर ${plotNo} द्वारा आवंटित किया गया है।`, 'hi-IN');
-		// 			makeAnnouncement(`దయచేసి వినండి. వాహనం నంబర్ ${vehicalNo}కు స్లాట్ నంబర్ ${plotNo} కేటాయించబడింది.`, 'te-IN');
-
-		// 			// Replace with your actual Twilio Account SID and Auth Token
-		// 			const accountSid = 'ACc087461333853e771f27f1589f7eb162';
-		// 			const authToken = '8fe2b5650786a1efc6b59a17cafc05d0';
-		// 			var to = "+91" + phone;
-
-		// 			// Function to send SMS using Twili
-		// 			debugger
-		// 			const toNumber = to; // Replace with recipient's phone number
-		// 			const fromNumber = '+13203173039'; // Replace with your Twilio phone number
-		// 			const messageBody = 'Hello '
-		// 				+ driverName +
-		// 				',\n'
-		// 				+
-		// 				'Your vehicle ('
-		// 				+ vehicalNo +
-		// 				') has been assigned to parking lot '
-		// 				+
-		// 				plotNo
-		// 				+
-		// 				'.\n'
-		// 				+
-		// 				'Please park your vehicle in the assigned slot.\n'
-		// 				+
-		// 				'Thank you,\n'
-		// 				+
-		// 				'By Artihcus Global.\n\n'
-
-
-		// 			// Twilio API endpoint for sending messages
-		// 			const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
-
-		// 			// Payload for the POST request
-		// 			const payload = {
-		// 				To: toNumber,
-		// 				From: fromNumber,
-		// 				Body: messageBody
-		// 			};
-
-		// 			// Send POST request to Twilio API using jQuery.ajax
-		// 			$.ajax({
-		// 				url: url,
-		// 				type: 'POST',
-		// 				headers: {
-		// 					'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
-		// 				},
-		// 				data: payload,
-		// 				success: function (data) {
-		// 					console.log('SMS sent successfully:', data);
-		// 					// Handle success, e.g., show a success message
-		// 					sap.m.MessageToast.show('SMS sent successfully!');
-		// 				},
-		// 				error: function (xhr, status, error) {
-		// 					console.error('Error sending SMS:', error);
-		// 					// Handle error, e.g., show an error message
-		// 					sap.m.MessageToast.show('Failed to send SMS: ' + error);
-		// 				}
-		// 			});
-
-		// 		}
-		// 		//await this.createData(oModel, oPayload.VehicalDeatils, "/History");
-		// 		sap.m.MessageBox.information(
-		// 			`Vehicel No ${vehicalNo} allocated to Slot No ${plotNo}`,
-		// 			{
-		// 				title: "Allocation Information",
-		// 				actions: sap.m.MessageBox.Action.OK
-		// 			}
-		// 		);
-		// 		oModel.update("/PlotNOs('" + plotNo + "')", oPayload.plotNo, {
-		// 			success: function () {
-		// 				this.getView().byId("page1").getModel("localModel").setProperty("/VehicalDeatils", {
-		// 					vehicalNo: "",
-		// 					driverName: "",
-		// 					phone: "",
-		// 					vehicalType: "",
-		// 					plotNo_plot_NO: ""
-		// 				});
-		// 				this.getView().byId("productInput").setValue("");
-		// 				this.getView().byId("page1").getModel("localModel").setProperty("/VehicalDeatils/vehicalType", vehicalType);
-
-		// 			}.bind(this),
-		// 			error: function (oError) {
-
-		// 				sap.m.MessageBox.error("Failed to update: " + oError.message);
-		// 			}.bind(this)
-		// 		});
-
-		// 	} catch (error) {
-		// 		console.error("Error:", error);
-		// 	}
-		// },
-		// checkVehicleNo: async function (oModel, sVehicalNo) {
-		// 	return new Promise((resolve, reject) => {
-		// 		oModel.read("/VehicalDeatils", {
-		// 			filters: [
-		// 				new Filter("vehicalNo", FilterOperator.EQ, sVehicalNo),
-
-		// 			],
-		// 			success: function (oData) {
-		// 				resolve(oData.results.length > 0);
-		// 			},
-		// 			error: function () {
-		// 				reject(
-		// 					"An error occurred while checking username existence."
-		// 				);
-		// 			}
-		// 		})
-		// 	})
-		// },
-		// checkParkingLotReservation12: async function (oModel, plotNo) {
-		//     return new Promise((resolve, reject) => {
-		//         oModel.read("/Reservation", {
-		//             filters: [
-		//                 new sap.ui.model.Filter("plotNo_plot_NO", sap.ui.model.FilterOperator.EQ, plotNo)
-		//             ],
-		//             success: function (oData) {
-		//                 resolve(oData.results.length > 0);
-		//             },
-		//             error: function () {
-		//                 reject("An error occurred while checking parking lot reservation.");
-		//             }
-		//         });
-		//     });
-		// },
-
-		// checkPlotAvailability: async function (oModel, plotNo) {
-		// 	return new Promise((resolve, reject) => {
-		// 		oModel.read("/PlotNOs('" + plotNo + "')", {
-		// 			success: function (oData) {
-		// 				resolve(oData.available);
-		// 			},
-		// 			error: function (oError) {
-		// 				reject("Error checking plot availability: " + oError.message);
-		// 			}
-		// 		});
-		// 	});
-		// },
-		// checkPlotEmpty: async function (oModel, sVehicalNo) {
-		// 	return new Promise((resolve, reject) => {
-		// 		oModel.read("/VehicalDeatils", {
-		// 			filters: [
-		// 				new Filter("vehicalNo", FilterOperator.EQ, sVehicalNo),
-
-		// 			],
-		// 			success: function (oData) {
-		// 				resolve(oData.results.length > 0);
-		// 			},
-		// 			error: function () {
-		// 				reject(
-		// 					"An error occurred while checking username existence."
-		// 				);
-		// 			}
-		// 		})
-		// 	})
-		// },
+		
 		onAssignPress: async function () {
 			debugger
 			const oPayload = this.getView().byId("page1").getModel("localModel").getProperty("/");
@@ -410,6 +162,7 @@ sap.ui.define([
 				return
 			}
 			var trimmedPhone = phone.trim();
+			var trimmedDriverName = driverName.trim();
 			
 
 			// Validate phone number
@@ -424,6 +177,12 @@ sap.ui.define([
 				MessageToast.show("Vehicle already exsist")
 				return
 			};
+			 // Validate driver name format
+			 var driverNameRegex = /^[a-z\s]{3,}$/i;
+			 if (!driverNameRegex.test(trimmedDriverName)) {
+				 MessageToast.show("Please enter a valid driver name (at least 3 letters, no special characters or numbers)");
+				 return;
+			 }
 			var isReserved = await this.checkParkingLotReservation12(oModel, plotNo);
             if (isReserved) {
                 sap.m.MessageBox.error(`Parking lot is already reserved. Please select another parking lot.`, {
@@ -1344,8 +1103,28 @@ sap.ui.define([
             printWindow.document.write('</body></html>');
             printWindow.document.close();
             printWindow.print();
-        }
+        },
 
-		
+
+		onModel:function(){
+			const oModel = this.getView().getModel("ModelV2");
+			var that=this;
+			oModel.read("/Reservation",{success:function(odata){
+				var te = odata.results.length;
+				that.byId("_IDGenButton1").setText(te);
+				oModel.refresh(true);
+			
+			},error:function(oError){
+
+				}
+
+			})
+		},
+		onBeforeRendering:function(){
+			this.onModel();
+		},
+		onAfterRendering:function(){
+			this.oModel();
+		}
 	});
 });

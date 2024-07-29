@@ -78,6 +78,7 @@
                     type="Transparent"
                     tooltip="Notification"
                     press="OnpressNotify"
+                    text=""
                 >
                 
                     <customData>
