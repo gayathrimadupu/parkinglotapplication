@@ -163,6 +163,12 @@ sap.ui.define([
 			}
 			var trimmedPhone = phone.trim();
 			var trimmedDriverName = driverName.trim();
+			// Validation for Vehicle Number
+			var vehicleNumberPattern = /^[A-Za-z]{2}\d{2}[A-Za-z]{2}\d{4}$/;
+			if (!vehicalNo || !vehicalNo.match(vehicleNumberPattern)) {
+				sap.m.MessageBox.error("Please enter a valid vehicle number in the format AA22AA2222 or aa22aa2222.");
+				return;
+			}
 			
 
 			// Validate phone number
@@ -521,67 +527,7 @@ sap.ui.define([
 				}
 			});
 		},
-		onEditpress: function (oEvent) {
-			debugger
-			var oButton = oEvent.getSource();
-			var sButtonText = oButton.getText();
-
-			var oRow = oButton.getParent(); // Get the table row
-			var oCell = oRow.getCells()[4]; // Assuming the 5th cell contains both Text and ComboBox
-
-			var oText = oCell.getItems()[0]; // Assuming the first item is Text
-			var oComboBox = oCell.getItems()[1];
-
-			if (sButtonText === "edit") {
-				// Switching to edit mode
-				oButton.setText("Submit");
-				oText.setVisible(false);
-				oComboBox.setVisible(true);
-				oComboBox.setEditable(true);
-			} else {
-				// Switching back to display mode
-				oButton.setText("edit");
-				oText.setVisible(true);
-				oComboBox.setVisible(false);
-				oComboBox.setEditable(false);
-
-				var otemp = oButton.getParent().getBindingContext().getObject().vehicalNo;
-				var oval = oText.getValue(); // Old plotNo
-				var oc = oComboBox.getSelectedKey(); // New plotNo
-				var oModel = this.getView().getModel("ModelV2");
-				var that = this;
-
-				// Update VehicalDeatils entity
-				oModel.update("/VehicalDeatils('" + otemp + "')", { plotNo_plot_NO: oc }, {
-					success: function () {
-						sap.m.MessageToast.show("VehicalDeatils updated successfully!");
-
-						// Update PlotNOs entities sequentially
-						oModel.update("/PlotNOs('" + oval + "')", { available: true }, {
-							success: function () {
-								// Now update the new plotNo
-								oModel.update("/PlotNOs('" + oc + "')", { available: false }, {
-									success: function () {
-										sap.m.MessageToast.show("PlotNOs updated successfully!");
-										oModel.refresh(true);
-										that.getView().byId("AssignedSlotsTable").getBinding("items").refresh(true);
-									},
-									error: function () {
-										sap.m.MessageBox.error("Error occurs while updating new plotNo availability!");
-									}
-								});
-							},
-							error: function () {
-								sap.m.MessageBox.error("Error occurs while updating old plotNo availability!");
-							}
-						});
-					},
-					error: function () {
-						sap.m.MessageBox.error("Error occurs while updating VehicalDeatils!");
-					}
-				});
-			}
-		},
+	
 		onEditpress: function (oEvent) {
 			var oButton = oEvent.getSource();
 			var sButtonText = oButton.getText();
@@ -643,89 +589,7 @@ sap.ui.define([
 			}
 		},
 
-		// onUpdateSlotPress: function () {
-		// 	var oTable = this.getView().byId("AssignedSlotsTable");
-		// 	var aSelectedItems = oTable.getSelectedItems();
-
-		// 	// Check if exactly one item is selected
-		// 	if (aSelectedItems.length === 1) {
-		// 		var oSelectedItem = aSelectedItems[0];
-		// 		var oContext = oSelectedItem.getBindingContext();
-		// 		var oSelectedObject = oContext.getObject();
-
-		// 		// Load fragment
-		// 		this.loadUpdateFragment(oSelectedObject);
-		// 	} else {
-		// 		MessageBox.error("Please select exactly one row to update");
-		// 	}
-		// },
-
-		// loadUpdateFragment: function (oSelectedObject) {
-		// 	debugger
-		// 	// Load fragment
-		// 	Fragment.load({
-		// 		id: this.getView().getId(),
-		// 		name: "com.app.project1.fragment.UpdateSlotDialog",
-		// 		controller: this
-		// 	}).then(function (oFragment) {
-		// 		// Set data to fragment model
-		// 		var oFragmentModel = new JSONModel(oSelectedObject);
-		// 		this.getView().setModel(oFragmentModel, "localModel");
-
-		// 		// Open fragment as dialog
-		// 		this.getView().addDependent(oFragment);
-		// 		oFragment.open();
-		// 	}.bind(this));
-		// },
-
-		// onUpdateDialogSave: function () {
-		// 	debugger
-		// 	var oModel = this.getOwnerComponent().getModel("ModelV2");
-		// 	var oLocalModel = this.getView().getModel("localModel");
-		// 	var oPayload = oLocalModel.getData(),
-		// 		oSelected = this.getView().byId("AssignedSlotsTable").getSelectedItem().getBindingContext().getObject(),
-		// 		oOldSlot = oSelected.plotNo_plot_NO
-		// 	// Perform validation or additional logic if needed
-
-		// 	// Update the selected row with updated plot number
-		// 	oModel.update("/VehicalDeatils('" + oPayload.vehicalNo + "')", oPayload, {
-		// 		success: function () {
-		// 			// Update the old plot number to "Available"
-		// 			oModel.update("/PlotNOs('" + oOldSlot + "')", {
-		// 				available: true
-		// 			});
-
-		// 			// Update the new plot number to "Unavailable"
-		// 			oModel.update("/PlotNOs('" + oPayload.plotNo_plot_NO + "')", {
-		// 				available: false
-		// 			});
-
-		// 			sap.m.MessageBox.success("Slot updated successfully");
-		// 			this.onModelRefresh();
-
-		// 			// Update the table binding to reflect changes
-		// 			var oTable = this.getView().byId("AssignedSlotsTable");
-		// 			oTable.getBinding("items").refresh();
-		// 			oModel.refresh(true)
-
-		// 			// Refresh page1 to reflect status changes
-		// 			var oPage1 = this.getView().byId("page1"); // Replace with your actual ID
-		// 			// Refresh page1 content or update necessary properties
-		// 			// Example: oPage1.refresh(); or oPage1.setProperty("/status", updatedStatus);
-
-		// 			// Close dialog on success
-		// 			this.getView().byId("updateDialog").close();
-
-		// 		}.bind(this),
-		// 		error: function (oError) {
-		// 			sap.m.MessageBox.error("Failed to update slot: " + oError.message);
-		// 		}
-		// 	});
-		// },
-		// onUpdateDialogCancel: function () {
-		// 	// Close dialog on cancel
-		// 	this.getView().byId("updateDialog").close();
-		// },
+	
 
 		onSuggestionItemSelected: function (oEvent) {
 			// Handle suggestion item selection for plot number
@@ -736,77 +600,7 @@ sap.ui.define([
 			var oLocalModel = this.getView().getModel("localModel");
 			oLocalModel.setProperty("/plotNo_plot_NO", sPlotNo);
 		},
-		// onReservePressbtn: async function () {
-		// 	debugger
-		// 	var oView = this.getView();
-		// 	const oModel = oView.byId("pageContainer").getModel("ModelV2");
-
-		// 	// Get input values
-		// 	var sVehicleNo = oView.byId("InputVehicleno").getValue();
-		// 	var sDriverName = oView.byId("InputDriverName").getValue();
-		// 	var sPhoneNo = oView.byId("InputPhonenumber").getValue();
-		// 	var sVehicleType = oView.byId("InputVehicletype").getSelectedKey();
-		// 	var sParkingLot = oView.byId("idcombox1").getValue();
-		// 	var oDateTimePicker = oView.byId("idinputdatetimepicker");
-		// 	var oSelectedDate = oDateTimePicker.getDateValue();
-
-		// 	// Validation for Phone Number
-		// 	if (!sPhoneNo || !sPhoneNo.match(/^[9876]\d{9}$/)) {
-		// 		sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
-		// 		return;
-		// 	}
-
-		// 	// Validation for Vehicle Number
-		// 	if (!sVehicleNo || !sVehicleNo.match(/^[\w\d]{1,10}$/)) {
-		// 		sap.m.MessageBox.error("Please enter a valid vehicle number (alphanumeric, up to 10 characters).");
-		// 		return;
-		// 	}
-
-		// 	// Validation for Vehicle Type
-		// 	if (sVehicleType !== "inbound" && sVehicleType !== "outbound") {
-		// 		sap.m.MessageBox.error("Please select either 'Inbound' or 'Outbound' for vehicle type.");
-		// 		return;
-		// 	}
-
-		// 	// Check if Vehicle Number already exists
-		// 	const vehicleExists = await this.checkVehicleExists(oModel, sVehicleNo);
-		// 	if (vehicleExists) {
-		// 		sap.m.MessageBox.error("Vehicle number already exists. Please enter a different vehicle number.");
-		// 		return;
-		// 	}
-
-		// 	// Construct payload for reservation entity
-		// 	var newmodel = new sap.ui.model.json.JSONModel({
-		// 		vehicalNo: sVehicleNo,
-		// 		driverName: sDriverName,
-		// 		phone: sPhoneNo,
-		// 		vehicalType: sVehicleType,
-		// 		plotNo_plot_NO: sParkingLot,
-		// 		Expectedtime: oSelectedDate // This will store only the date part
-		// 	});
-
-		// 	this.getView().byId("page5").setModel(newmodel, "newmodel");
-		// 	const oPayload = this.getView().byId("page5").getModel("newmodel").getProperty("/");
-
-		// 	// Call OData service to create reservation
-		// 	try {
-		// 		await this.createData(oModel, oPayload, "/Reservation");
-
-		// 		// Update the status of the parking slot in Page 1
-		// 		await this.updateParkingSlotStatus(oModel, sParkingLot, false);
-
-		// 		// Clear input fields after successful reservation
-
-		// 		this.addNotification(sDriverName, sVehicleNo, sVehicleType, sParkingLot, oSelectedDate);
-
-		// 		sap.m.MessageBox.success("Parking lot reserved successfully");
-
-		// 	} catch (error) {
-		// 		sap.m.MessageBox.error("Failed to create reservation. Please try again.");
-		// 		console.error("Error creating reservation:", error);
-		// 	}
-		// 	this.clearInputFields();
-		// },
+	
 
 		// Function to check if vehicle number exists in backend
 		checkVehicleExists: async function (oModel, sVehicleNo) {
@@ -824,57 +618,7 @@ sap.ui.define([
 				});
 			});
 		},
-		// addNotification: function (sDriverName, sVehicleNo, sVehicleType, sParkingLot, oSelectedDateTime) {
-		// 	debugger
-		// 	var oNotificationModel = this.getView().getModel("NotificationModel");
-		// 	var aNotifications = oNotificationModel.getData().Notifications;
-
-		// 	var oNewNotification = {
-		// 		title: "Booking request",
-		// 		description: `Driver Name: ${sDriverName}, Vehicle No: ${sVehicleNo}, Vehicle Type: ${sVehicleType}, Parking Lot: ${sParkingLot}, Expected Time: ${oSelectedDateTime}`,
-		// 		datetime: new Date().toISOString(),
-		// 		priority: "Low",
-		// 		unread: true
-		// 	};
-
-		// 	var bExists = aNotifications.some(function (notification) {
-		// 		return notification.description === oNewNotification.description && notification.datetime === oNewNotification.datetime;
-		// 	});
-
-		// 	// Add new notification if it doesn't exist
-		// 	if (!bExists) {
-		// 		aNotifications.push(oNewNotification);
-		// 	}
-
-		// 	// Update the model
-		// 	oNotificationModel.setProperty("/Notifications", aNotifications);
-		// },
-
-		// // Function to update the status of the parking slot
-		// updateParkingSlotStatus: async function (oModel, plotNo, available) {
-		// 	return new Promise((resolve, reject) => {
-		// 		oModel.update(`/PlotNOs('${plotNo}')`, { available: available }, {
-		// 			success: function () {
-		// 				resolve();
-		// 			},
-		// 			error: function (oError) {
-		// 				reject("Failed to update parking slot status.");
-		// 			}
-		// 		});
-		// 	});
-		// },
-
-		// Function to clear input fields
-		// clearInputFields: function () {
-		// 	var oView = this.getView();
-		// 	oView.byId("InputVehicleno").setValue("");
-		// 	oView.byId("InputDriverName").setValue("");
-		// 	oView.byId("InputPhonenumber").setValue("");
-		// 	oView.byId("InputVehicletype").setValue("");
-		// 	oView.byId("idcombox1").setValue("");
-		// 	oView.byId("idinputdatetimepicker").setDateValue(null);
-		// },
-
+		
 		// Function to create data in backend
 		createData: async function (oModel, oPayload, sPath) {
 			return new Promise((resolve, reject) => {
@@ -906,6 +650,10 @@ sap.ui.define([
 				MessageBox.error("Please Select atleast row to Assign");
 				return
 			};
+			if (oSelected.length > 1) {
+				MessageBox.error("Please select only one row to assign.");
+				return;
+			}
 
 			var oSelectedRow = this.byId("ReservationTable").getSelectedItem().getBindingContext().getObject();
 			var orow = this.byId("ReservationTable").getSelectedItem().getBindingContext().getPath();
@@ -1028,46 +776,46 @@ sap.ui.define([
 			this.byId("myPopover").close();
 		},
 
-		onPrint: function () {
-			debugger;
-			// Ensure jsPDF is available
-			if (!window.jspdf || !window.jspdf.jsPDF) {
-				MessageBox.error("jsPDF library is not loaded.");
-				return;
-			}
-			// Access the jsPDF library
-			const { jsPDF } = window.jspdf;
-			// Ensure autoTable plugin is available
-			if (!jsPDF.API.autoTable) {
-				MessageBox.error("autoTable plugin is not loaded.");
-				return;
-			}
-			// Get the reference to the assigned slots table by its id
-			var oTable = this.byId("AssignedSlotsTable");
-			var aItems = oTable.getItems();
-			var doc = new jsPDF();
+		// onPrint: function () {
+		// 	debugger;
+		// 	// Ensure jsPDF is available
+		// 	if (!window.jspdf || !window.jspdf.jsPDF) {
+		// 		MessageBox.error("jsPDF library is not loaded.");
+		// 		return;
+		// 	}
+		// 	// Access the jsPDF library
+		// 	const { jsPDF } = window.jspdf;
+		// 	// Ensure autoTable plugin is available
+		// 	if (!jsPDF.API.autoTable) {
+		// 		MessageBox.error("autoTable plugin is not loaded.");
+		// 		return;
+		// 	}
+		// 	// Get the reference to the assigned slots table by its id
+		// 	var oTable = this.byId("AssignedSlotsTable");
+		// 	var aItems = oTable.getItems();
+		// 	var doc = new jsPDF();
 		
-			// Table headers
-			var headers = [["Vehicle Number", "Driver Name", "Driver Ph Number", "Vehicle Type", "Parking Lot number", "Entry Date"]];
-			var data = [];
+		// 	// Table headers
+		// 	var headers = [["Vehicle Number", "Driver Name", "Driver Ph Number", "Vehicle Type", "Parking Lot number", "Entry Date"]];
+		// 	var data = [];
 		
-			// Extract data from table items
-			aItems.forEach(function (oItem) {
-				var aCells = oItem.getCells();
-				var aRowData = aCells.map(function (oCell) {
-					var sText = oCell.getText ? oCell.getText() : oCell.getValue ? oCell.getValue() : ""; // Handle both Text and Input
-					return sText;
-				});
-				data.push(aRowData);
-			});
+		// 	// Extract data from table items
+		// 	aItems.forEach(function (oItem) {
+		// 		var aCells = oItem.getCells();
+		// 		var aRowData = aCells.map(function (oCell) {
+		// 			var sText = oCell.getText ? oCell.getText() : oCell.getValue ? oCell.getValue() : ""; // Handle both Text and Input
+		// 			return sText;
+		// 		});
+		// 		data.push(aRowData);
+		// 	});
 		
-			// Generate PDF with autoTable
-			doc.autoTable({
-				head: headers,
-				body: data
-			});
-			doc.save("AssignedSlots.pdf");
-		},
+		// 	// Generate PDF with autoTable
+		// 	doc.autoTable({
+		// 		head: headers,
+		// 		body: data
+		// 	});
+		// 	doc.save("AssignedSlots.pdf");
+		// },
 		triggerPrintForm: function (vehicalDeatils) {
             // Create a temporary print area
             debugger

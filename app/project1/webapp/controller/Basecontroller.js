@@ -5,11 +5,11 @@ sap.ui.define(
     ],
     function (BaseController, Fragment) {
         "use strict";
- 
+
         return BaseController.extend("com.app.project1.controller.Basecontroller", {
             onInit: function () {
-                
- 
+
+
             },
             //Performing curd operations
             createData: function (oModel, oPayload, sPath) {
@@ -39,21 +39,32 @@ sap.ui.define(
                     })
                 })
             },
+
+            // statusColorFormatter: function (sStatus) {
+            //     switch (sStatus) {
+            //         case "Empty":
+            //             return "Success"; // Green
+            //         case "Not Empty":
+            //             return "Warning"; // Orange
+            //         default:
+            //             return "None"; // Default color
+            //     }
+            // },
+
             getRouter: function () {
                 return this.getOwnerComponent().getRouter();
-              },
+            },
 
 
-              loadFragment: async function (sFragmentName) {
+            loadFragment: async function (sFragmentName) {
                 const oFragment = await Fragment.load({
-                  id: this.getView().getId(),
-                  name: `com.app.project1.fragment.${sFragmentName}`,
-                  controller: this
+                    id: this.getView().getId(),
+                    name: `com.app.project1.fragment.${sFragmentName}`,
+                    controller: this
                 });
                 this.getView().addDependent(oFragment);
                 return oFragment
-              }
+            }
         });
     }
 );
- 

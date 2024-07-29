@@ -38,7 +38,40 @@ sap.ui.define([
             //     sap.m.MessageBox.error("Please select a valid date and time.");
             //     return;
             // }
+            // Check for empty fields
+            if (!svendorname || !svendorNumber || !sVehicleNo || !sDriverName || !sPhoneNo || !sParkingLot || !sVehicleType || !oSelectedDate) {
+                sap.m.MessageBox.error("Please fill out all fields before submitting.");
+                return;
+            }
 
+    // Validation for Vendor Phone Number and Driver Phone Number
+    if (svendorNumber === sPhoneNo) {
+        sap.m.MessageBox.error("Vendor phone number and Driver phone number cannot be the same. Please enter different phone numbers.");
+        return;
+    }
+    // Validation for Vehicle Number
+    var vehicleNumberPattern = /^[A-Za-z]{2}\d{2}[A-Za-z]{2}\d{4}$/;
+    if (!sVehicleNo || !sVehicleNo.match(vehicleNumberPattern)) {
+        sap.m.MessageBox.error("Please enter a valid vehicle number in the format AA22AA2222 or aa22aa2222.");
+        return;
+    }
+
+    // Validation for Vendor Name and Driver Name format
+    var namePattern = /^[a-zA-Z]{3,}$/;
+    if (!svendorname.match(namePattern)) {
+        sap.m.MessageBox.error("Vendor name must be at least 3 letters long and contain no special characters.");
+        return;
+    }
+    if (!sDriverName.match(namePattern)) {
+        sap.m.MessageBox.error("Driver name must be at least 3 letters long and contain no special characters.");
+        return;
+    }
+     // Validation for Vehicle Number
+     console.log("Vehicle Number:", sVehicleNo);
+     if (!sVehicleNo || !sVehicleNo.match(/^[\w\d]{1,10}$/)) {
+         sap.m.MessageBox.error("Please enter a valid vehicle number (alphanumeric, up to 10 characters).");
+         return;
+     }
             // Validation for Phone Number
             if (!sPhoneNo || !sPhoneNo.match(/^[9876]\d{9}$/)) {
                 sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
@@ -91,7 +124,7 @@ sap.ui.define([
                 // await this.updateParkingSlotStatus(oModel, sParkingLot, false);
 
                 // Clear input fields after successful reservation
-                sap.m.MessageBox.success("Parking lot reserved successfully");
+             
                 sap.m.MessageBox.success("Parking lot reservation request sent successfully");
                 setTimeout(() => {
                     oView.byId("InputVedorname").setValue("");
