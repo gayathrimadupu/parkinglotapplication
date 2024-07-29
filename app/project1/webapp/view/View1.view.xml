@@ -742,7 +742,7 @@
                                 </Column>
                                 <Column id="idcolumnreservation5">
                                     <Title
-                                        text="Expected Time"
+                                        text="Expected Date Time"
                                         id="idtextreservaton5"
                                          class="text"
                                     />

@@ -13,10 +13,8 @@ sap.ui.define([
             var tomorrow = new Date(today);
             tomorrow.setDate(today.getDate() + 1);
             // Set the minimum date for the date picker
-            var oDateTimePicker = this.getView().byId("idinputdatepicker");
+            var oDateTimePicker = this.getView().byId("idinputdatetimepicker");
             oDateTimePicker.setMinDate(tomorrow);
-            // Set display format to show only date
-            oDateTimePicker.setDisplayFormat("yyyy-MM-dd");
         },
         onReservePressbtn: async function () {
             debugger
@@ -30,9 +28,17 @@ sap.ui.define([
             var sPhoneNo = oView.byId("InputPhonenumber").getValue();
             var sParkingLot = oView.byId("idcombox1").getValue();
             var sVehicleType = oView.byId("InputVehicletype").getSelectedKey();
-            var oDatePicker = oView.byId("idinputdatepicker");
-            
+            var oDatePicker = oView.byId("idinputdatetimepicker");
             var oSelectedDate = oDatePicker.getDateValue();
+           
+            // // Convert the date and time to a local date string
+            // if (oSelectedDateTime) {
+            //     var sSelectedDateTimeString = oSelectedDateTime.toISOString();
+            // } else {
+            //     sap.m.MessageBox.error("Please select a valid date and time.");
+            //     return;
+            // }
+
             // Validation for Phone Number
             if (!sPhoneNo || !sPhoneNo.match(/^[9876]\d{9}$/)) {
                 sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
@@ -63,7 +69,7 @@ sap.ui.define([
                 phone: sPhoneNo,
                 vehicalType: sVehicleType,
                 plotNo_plot_NO: sParkingLot,
-                Expectedtime: oSelectedDate,
+                 Expectedtime: oSelectedDate,
                 notify:`Vendor requested the ${sParkingLot} lot for the following time ${oSelectedDate}:`
                 
                 // This will store only the date part
@@ -95,7 +101,8 @@ sap.ui.define([
                     oView.byId("InputPhonenumber").setValue("");
                     oView.byId("idcombox1").setValue("");
                     oView.byId("InputVehicletype").setSelectedKey("");
-                    oView.byId("idinputdatepicker").setValue("");
+                    oView.byId("idinputdatetimepicker").setValue("");
+                    
                 }, 1000); // 
                
             } catch (error) {

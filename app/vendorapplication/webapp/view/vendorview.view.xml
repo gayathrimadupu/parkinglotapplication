@@ -140,14 +140,17 @@
                         text="Date"
                         class="bold-label dark-black-text"
                     />
-                    <DatePicker
-                        id="idinputdatepicker"
-                        valueFormat="yyyy-MM-dd"
-                        displayFormat="yyyy-MM-dd"
-                        minDate="{ path: 'todayDate' }"
-                        value=""
+                    <DateTimePicker
+            id="idinputdatetimepicker"
+            value="{
+                path:'/valueDTP5',
+                type:'sap.ui.model.type.DateTime',
+                formatOptions: {
+                    style: 'medium',
+                    strictParsing: true
+                }
+            }"
                     />
-
                     <HBox
                         id="_IDReserveHBox1"
                         alignItems="Center"

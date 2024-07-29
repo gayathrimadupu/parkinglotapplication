@@ -410,6 +410,7 @@ sap.ui.define([
 				return
 			}
 			var trimmedPhone = phone.trim();
+			
 
 			// Validate phone number
 			var phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
@@ -423,6 +424,14 @@ sap.ui.define([
 				MessageToast.show("Vehicle already exsist")
 				return
 			};
+			var isReserved = await this.checkParkingLotReservation12(oModel, plotNo);
+            if (isReserved) {
+                sap.m.MessageBox.error(`Parking lot is already reserved. Please select another parking lot.`, {
+                    title: "Reservation Information",
+                    actions: sap.m.MessageBox.Action.OK
+                });
+                return;
+            }
 			var phoneExists = await this.checkPhoneExists(oModel, trimmedPhone);
 			if (phoneExists) {
 				sap.m.MessageBox.error("Phone number already associated with another vehicle Please Check mobile number");
@@ -439,40 +448,65 @@ sap.ui.define([
 				await this.createData(oModel, oPayload.VehicalDeatils, "/VehicalDeatils");
 				//await this.createData(oModel, oPayload.VehicalDeatils, "/History");
 
-				//   start SMS
-				const accountSid = "ACfcd333bcb3dc2c2febd267ce455a6762"
-				const authToken = "ea44ceea6205dd2864f4b5beb40d31c0"
+				//  // Replace with your actual Twilio Account SID and Auth Token
+					const accountSid = 'ACc087461333853e771f27f1589f7eb162';
+					const authToken = '9e08ecf3299732c3019de82c6a8101a0';
+					var to = "+91" + phone;
 
-				// debugger
-				const toNumber = `+91${phone}`
-				const fromNumber = '+13613109079';
-				const messageBody = `Hi ${driverName} a Slot number ${plotNo} is alloted to you vehicle number ${vehicalNo} \nKindly Move your vehicle to your allocated Parking lot. \nThank You,\nVishal Parking Management.`;
+					// Function to send SMS using Twili
+					debugger
+					const toNumber = to; // Replace with recipient's phone number
+					const fromNumber = '+13203173039'; // Replace with your Twilio phone number
+					const messageBody = 'Hello '
+						+ driverName +
+						',\n'
+						+
+						'Your vehicle ('
+						+ vehicalNo +
+						') has been assigned to parking lot '
+						+
+						plotNo
+						+
+						'.\n'
+						+
+						'Please park your vehicle in the assigned slot.\n'
+						+
+						'Thank you,\n'
+						+
+						'By Artihcus Global.\n\n'
 
-				// Twilio API endpoint for sending messages
-				const url = ""
 
+					// Twilio API endpoint for sending messages
+					const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
 
-				// Send POST request to Twilio API using jQuery.ajax
-				$.ajax({
-					url: url,
-					type: 'POST',
-					async: true,
-					headers: {
-						'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
-					},
-					data: {
+					// Payload for the POST request
+					const payload = {
 						To: toNumber,
 						From: fromNumber,
 						Body: messageBody
-					},
-					success: function (data) {
-						MessageToast.show('if number exists SMS will be sent!');
-					},
-					error: function (error) {
-						MessageToast.show('Failed to send SMS: ' + error);
-					}
-				});
+					};
 
+					// Send POST request to Twilio API using jQuery.ajax
+					$.ajax({
+						url: url,
+						type: 'POST',
+						headers: {
+							'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
+						},
+						data: payload,
+						success: function (data) {
+							console.log('SMS sent successfully:', data);
+							// Handle success, e.g., show a success message
+							sap.m.MessageToast.show('SMS sent successfully!');
+						},
+						error: function (xhr, status, error) {
+							console.error('Error sending SMS:', error);
+							// Handle error, e.g., show an error message
+							sap.m.MessageToast.show('Failed to send SMS: ' + error);
+						}
+					});
+
+					
 				
 
 				// Function to make an announcement
@@ -519,12 +553,29 @@ sap.ui.define([
 						sap.m.MessageBox.error("Failed to update: " + oError.message);
 					}.bind(this)
 				});
+				this.triggerPrintForm(oPayload.VehicalDeatils);
 			} catch (error) {
 				console.error("Error:", error);
 
 			}
 			this.onclearvalues();
 		},
+		checkParkingLotReservation12: async function (oModel, plotNo) {
+            return new Promise((resolve, reject) => {
+                oModel.read("/Reservation", {
+                    filters: [
+                        new sap.ui.model.Filter("plotNo_plot_NO", sap.ui.model.FilterOperator.EQ, plotNo)
+                    ],
+                    success: function (oData) {
+                        resolve(oData.results.length > 0);
+                    },
+                    error: function () {
+                        reject("An error occurred while checking parking lot reservation.");
+                    }
+                });
+			});
+        },
+
 		//validation for phone no checking
 		checkPhoneExists: async function (oModel, trimmedPhone) {
 
@@ -1257,7 +1308,44 @@ sap.ui.define([
 				body: data
 			});
 			doc.save("AssignedSlots.pdf");
-		}
+		},
+		triggerPrintForm: function (vehicalDeatils) {
+            // Create a temporary print area
+            debugger
+            var printWindow = window.open('', '', 'height=500,width=800');
+            printWindow.document.write('<html><head><title>Parking Lot Allocation</title>');
+            printWindow.document.write('<style>body{font-family: Arial, sans-serif;} table{width: 100%; border-collapse: collapse;} td, th{border: 1px solid #ddd; padding: 8px;} th{padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #4CAF50; color: white;}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h2>Parking Lot Allocation</h2>');
+            printWindow.document.write('<table><tr><th>Field</th><th>Value</th></tr>');
+            printWindow.document.write('<tr><td>Vehicle Number</td><td>' + vehicalDeatils.vehicalNo + '</td></tr>');
+            printWindow.document.write('<tr><td>Driver Name</td><td>' + vehicalDeatils.driverName + '</td></tr>');
+            printWindow.document.write('<tr><td>Phone</td><td>' + vehicalDeatils.phone + '</td></tr>');
+            printWindow.document.write('<tr><td>Vehicle Type</td><td>' + vehicalDeatils.vehicalType + '</td></tr>');
+            printWindow.document.write('<tr><td>Plot Number</td><td>' + vehicalDeatils.plotNo_plot_NO + '</td></tr>');
+            printWindow.document.write('<tr><td>Assigned Date</td><td>' + vehicalDeatils.assignedDate + '</td></tr>');
+       
+            // Generate barcode
+            debugger
+            const barcodeValue = `${vehicalDeatils.vehicalNo}`;
+            const canvas = document.createElement('canvas');
+            JsBarcode(canvas, barcodeValue, {
+                format: "CODE128",
+                lineColor: "#0aa",
+                width: 4,
+                height: 40,
+                displayValue: true
+            });
+            const barcodeImage = canvas.toDataURL("image/png");
+       
+            // Add barcode to print
+            printWindow.document.write('<tr><td>Barcode</td><td><img src="' + barcodeImage + '" alt="Barcode"></td></tr>');
+            printWindow.document.write('</table>');
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
+        }
+
 		
 	});
 });
