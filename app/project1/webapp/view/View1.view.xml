@@ -231,27 +231,27 @@
                                         <Text
                                             id="idtextitemsno"
                                             text="{plot_NO}"
+                                              class="{path: 'available', formatter: '.statusClassFormatter'}"
                                         />
                                     </cells>
-                                    <!-- <cells>
-                                        <Text
-                                            id="idtextitemstype"
-                                            text="{inBoundOroutBound}"
-                                        />
-                                    </cells> -->
+                                    
                                     <cells>
-                                        <Text
+                                        <!-- <Text
                                             id="idProcessvalue"
                                             text="{
                                                path: 'available',
                                                 formatter:'.statusTextFormatter'
                                             }"
-                                        />
-                                        
+                                            
+                                           
+                                        /> -->
+                                       <ObjectStatus
+    id="idProcessvalue"
+    text="{path: 'available', formatter: '.statusTextFormatter'}"
+    state="{path: 'available', formatter: '.statusStateFormatter'}"
+/>
                                     </cells>
-                                     <cells>
-                    
-                </cells>
+                                     
                                 </ColumnListItem>
                             </items>
                         </Table>
@@ -447,6 +447,7 @@
                                         text="Assigned Slots"
                                     />
                                     <ToolbarSpacer id="idTableHeaderSpacer" />
+                                      <Button id="id111"  press="onScannerPress" icon="sap-icon://bar-code"/>
                                     <Button
                                         id="idprintbutton"
                                         icon="sap-icon://print"
@@ -730,7 +731,7 @@
                                     class="class01"
                                 >
                                     <Title
-                                        text="Phone"
+                                        text="Driver Number"
                                         id="idtextreservaton3"
                                        class="text"
                                     />

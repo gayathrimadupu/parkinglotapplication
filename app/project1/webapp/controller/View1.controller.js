@@ -8,10 +8,16 @@ sap.ui.define([
 	"sap/ui/model/FilterOperator",
 	"sap/ui/model/odata/v2/ODataModel",
 	"sap/m/MessageBox",
+	"sap/ndc/BarcodeScanner"
+	
+	
 
-], function (Controller, JSONModel, Device, MessageToast, Fragment, Filter, FilterOperator, MessageBox) {
+	
+
+], function (Controller, JSONModel, Device, MessageToast, Fragment, Filter, FilterOperator, MessageBox,BarcodeScanner) {
 	"use strict";
 	return Controller.extend("com.app.project1.controller.View1", {
+		
 		onInit: function () {
 			
 			this._setParkingLotModel();
@@ -88,9 +94,7 @@ sap.ui.define([
 		onExit: function () {
 			Device.media.detachHandler(this._handleMediaChange, this);
 		},
-		statusTextFormatter: function (bStatus) {
-			return bStatus ? "Empty" : "Not Empty"; // Modify as per your requirement
-		},
+		
 
 
 		onValueHelpRequest: function (oEvent) {
@@ -122,6 +126,13 @@ sap.ui.define([
 
 			oEvent.getSource().getBinding("items").filter([oFilter]);
 		},
+		
+			statusTextFormatter: function (available) {
+				return available ? "Empty" : "Not Empty";
+			},
+			statusStateFormatter: function (available) {
+				return available ? "Success" : "Error"; // Or any other state like "Warning"
+			},
 
 		onValueHelpDialogClose: function (oEvent) {
 			var sDescription,
@@ -872,7 +883,25 @@ sap.ui.define([
 			this.onModel();
 		},
 		onAfterRendering:function(){
-			this.oModel();
-		}
+			this.onModel();
+		},
+		onScannerPress: function (oEvent) {
+			debugger
+            sap.ndc.BarcodeScanner.scan(
+                function(mResult) {
+                    if (mResult && mResult.text) {
+                        var scannedText = mResult.text;
+                        sap.m.MessageBox.show("We got barcode: " + scannedText);
+                        // Add your logic to handle the scanned data
+                        // e.g., check if the slot is available and unassign it
+                        // this.checkVehicleNo_scan(oModel, scannedText);
+                    }
+                },
+                function (error) {
+                    MessageBox.error("Error occurred while scanning: " + error);
+                }
+            );
+        }
+		
 	});
 });
