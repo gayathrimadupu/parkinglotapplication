@@ -163,7 +163,7 @@
                             press="onReservePressbtn"
                             type="Success"
                             class="classButton"
-                        />
+
                     </HBox>
                 </f:SimpleForm>
             </VBox>

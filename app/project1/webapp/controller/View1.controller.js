@@ -9,17 +9,17 @@ sap.ui.define([
 	"sap/ui/model/odata/v2/ODataModel",
 	"sap/m/MessageBox",
 	"sap/ndc/BarcodeScanner"
-	
-	
 
-	
 
-], function (Controller, JSONModel, Device, MessageToast, Fragment, Filter, FilterOperator, MessageBox,BarcodeScanner) {
+
+
+
+], function (Controller, JSONModel, Device, MessageToast, Fragment, Filter, FilterOperator, MessageBox, BarcodeScanner) {
 	"use strict";
 	return Controller.extend("com.app.project1.controller.View1", {
-		
+
 		onInit: function () {
-			
+
 			this._setParkingLotModel();
 
 			// Load local JSON model for the view
@@ -94,7 +94,7 @@ sap.ui.define([
 		onExit: function () {
 			Device.media.detachHandler(this._handleMediaChange, this);
 		},
-		
+
 
 
 		onValueHelpRequest: function (oEvent) {
@@ -126,13 +126,14 @@ sap.ui.define([
 
 			oEvent.getSource().getBinding("items").filter([oFilter]);
 		},
-		
-			statusTextFormatter: function (available) {
-				return available ? "Empty" : "Not Empty";
-			},
-			statusStateFormatter: function (available) {
-				return available ? "Success" : "Error"; // Or any other state like "Warning"
-			},
+
+		statusTextFormatter: function (available) {
+			return available ? "Empty" : "Not Empty";
+		},
+		statusStateFormatter: function (available) {
+			return available ? "Success" : "Error"; // Or any other state like "Warning"
+		},
+
 
 		onValueHelpDialogClose: function (oEvent) {
 			var sDescription,
@@ -148,11 +149,11 @@ sap.ui.define([
 			this.byId("productInput").setSelectedKey(sDescription);
 		},
 
-		onrefresh :function(){
+		onrefresh: function () {
 			this.getView().byId("ReservationTable").getBinding("items").refresh();
 		},
 
-		
+
 		onAssignPress: async function () {
 			debugger
 			const oPayload = this.getView().byId("page1").getModel("localModel").getProperty("/");
@@ -180,7 +181,7 @@ sap.ui.define([
 				sap.m.MessageBox.error("Please enter a valid vehicle number in the format AA22AA2222 or aa22aa2222.");
 				return;
 			}
-			
+
 
 			// Validate phone number
 			var phoneRegex = /^(?:(?:\+|0{0,2})91(\s*[\-]\s*)?|[0]?)?[6789]\d{9}$/;
@@ -194,20 +195,20 @@ sap.ui.define([
 				MessageToast.show("Vehicle already exsist")
 				return
 			};
-			 // Validate driver name format
-			 var driverNameRegex = /^[a-z\s]{3,}$/i;
-			 if (!driverNameRegex.test(trimmedDriverName)) {
-				 MessageToast.show("Please enter a valid driver name (at least 3 letters, no special characters or numbers)");
-				 return;
-			 }
+			// Validate driver name format
+			var driverNameRegex = /^[a-z\s]{3,}$/i;
+			if (!driverNameRegex.test(trimmedDriverName)) {
+				MessageToast.show("Please enter a valid driver name (at least 3 letters, no special characters or numbers)");
+				return;
+			}
 			var isReserved = await this.checkParkingLotReservation12(oModel, plotNo);
-            if (isReserved) {
-                sap.m.MessageBox.error(`Parking lot is already reserved. Please select another parking lot.`, {
-                    title: "Reservation Information",
-                    actions: sap.m.MessageBox.Action.OK
-                });
-                return;
-            }
+			if (isReserved) {
+				sap.m.MessageBox.error(`Parking lot is already reserved. Please select another parking lot.`, {
+					title: "Reservation Information",
+					actions: sap.m.MessageBox.Action.OK
+				});
+				return;
+			}
 			var phoneExists = await this.checkPhoneExists(oModel, trimmedPhone);
 			if (phoneExists) {
 				sap.m.MessageBox.error("Phone number already associated with another vehicle Please Check mobile number");
@@ -225,65 +226,65 @@ sap.ui.define([
 				//await this.createData(oModel, oPayload.VehicalDeatils, "/History");
 
 				//  // Replace with your actual Twilio Account SID and Auth Token
-					const accountSid = 'ACc087461333853e771f27f1589f7eb162';
-					const authToken = '9e08ecf3299732c3019de82c6a8101a0';
-					var to = "+91" + phone;
+				const accountSid = 'ACc087461333853e771f27f1589f7eb162';
+				const authToken = '9e08ecf3299732c3019de82c6a8101a0';
+				var to = "+91" + phone;
 
-					// Function to send SMS using Twili
-					debugger
-					const toNumber = to; // Replace with recipient's phone number
-					const fromNumber = '+13203173039'; // Replace with your Twilio phone number
-					const messageBody = 'Hello '
-						+ driverName +
-						',\n'
-						+
-						'Your vehicle ('
-						+ vehicalNo +
-						') has been assigned to parking lot '
-						+
-						plotNo
-						+
-						'.\n'
-						+
-						'Please park your vehicle in the assigned slot.\n'
-						+
-						'Thank you,\n'
-						+
-						'By Artihcus Global.\n\n'
+				// Function to send SMS using Twili
+				debugger
+				const toNumber = to; // Replace with recipient's phone number
+				const fromNumber = '+13203173039'; // Replace with your Twilio phone number
+				const messageBody = 'Hello '
+					+ driverName +
+					',\n'
+					+
+					'Your vehicle ('
+					+ vehicalNo +
+					') has been assigned to parking lot '
+					+
+					plotNo
+					+
+					'.\n'
+					+
+					'Please park your vehicle in the assigned slot.\n'
+					+
+					'Thank you,\n'
+					+
+					'By Artihcus Global.\n\n'
 
 
-					// Twilio API endpoint for sending messages
-					const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
+				// Twilio API endpoint for sending messages
+				const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
 
-					// Payload for the POST request
-					const payload = {
-						To: toNumber,
-						From: fromNumber,
-						Body: messageBody
-					};
+				// Payload for the POST request
+				const payload = {
+					To: toNumber,
+					From: fromNumber,
+					Body: messageBody
+				};
 
-					// Send POST request to Twilio API using jQuery.ajax
-					$.ajax({
-						url: url,
-						type: 'POST',
-						headers: {
-							'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
-						},
-						data: payload,
-						success: function (data) {
-							console.log('SMS sent successfully:', data);
-							// Handle success, e.g., show a success message
-							sap.m.MessageToast.show('SMS sent successfully!');
-						},
-						error: function (xhr, status, error) {
-							console.error('Error sending SMS:', error);
-							// Handle error, e.g., show an error message
-							sap.m.MessageToast.show('Failed to send SMS: ' + error);
-						}
-					});
+				// Send POST request to Twilio API using jQuery.ajax
+				$.ajax({
+					url: url,
+					type: 'POST',
+					headers: {
+						'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
+					},
+					data: payload,
+					success: function (data) {
+						console.log('SMS sent successfully:', data);
+						// Handle success, e.g., show a success message
+						sap.m.MessageToast.show('SMS sent successfully!');
+					},
+					error: function (xhr, status, error) {
+						console.error('Error sending SMS:', error);
+						// Handle error, e.g., show an error message
+						sap.m.MessageToast.show('Failed to send SMS: ' + error);
+					}
+				});
 
-					
-				
+
+
 
 				// Function to make an announcement
 				function makeAnnouncement(message, lang = 'en-US') {
@@ -337,20 +338,20 @@ sap.ui.define([
 			this.onclearvalues();
 		},
 		checkParkingLotReservation12: async function (oModel, plotNo) {
-            return new Promise((resolve, reject) => {
-                oModel.read("/Reservation", {
-                    filters: [
-                        new sap.ui.model.Filter("plotNo_plot_NO", sap.ui.model.FilterOperator.EQ, plotNo)
-                    ],
-                    success: function (oData) {
-                        resolve(oData.results.length > 0);
-                    },
-                    error: function () {
-                        reject("An error occurred while checking parking lot reservation.");
-                    }
-                });
+			return new Promise((resolve, reject) => {
+				oModel.read("/Reservation", {
+					filters: [
+						new sap.ui.model.Filter("plotNo_plot_NO", sap.ui.model.FilterOperator.EQ, plotNo)
+					],
+					success: function (oData) {
+						resolve(oData.results.length > 0);
+					},
+					error: function () {
+						reject("An error occurred while checking parking lot reservation.");
+					}
+				});
 			});
-        },
+		},
 
 		//validation for phone no checking
 		checkPhoneExists: async function (oModel, trimmedPhone) {
@@ -538,7 +539,7 @@ sap.ui.define([
 				}
 			});
 		},
-	
+
 		onEditpress: function (oEvent) {
 			var oButton = oEvent.getSource();
 			var sButtonText = oButton.getText();
@@ -600,7 +601,7 @@ sap.ui.define([
 			}
 		},
 
-	
+
 
 		onSuggestionItemSelected: function (oEvent) {
 			// Handle suggestion item selection for plot number
@@ -611,7 +612,7 @@ sap.ui.define([
 			var oLocalModel = this.getView().getModel("localModel");
 			oLocalModel.setProperty("/plotNo_plot_NO", sPlotNo);
 		},
-	
+
 
 		// Function to check if vehicle number exists in backend
 		checkVehicleExists: async function (oModel, sVehicleNo) {
@@ -629,7 +630,7 @@ sap.ui.define([
 				});
 			});
 		},
-		
+
 		// Function to create data in backend
 		createData: async function (oModel, oPayload, sPath) {
 			return new Promise((resolve, reject) => {
@@ -805,11 +806,11 @@ sap.ui.define([
 		// 	var oTable = this.byId("AssignedSlotsTable");
 		// 	var aItems = oTable.getItems();
 		// 	var doc = new jsPDF();
-		
+
 		// 	// Table headers
 		// 	var headers = [["Vehicle Number", "Driver Name", "Driver Ph Number", "Vehicle Type", "Parking Lot number", "Entry Date"]];
 		// 	var data = [];
-		
+
 		// 	// Extract data from table items
 		// 	aItems.forEach(function (oItem) {
 		// 		var aCells = oItem.getCells();
@@ -819,7 +820,7 @@ sap.ui.define([
 		// 		});
 		// 		data.push(aRowData);
 		// 	});
-		
+
 		// 	// Generate PDF with autoTable
 		// 	doc.autoTable({
 		// 		head: headers,
@@ -828,80 +829,209 @@ sap.ui.define([
 		// 	doc.save("AssignedSlots.pdf");
 		// },
 		triggerPrintForm: function (vehicalDeatils) {
-            // Create a temporary print area
-            debugger
-            var printWindow = window.open('', '', 'height=500,width=800');
-            printWindow.document.write('<html><head><title>Parking Lot Allocation</title>');
-            printWindow.document.write('<style>body{font-family: Arial, sans-serif;} table{width: 100%; border-collapse: collapse;} td, th{border: 1px solid #ddd; padding: 8px;} th{padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #4CAF50; color: white;}</style>');
-            printWindow.document.write('</head><body>');
-            printWindow.document.write('<h2>Parking Lot Allocation</h2>');
-            printWindow.document.write('<table><tr><th>Field</th><th>Value</th></tr>');
-            printWindow.document.write('<tr><td>Vehicle Number</td><td>' + vehicalDeatils.vehicalNo + '</td></tr>');
-            printWindow.document.write('<tr><td>Driver Name</td><td>' + vehicalDeatils.driverName + '</td></tr>');
-            printWindow.document.write('<tr><td>Phone</td><td>' + vehicalDeatils.phone + '</td></tr>');
-            printWindow.document.write('<tr><td>Vehicle Type</td><td>' + vehicalDeatils.vehicalType + '</td></tr>');
-            printWindow.document.write('<tr><td>Plot Number</td><td>' + vehicalDeatils.plotNo_plot_NO + '</td></tr>');
-            printWindow.document.write('<tr><td>Assigned Date</td><td>' + vehicalDeatils.assignedDate + '</td></tr>');
-       
-            // Generate barcode
-            debugger
-            const barcodeValue = `${vehicalDeatils.vehicalNo}`;
-            const canvas = document.createElement('canvas');
-            JsBarcode(canvas, barcodeValue, {
-                format: "CODE128",
-                lineColor: "#0aa",
-                width: 4,
-                height: 40,
-                displayValue: true
-            });
-            const barcodeImage = canvas.toDataURL("image/png");
-       
-            // Add barcode to print
-            printWindow.document.write('<tr><td>Barcode</td><td><img src="' + barcodeImage + '" alt="Barcode"></td></tr>');
-            printWindow.document.write('</table>');
-            printWindow.document.write('</body></html>');
-            printWindow.document.close();
-            printWindow.print();
-        },
+			// Create a temporary print area
+			debugger
+			var printWindow = window.open('', '', 'height=500,width=800');
+			printWindow.document.write('<html><head><title>Parking Lot Allocation</title>');
+			printWindow.document.write('<style>body{font-family: Arial, sans-serif;} table{width: 100%; border-collapse: collapse;} td, th{border: 1px solid #ddd; padding: 8px;} th{padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #4CAF50; color: white;}</style>');
+			printWindow.document.write('</head><body>');
+			printWindow.document.write('<h2>Parking Lot Allocation</h2>');
+			printWindow.document.write('<table><tr><th>Field</th><th>Value</th></tr>');
+			printWindow.document.write('<tr><td>Vehicle Number</td><td>' + vehicalDeatils.vehicalNo + '</td></tr>');
+			printWindow.document.write('<tr><td>Driver Name</td><td>' + vehicalDeatils.driverName + '</td></tr>');
+			printWindow.document.write('<tr><td>Phone</td><td>' + vehicalDeatils.phone + '</td></tr>');
+			printWindow.document.write('<tr><td>Vehicle Type</td><td>' + vehicalDeatils.vehicalType + '</td></tr>');
+			printWindow.document.write('<tr><td>Plot Number</td><td>' + vehicalDeatils.plotNo_plot_NO + '</td></tr>');
+			printWindow.document.write('<tr><td>Assigned Date</td><td>' + vehicalDeatils.assignedDate + '</td></tr>');
+
+			// Generate barcode
+			debugger
+			const barcodeValue = `${vehicalDeatils.vehicalNo}`;
+			const canvas = document.createElement('canvas');
+			JsBarcode(canvas, barcodeValue, {
+				format: "CODE128",
+				lineColor: "#0aa",
+				width: 4,
+				height: 40,
+				displayValue: true
+			});
+			const barcodeImage = canvas.toDataURL("image/png");
+
+			// Add barcode to print
+			printWindow.document.write('<tr><td>Barcode</td><td><img src="' + barcodeImage + '" alt="Barcode"></td></tr>');
+			printWindow.document.write('</table>');
+			printWindow.document.write('</body></html>');
+			printWindow.document.close();
+			printWindow.print();
+		},
 
 
-		onModel:function(){
+		onModel: function () {
 			const oModel = this.getView().getModel("ModelV2");
-			var that=this;
-			oModel.read("/Reservation",{success:function(odata){
-				var te = odata.results.length;
-				that.byId("_IDGenButton1").setText(te);
-				oModel.refresh(true);
-			
-			},error:function(oError){
+			var that = this;
+			oModel.read("/Reservation", {
+				success: function (odata) {
+					var te = odata.results.length;
+					that.byId("_IDGenButton1").setText(te);
+					oModel.refresh(true);
+
+				}, error: function (oError) {
 
 				}
 
 			})
 		},
-		onBeforeRendering:function(){
+		onBeforeRendering: function () {
 			this.onModel();
 		},
-		onAfterRendering:function(){
+		onAfterRendering: function () {
 			this.onModel();
 		},
 		onScannerPress: function (oEvent) {
 			debugger
-            sap.ndc.BarcodeScanner.scan(
-                function(mResult) {
-                    if (mResult && mResult.text) {
-                        var scannedText = mResult.text;
-                        sap.m.MessageBox.show("We got barcode: " + scannedText);
-                        // Add your logic to handle the scanned data
-                        // e.g., check if the slot is available and unassign it
-                        // this.checkVehicleNo_scan(oModel, scannedText);
-                    }
-                },
-                function (error) {
-                    MessageBox.error("Error occurred while scanning: " + error);
-                }
-            );
-        }
-		
+			var that = this;
+			sap.ndc.BarcodeScanner.scan(
+				function (mResult) {
+					if (mResult && mResult.text) {
+						var scannedText = mResult.text;
+						// sap.m.MessageBox.show("We got barcode: " + scannedText);
+						that.unassignSlot(scannedText);
+					}
+				},
+				function (error) {
+					sap.m.MessageBox.error("Error occurred while scanning: " + error);
+				}
+			);
+		},
+		unassignSlot: async function (sVehicleNo) {
+			debugger
+			const that = this;
+			const oModel = this.getView().getModel("ModelV2")
+			return new Promise((resolve, reject) => {
+				oModel.read("/VehicalDeatils", {
+					filters: [
+						new sap.ui.model.Filter("vehicalNo", sap.ui.model.FilterOperator.EQ, sVehicleNo)
+					],
+					success: function (oData) {
+						resolve(oData.results.length > 0)
+						const object = oData.results[0]
+						const sPath = oModel.createKey("/VehicalDeatils", {
+							vehicalNo: object.vehicalNo
+						});
+
+						var oHistoryPayload = {
+							vehicalNo:  object.vehicalNo,
+							driverName: object.driverName,
+							phone:object.phone,
+							vehicalType: object.vehicalType,
+							assignedDate: object.assignedDate,
+							unassignedDate: new Date(),
+							plotNo: object.plotNo_plot_NO
+						};
+						that.moveToHistoryAfterSacn(oModel,oHistoryPayload);
+						// delete the data in asiignned slots
+						that.deleteFromVehicalDetailsAfterScan(oModel, sPath);
+
+					},
+					error: function () {
+						reject("An error occurred while checking vehicle number existence.");
+					}
+				});
+			});
+		},
+		moveToHistoryAfterSacn: async function (oModel, oHistory) {
+			await this.createData(oModel, oHistory, "/History");
+			// MessageToast.show("History added")
+		},
+		deleteFromVehicalDetailsAfterScan: function (oModel, sPath) {
+			oModel.remove(sPath);
+			// MessageToast.show("Removed from Assigned...................")
+
+		},
+
+		// unassignSlot: function (scannedText) {
+		// 	var that = this;
+		// 	var oModel = this.getView().getModel();
+
+		// 	// Fetch data from the model
+		// 	var aData = oModel.getProperty("/PlotNOs");
+		// 	var aHistory = oModel.getProperty("/History");
+
+		// 	// Debugging logs to check if aData and aHistory are correctly fetched
+		// 	console.log("Initial PlotNOs: ", aData); 
+		// 	console.log("Initial History: ", aHistory); 
+
+		// 	// Check if data is valid
+		// 	if (!Array.isArray(aData)) {
+		// 		console.error("PlotNOs data is not an array or is undefined.");
+		// 		return;
+		// 	}
+		// 	if (!Array.isArray(aHistory)) {
+		// 		console.error("History data is not an array or is undefined.");
+		// 		return;
+		// 	}
+
+		// 	var bSlotFound = false;
+		// 	var oSlot = null;
+
+		// 	// Iterate over the slots to find the matching slot
+		// 	for (var i = 0; i < aData.length; i++) {
+		// 		if (aData[i].plot_NO === scannedText) {
+		// 			oSlot = aData[i];
+		// 			aData.splice(i, 1); // Remove the slot from PlotNOs
+		// 			bSlotFound = true;
+		// 			break;
+		// 		}
+		// 	}
+
+		// 	if (bSlotFound && oSlot) {
+		// 		// Move the slot to history
+		// 		that.moveToHistory(oModel, oSlot);
+
+		// 		// Update PlotNOs availability to 'empty'
+		// 		that.updatePlotAvailability(oModel, scannedText);
+
+		// 		// Set the updated model properties
+		// 		oModel.setProperty("/PlotNOs", aData);
+		// 		oModel.setProperty("/History", aHistory);
+		// 		sap.m.MessageBox.success("Slot " + scannedText + " was unassigned successfully and moved to history.");
+		// 	} else {
+		// 		sap.m.MessageBox.error("Slot " + scannedText + " not found.");
+		// 	}
+
+		// 	// Debugging logs to check the updated state
+		// 	console.log("Updated PlotNOs: ", aData); 
+		// 	console.log("Updated History: ", aHistory); 
+		// },
+
+		moveToHistory: function (oModel, oSlot) {
+			var oHistory = {
+				vehicalNo: oSlot.vehicalNo,
+				driverName: oSlot.driverName,
+				phone: oSlot.phone,
+				vehicalType: oSlot.vehicalType,
+				assignedDate: oSlot.assignedDate,
+				unassignedDate: new Date(),
+				plotNo: oSlot.plot_NO
+			};
+
+			// Add to History array
+			var aHistory = oModel.getProperty("/History");
+			aHistory.push(oHistory);
+			oModel.setProperty("/History", aHistory);
+		},
+
+		updatePlotAvailability: function (oModel, plotNo) {
+			var aData = oModel.getProperty("/PlotNOs");
+
+			// Iterate through PlotNOs to update availability
+			for (var i = 0; i < aData.length; i++) {
+				if (aData[i].plot_NO === plotNo) {
+					aData[i].available = true; // Set availability to true (empty)
+					oModel.setProperty("/PlotNOs", aData);
+					break;
+				}
+			}
+		}
 	});
 });
