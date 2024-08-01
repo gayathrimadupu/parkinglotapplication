@@ -231,25 +231,20 @@
                                         <Text
                                             id="idtextitemsno"
                                             text="{plot_NO}"
-                                              class="{path: 'available', formatter: '.statusClassFormatter'}"
+                                         
                                         />
                                     </cells>
                                     
                                     <cells>
-                                        <!-- <Text
-                                            id="idProcessvalue"
-                                            text="{
-                                               path: 'available',
-                                                formatter:'.statusTextFormatter'
-                                            }"
-                                            
-                                           
-                                        /> -->
-                                       <ObjectStatus
+
+
+                                        <Text id="idProcessvalue"
+                                        text="{available}" />
+                                       <!-- <ObjectStatus
     id="idProcessvalue"
     text="{path: 'available', formatter: '.statusTextFormatter'}"
     state="{path: 'available', formatter: '.statusStateFormatter'}"
-/>
+/> -->
                                     </cells>
                                      
                                 </ColumnListItem>
@@ -367,7 +362,7 @@
                                 {
                                     path: 'available',
                                     operator: 'EQ',
-                                    value1: true
+                                    value1: 'Empty'
                                 }
                             ]
                         }"
@@ -561,7 +556,7 @@
                                                 id="parkingLotSelect"
                                                 required="true"
                                                 editable="true"
-                                                items="{path: '/PlotNOs', filters: [{path: 'available', operator: 'EQ', value1:true }], templateShareable: true}"
+                                                items="{path: '/PlotNOs', filters: [{path: 'available', operator: 'EQ', value1:'Empty' }], templateShareable: true}"
                                             >
                                                 <core:Item
                                                     id="_IDGenItem3"

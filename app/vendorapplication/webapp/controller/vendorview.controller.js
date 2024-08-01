@@ -120,12 +120,19 @@ sap.ui.define([
             // Call OData service to create reservation
             try {
                 await this.createData(oModel, oPayload, "/Reservation");
-                // Update the status of the parking slot in Page 1
-                // await this.updateParkingSlotStatus(oModel, sParkingLot, false);
-
-                // Clear input fields after successful reservation
-             
-                sap.m.MessageBox.success("Parking lot reservation request sent successfully");
+                const updatedParkingLot = {
+                    available: "Reserved" // Assuming false represents empty parking
+                    // Add other properties if needed
+                };
+                oModel.update("/PlotNOs('" + sParkingLot + "')", updatedParkingLot, {
+                    success: function () {
+ 
+                    }.bind(this),
+                    error: function (oError) {
+ 
+                        sap.m.MessageBox.error("Failed to update: " + oError.message);
+                    }.bind(this)
+                });
                 setTimeout(() => {
                     oView.byId("InputVedorname").setValue("");
                     oView.byId("InputVendornumber").setValue("");

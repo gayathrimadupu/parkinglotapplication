@@ -110,7 +110,7 @@
                             filters: [{
                                 path: 'available',
                                 operator: 'EQ',
-                                value1: true
+                                value1: 'Empty'
                             }]
                         }"
                     >

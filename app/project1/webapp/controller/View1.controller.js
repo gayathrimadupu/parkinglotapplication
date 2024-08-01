@@ -42,9 +42,7 @@ sap.ui.define([
 					unassignedDate: "",
 					plotNo_plot_NO: "",
 				},
-				plotNo: {
-					available: false
-				},
+				
 				Requests: [] // To store requests for notifications
 			});
 			this.getView().setModel(oLocalModel, "localModel");
@@ -128,12 +126,12 @@ sap.ui.define([
 			oEvent.getSource().getBinding("items").filter([oFilter]);
 		},
 
-		statusTextFormatter: function (available) {
-			return available ? "Empty" : "Not Empty";
-		},
-		statusStateFormatter: function (available) {
-			return available ? "Success" : "Error"; // Or any other state like "Warning"
-		},
+		// statusTextFormatter: function (available) {
+		// 	return available ? "Empty" : "Not Empty";
+		// },
+		// statusStateFormatter: function (available) {
+		// 	return available ? "Success" : "Error"; // Or any other state like "Warning"
+		// },
 
 
 		onValueHelpDialogClose: function (oEvent) {
@@ -232,7 +230,13 @@ sap.ui.define([
 			if (!oplotnoexists) {
 				MessageToast.show("Please Select Valid Plotn No")
 				return
-			}
+			};
+			var plotAssigned = await this.checkIfExists(oModel, "/VehicalDeatils", "plotNo_plot_NO", oPayload.VehicalDeatils.plotNo_plot_NO);
+       
+            if (plotAssigned) {
+                MessageToast.show(" plot Number  already assigned ");
+                return;
+            }
 
 			try {
 				// Assuming createData method sends a POST request
@@ -334,16 +338,20 @@ sap.ui.define([
 						actions: sap.m.MessageBox.Action.OK
 					}
 				);
-				oModel.update("/PlotNOs('" + plotNo + "')", oPayload.plotNo, {
-					success: function () {
-						sap.m.MessageBox.success("Assigned")
+				const updatedParkingLot = {
+                    available: "Not Empty" // Assuming false represents empty parking
+                    // Add other properties if needed
+                };
+                oModel.update("/PlotNOs('" + plotNo + "')", updatedParkingLot, {
+                    success: function () {
+ 
+                    }.bind(this),
+                    error: function (oError) {
+ 
+                        sap.m.MessageBox.error("Failed to update: " + oError.message);
+                    }.bind(this)
+                });
 
-					}.bind(this),
-					error: function (oError) {
-
-						sap.m.MessageBox.error("Failed to update: " + oError.message);
-					}.bind(this)
-				});
 				this.triggerPrintForm(oPayload.VehicalDeatils);
 			} catch (error) {
 				console.error("Error:", error);
@@ -384,6 +392,19 @@ sap.ui.define([
 				});
 			});
 		},
+		checkIfExists: async function (oModel, sEntitySet, sProperty, sValue) {
+            return new Promise((resolve, reject) => {
+                oModel.read(sEntitySet, {
+                    filters: [new sap.ui.model.Filter(sProperty, sap.ui.model.FilterOperator.EQ, sValue)],
+                    success: (oData) => {
+                        resolve(oData.results.length > 0);
+                    },
+                    error: (oError) => {
+                        reject(oError);
+                    }
+                });
+            });
+        },
 		//validation for Vehicle no checking
 
 		checkVehicleNo: async function (oModel, sVehicalNo) {
@@ -551,7 +572,7 @@ sap.ui.define([
 					oModel.refresh(true)
 				},
 				error: function (oError) {
-					MessageBox.error("Failed to update plot availability: " + oError.message);
+					sap.m.MessageBox.error("Failed to update plot availability: " + oError.message);
 				}
 			});
 		},
@@ -591,10 +612,10 @@ sap.ui.define([
 						sap.m.MessageToast.show("VehicalDeatils updated successfully!");
 
 						// Update PlotNOs entities sequentially
-						oModel.update("/PlotNOs('" + oVal + "')", { available: true }, {
+						oModel.update("/PlotNOs('" + oVal + "')", { available: "Empty" }, {
 							success: function () {
 								// Now update the new plotNo
-								oModel.update("/PlotNOs('" + oC + "')", { available: false }, {
+								oModel.update("/PlotNOs('" + oC + "')", { available: "Not Empty" }, {
 									success: function () {
 										sap.m.MessageToast.show("PlotNOs updated successfully!");
 										oModel.refresh(true);
@@ -694,6 +715,7 @@ sap.ui.define([
 				assignedDate: intime,
 				plotNo_plot_NO: oSelectedRow.plotNo_plot_NO,
 			});
+			
 			var temp = oSelectedRow.plotNo_plot_NO;
 			const oModel = this.getView().byId("pageContainer").getModel("ModelV2");
 			this.getView().byId("page8").setModel(resmodel, "resmodel");
@@ -706,15 +728,19 @@ sap.ui.define([
 						success: function () {
 							sap.m.MessageToast.show("Assigned successfully");
 							oModel.refresh()
-							oModel.update("/PlotNOs('" + temp + "')", { available: false }, {
+							const updatedParkingLot = {
+								available: "Not Empty" // Assuming false represents empty parking
+								// Add other properties if needed
+							};
+							oModel.update("/PlotNOs('" + temp + "')", updatedParkingLot, {
 								success: function () {
-									sap.m.MessageToast.show("Assigned successfully");
-									oModel.refresh();
-								}, error: function () {
-									sap.m.MessageBox.error("error");
-								}
-
-							})
+			 
+								}.bind(this),
+								error: function (oError) {
+			 
+									sap.m.MessageBox.error("Failed to update: " + oError.message);
+								}.bind(this)
+							});
 						},
 						error: function (oError) {
 							sap.m.MessageBox.error("Failed to update : " + oError.message);
@@ -738,20 +764,25 @@ sap.ui.define([
 				success: function (oData) {
 					//	console.log("Fetched Data:", oData);
 					var aItems = oData.results;
-					var availableCount = aItems.filter(item => item.available === true).length;
-					var occupiedCount = aItems.filter(item => item.available === false).length;
-
+					var availableCount = aItems.filter(item => item.available === 'Empty').length;
+					var occupiedCount = aItems.filter(item => item.available === 'Not Empty').length;
+					var reservedCount = aItems.filter(item => item.available === 'Reserved').length;
 					var aChartData = {
 						Items: [
 							{
-								available: true,
+								available: 'Empty',
 								Count: availableCount,
 								available: "Empty"
 							},
 							{
-								available: false,
+								available: 'Not Empty',
 								Count: occupiedCount,
 								available: "Not Empty"
+							},
+							{
+								available:'Reserved',
+								Count: reservedCount,
+								available: "reserved"
 							}
 						]
 					};
@@ -804,46 +835,7 @@ sap.ui.define([
 			this.byId("myPopover").close();
 		},
 
-		// onPrint: function () {
-		// 	debugger;
-		// 	// Ensure jsPDF is available
-		// 	if (!window.jspdf || !window.jspdf.jsPDF) {
-		// 		MessageBox.error("jsPDF library is not loaded.");
-		// 		return;
-		// 	}
-		// 	// Access the jsPDF library
-		// 	const { jsPDF } = window.jspdf;
-		// 	// Ensure autoTable plugin is available
-		// 	if (!jsPDF.API.autoTable) {
-		// 		MessageBox.error("autoTable plugin is not loaded.");
-		// 		return;
-		// 	}
-		// 	// Get the reference to the assigned slots table by its id
-		// 	var oTable = this.byId("AssignedSlotsTable");
-		// 	var aItems = oTable.getItems();
-		// 	var doc = new jsPDF();
-
-		// 	// Table headers
-		// 	var headers = [["Vehicle Number", "Driver Name", "Driver Ph Number", "Vehicle Type", "Parking Lot number", "Entry Date"]];
-		// 	var data = [];
-
-		// 	// Extract data from table items
-		// 	aItems.forEach(function (oItem) {
-		// 		var aCells = oItem.getCells();
-		// 		var aRowData = aCells.map(function (oCell) {
-		// 			var sText = oCell.getText ? oCell.getText() : oCell.getValue ? oCell.getValue() : ""; // Handle both Text and Input
-		// 			return sText;
-		// 		});
-		// 		data.push(aRowData);
-		// 	});
-
-		// 	// Generate PDF with autoTable
-		// 	doc.autoTable({
-		// 		head: headers,
-		// 		body: data
-		// 	});
-		// 	doc.save("AssignedSlots.pdf");
-		// },
+		
 		triggerPrintForm: function (vehicalDeatils) {
 			// Create a temporary print area
 			debugger
@@ -948,7 +940,7 @@ sap.ui.define([
 						that.deleteFromVehicalDetailsAfterScan(oModel, sPath);
 						// update
 						that.updatePlotAvailabilityAfterScan(oModel, object.plotNo_plot_NO);
-						
+						// sap.m.MessageBox.show("unassigned successfully");
 
 					},
 					error: function () {
@@ -960,7 +952,7 @@ sap.ui.define([
 		updatePlotAvailabilityAfterScan: function (oModel, plotNo) {
 			// Update PlotNOs availability to 'empty'
 			var oPayload = {
-				available: true // Change 'true' to whatever indicates 'empty' in your data model
+				available: 'Empty' // Change 'true' to whatever indicates 'empty' in your data model
 			};
 
 			oModel.update("/PlotNOs('" + plotNo + "')", oPayload, {
@@ -970,7 +962,7 @@ sap.ui.define([
 
 				},
 				error: function (oError) {
-					MessageBox.error("Failed to update plot availability: " + oError.message);
+					sap.m.MessageBox.error("Failed to update plot availability: " + oError.message);
 				}
 			});
 		},
@@ -982,116 +974,9 @@ sap.ui.define([
 			oModel.remove(sPath);
 			// MessageToast.show("Removed from Assigned")
 
-		},
+		}
 
-		// unassignSlot: function (scannedText) {
-		// 	var that = this;
-		// 	var oModel = this.getView().getModel();
-
-		// 	// Fetch data from the model
-		// 	var aData = oModel.getProperty("/PlotNOs");
-		// 	var aHistory = oModel.getProperty("/History");
-
-		// 	// Debugging logs to check if aData and aHistory are correctly fetched
-		// 	console.log("Initial PlotNOs: ", aData); 
-		// 	console.log("Initial History: ", aHistory); 
-
-		// 	// Check if data is valid
-		// 	if (!Array.isArray(aData)) {
-		// 		console.error("PlotNOs data is not an array or is undefined.");
-		// 		return;
-		// 	}
-		// 	if (!Array.isArray(aHistory)) {
-		// 		console.error("History data is not an array or is undefined.");
-		// 		return;
-		// 	}
-
-		// 	var bSlotFound = false;
-		// 	var oSlot = null;
-
-		// 	// Iterate over the slots to find the matching slot
-		// 	for (var i = 0; i < aData.length; i++) {
-		// 		if (aData[i].plot_NO === scannedText) {
-		// 			oSlot = aData[i];
-		// 			aData.splice(i, 1); // Remove the slot from PlotNOs
-		// 			bSlotFound = true;
-		// 			break;
-		// 		}
-		// 	}
-
-		// 	if (bSlotFound && oSlot) {
-		// 		// Move the slot to history
-		// 		that.moveToHistory(oModel, oSlot);
-
-		// 		// Update PlotNOs availability to 'empty'
-		// 		that.updatePlotAvailability(oModel, scannedText);
-
-		// 		// Set the updated model properties
-		// 		oModel.setProperty("/PlotNOs", aData);
-		// 		oModel.setProperty("/History", aHistory);
-		// 		sap.m.MessageBox.success("Slot " + scannedText + " was unassigned successfully and moved to history.");
-		// 	} else {
-		// 		sap.m.MessageBox.error("Slot " + scannedText + " not found.");
-		// 	}
-
-		// 	// Debugging logs to check the updated state
-		// 	console.log("Updated PlotNOs: ", aData); 
-		// 	console.log("Updated History: ", aHistory); 
-		// },
-
-		// moveToHistory: function (oModel, oSlot) {
-		// 	var oHistory = {
-		// 		vehicalNo: oSlot.vehicalNo,
-		// 		driverName: oSlot.driverName,
-		// 		phone: oSlot.phone,
-		// 		vehicalType: oSlot.vehicalType,
-		// 		assignedDate: oSlot.assignedDate,
-		// 		unassignedDate: new Date(),
-		// 		plotNo: oSlot.plot_NO
-		// 	};
-
-		// 	// Add to History array
-		// 	var aHistory = oModel.getProperty("/History");
-		// 	aHistory.push(oHistory);
-		// 	oModel.setProperty("/History", aHistory);
-		// },
-
-		// updatePlotAvailability: function (oModel, plotNo) {
-		// 	var aData = oModel.getProperty("/PlotNOs");
-
-		// 	// Iterate through PlotNOs to update availability
-		// 	for (var i = 0; i < aData.length; i++) {
-		// 		if (aData[i].plot_NO === plotNo) {
-		// 			aData[i].available = true; // Set availability to true (empty)
-		// 			oModel.setProperty("/PlotNOs", aData);
-		// 			break;
-		// 		}
-		// 	}
-		// }
-		// valueread: function () {
-		// 	var val = this.byId("productInput").getValue();
-		// 	var oFilter = new sap.ui.model.Filter("plot_NO", sap.ui.model.FilterOperator.EQ, val);
-		// 	var oFilter1 = new sap.ui.model.Filter("available", sap.ui.model.FilterOperator.EQ, false);
-		// 	const oModel = this.getOwnerComponent().getModel("ModelV2");
-		// 	var that = this;
-		// 	oModel.read("/PlotNOs", {
-		// 		filters: [oFilter, oFilter1], // Apply filters
-		// 		success: function(oData) {
-		// 			var isAssigned = oData.results.some(function(oEntry) {
-		// 				return oEntry.plot_NO === val && oEntry.available === false;
-		// 			});
-		// 			if (isAssigned) {
-		// 				that.byId("idbuttonassign").setVisible(false);
-		// 				sap.m.MessageBox.error("Already Assigned MAMA!!!");
-						
-		// 			}
-		// 		},
-		// 		error: function(oError) {
-		// 			sap.m.MessageBox.error("Error reading data");
-		// 			that.byId("idbuttonassign").setVisible(false);
-		// 		}
-		// 	});
-		// }
+		
 		
 	});
 });

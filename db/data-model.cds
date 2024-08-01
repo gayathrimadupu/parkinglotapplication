@@ -8,7 +8,7 @@ using {cuid} from '@sap/cds/common';
 entity PlotNOs {
   key plot_NO           : String;
       inBoundOroutBound : String;
-      available         : Boolean;
+      available         : String;
       vehical           : Association to VehicalDeatils
 }
 
