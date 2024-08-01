@@ -33,7 +33,7 @@
                         text="LOT RESERVATION"
                         class="Reserveheading"
                     />
-                     <Label
+                    <Label
                         id="idVendorNumberLabel"
                         text="Vendor Number"
                         class="bold-label dark-black-text"
@@ -54,7 +54,6 @@
                         placeholder="Enter Vendor Name"
                     />
 
-                  
                     <!-- Vehicle Number -->
                     <Label
                         id="idVehicleNumberLabel"
@@ -92,7 +91,7 @@
                     />
 
                     <!-- Vehicle Type -->
-                    
+
                     <!-- Parking Lot -->
                     <Label
                         id="idParkinglotLabel"
@@ -120,19 +119,25 @@
                             text="{plot_NO}"
                         />
                     </ComboBox>
-                      <Label
+                    <Label
                         id="idVehicletypeLabel"
                         text="Vehicle Type"
                         class="bold-label dark-black-text"
                     />
-                  <ComboBox
-    id="InputVehicletype"
-    placeholder="Select Vehicle Type"
-    selectedKey=""
->
-    <core:Item key="inbound" text="Inbound" />
-    <core:Item key="outbound" text="Outbound" />
-</ComboBox>
+                    <ComboBox
+                        id="InputVehicletype"
+                        placeholder="Select Vehicle Type"
+                        selectedKey=""
+                    >
+                        <core:Item
+                            key="inbound"
+                            text="Inbound"
+                        />
+                        <core:Item
+                            key="outbound"
+                            text="Outbound"
+                        />
+                    </ComboBox>
 
                     <!-- Date -->
                     <Label
@@ -141,8 +146,8 @@
                         class="bold-label dark-black-text"
                     />
                     <DateTimePicker
-            id="idinputdatetimepicker"
-            value="{
+                        id="idinputdatetimepicker"
+                        value="{
                 path:'/valueDTP5',
                 type:'sap.ui.model.type.DateTime',
                 formatOptions: {
@@ -163,6 +168,7 @@
                             press="onReservePressbtn"
                             type="Success"
                             class="classButton"
+                            />
 
                     </HBox>
                 </f:SimpleForm>

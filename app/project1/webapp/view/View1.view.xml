@@ -352,7 +352,7 @@
                     />
                     <Input
                         id="productInput"
-                        placeholder="Select ParkingLot"
+                        
                         showSuggestion="true"
                         showValueHelp="true"
                         visible="{ path: 'available'}"
