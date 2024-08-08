@@ -244,62 +244,62 @@ sap.ui.define([
 				//await this.createData(oModel, oPayload.VehicalDeatils, "/History");
 
 				//  // Replace with your actual Twilio Account SID and Auth Token
-				const accountSid = 'ACc087461333853e771f27f1589f7eb162';
-				const authToken = '9e08ecf3299732c3019de82c6a8101a0';
-				var to = "+91" + phone;
+				// const accountSid = 'ACc087461333853e771f27f1589f7eb162';
+				// const authToken = '9e08ecf3299732c3019de82c6a8101a0';
+				// var to = "+91" + phone;
 
-				// Function to send SMS using Twili
-				debugger
-				const toNumber = to; // Replace with recipient's phone number
-				const fromNumber = '+13203173039'; // Replace with your Twilio phone number
-				const messageBody = 'Hello '
-					+ driverName +
-					',\n'
-					+
-					'Your vehicle ('
-					+ vehicalNo +
-					') has been assigned to parking lot '
-					+
-					plotNo
-					+
-					'.\n'
-					+
-					'Please park your vehicle in the assigned slot.\n'
-					+
-					'Thank you,\n'
-					+
-					'By Artihcus Global.\n\n'
+				// // Function to send SMS using Twili
+				// debugger
+				// const toNumber = to; // Replace with recipient's phone number
+				// const fromNumber = '+13203173039'; // Replace with your Twilio phone number
+				// const messageBody = 'Hello '
+				// 	+ driverName +
+				// 	',\n'
+				// 	+
+				// 	'Your vehicle ('
+				// 	+ vehicalNo +
+				// 	') has been assigned to parking lot '
+				// 	+
+				// 	plotNo
+				// 	+
+				// 	'.\n'
+				// 	+
+				// 	'Please park your vehicle in the assigned slot.\n'
+				// 	+
+				// 	'Thank you,\n'
+				// 	+
+				// 	'By Artihcus Global.\n\n'
 
 
-				// Twilio API endpoint for sending messages
-				const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
+				// // Twilio API endpoint for sending messages
+				// const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
 
-				// Payload for the POST request
-				const payload = {
-					To: toNumber,
-					From: fromNumber,
-					Body: messageBody
-				};
+				// // Payload for the POST request
+				// const payload = {
+				// 	To: toNumber,
+				// 	From: fromNumber,
+				// 	Body: messageBody
+				// };
 
-				// Send POST request to Twilio API using jQuery.ajax
-				$.ajax({
-					url: url,
-					type: 'POST',
-					headers: {
-						'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
-					},
-					data: payload,
-					success: function (data) {
-						console.log('SMS sent successfully:', data);
-						// Handle success, e.g., show a success message
-						sap.m.MessageToast.show('SMS sent successfully!');
-					},
-					error: function (xhr, status, error) {
-						console.error('Error sending SMS:', error);
-						// Handle error, e.g., show an error message
-						sap.m.MessageToast.show('Failed to send SMS: ' + error);
-					}
-				});
+				// // Send POST request to Twilio API using jQuery.ajax
+				// $.ajax({
+				// 	url: url,
+				// 	type: 'POST',
+				// 	headers: {
+				// 		'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
+				// 	},
+				// 	data: payload,
+				// 	success: function (data) {
+				// 		console.log('SMS sent successfully:', data);
+				// 		// Handle success, e.g., show a success message
+				// 		sap.m.MessageToast.show('SMS sent successfully!');
+				// 	},
+				// 	error: function (xhr, status, error) {
+				// 		console.error('Error sending SMS:', error);
+				// 		// Handle error, e.g., show an error message
+				// 		sap.m.MessageToast.show('Failed to send SMS: ' + error);
+				// 	}
+				// });
 
 
 
@@ -563,7 +563,7 @@ sap.ui.define([
 		updatePlotAvailability: function (oModel, plotNo) {
 			// Update PlotNOs availability to 'empty'
 			var oPayload = {
-				available: true // Change 'true' to whatever indicates 'empty' in your data model
+				available: 'Empty' // Change 'true' to whatever indicates 'empty' in your data model
 			};
 
 			oModel.update("/PlotNOs('" + plotNo + "')", oPayload, {
@@ -696,11 +696,11 @@ sap.ui.define([
 			debugger
 			var oSelected = this.byId("ReservationTable").getSelectedItems();
 			if (oSelected.length === 0) {
-				MessageBox.error("Please Select atleast row to Assign");
+				sap.m.MessageBox.error("Please Select atleast row to Assign");
 				return
 			};
 			if (oSelected.length > 1) {
-				MessageBox.error("Please select only one row to assign.");
+				sap.m.MessageBox.error("Please select only one row to assign.");
 				return;
 			}
 
@@ -831,8 +831,8 @@ sap.ui.define([
 			oList.removeItem(oItem);
 			sap.m.MessageToast.show("Item Closed: ");
 		},
-		onnotifyClose: function () {
-			this.byId("myPopover").close();
+		onCloseNotificationDialog: function () {
+			this.byId("idnotificationDialog").close();
 		},
 
 		
@@ -940,7 +940,7 @@ sap.ui.define([
 						that.deleteFromVehicalDetailsAfterScan(oModel, sPath);
 						// update
 						that.updatePlotAvailabilityAfterScan(oModel, object.plotNo_plot_NO);
-						// sap.m.MessageBox.show("unassigned successfully");
+						 sap.m.MessageBox.success("unassigned successfully");
 
 					},
 					error: function () {
@@ -959,6 +959,7 @@ sap.ui.define([
 				success: function () {
 					// Optional success handling
 					oModel.refresh(true)
+				
 
 				},
 				error: function (oError) {

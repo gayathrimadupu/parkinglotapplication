@@ -66,6 +66,11 @@ sap.ui.define([
         sap.m.MessageBox.error("Driver name must be at least 3 letters long and contain no special characters.");
         return;
     }
+    var oParkingLot = await this.plotnoexists(oModel, sParkingLot)
+			if (!oParkingLot) {
+				MessageToast.show("Please Select Valid Plotn No")
+				return
+			};
      // Validation for Vehicle Number
      console.log("Vehicle Number:", sVehicleNo);
      if (!sVehicleNo || !sVehicleNo.match(/^[\w\d]{1,10}$/)) {
@@ -77,11 +82,17 @@ sap.ui.define([
                 sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
                 return;
             }
+
+            if (!svendorNumber || !svendorNumber.match(/^[9876]\d{9}$/)) {
+                sap.m.MessageBox.error("Please enter a valid phone number starting with 9, 8, 7, or 6 and exactly 10 digits.");
+                return;
+            } 
             // Validation for Vehicle Number
             if (!sVehicleNo || !sVehicleNo.match(/^[\w\d]{1,10}$/)) {
                 sap.m.MessageBox.error("Please enter a valid vehicle number (alphanumeric, up to 10 characters).");
                 return;
             }
+            
             // Validation for Vehicle Type
     if (sVehicleType !== "inbound" && sVehicleType !== "outbound") {
         sap.m.MessageBox.error("Please select either 'Inbound' or 'Outbound' for vehicle type.");
@@ -126,7 +137,9 @@ sap.ui.define([
                 };
                 oModel.update("/PlotNOs('" + sParkingLot + "')", updatedParkingLot, {
                     success: function () {
- 
+                        MessageToast.show("Reservation sent successfully!");
+                       
+                        
                     }.bind(this),
                     error: function (oError) {
  
@@ -151,6 +164,22 @@ sap.ui.define([
             }
 
         },
+        //Validation for plot checking
+		plotnoexists: async function (oModel, splotNo) {
+			return new Promise((resolve, reject) => {
+				oModel.read("/PlotNOs", {
+					filters: [
+						new sap.ui.model.Filter("plot_NO", sap.ui.model.FilterOperator.EQ, splotNo)
+					],
+					success: function (oData) {
+						resolve(oData.results.length > 0);
+					},
+					error: function () {
+						reject("An error occurred while checking vehicle number existence.");
+					}
+				});
+			});
+		},
         checkParkingLotReservation12: async function (oModel, plotNo) {
             return new Promise((resolve, reject) => {
                 oModel.read("/Reservation", {
