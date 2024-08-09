@@ -241,96 +241,11 @@ sap.ui.define([
 			try {
 				// Assuming createData method sends a POST request
 				await this.createData(oModel, oPayload.VehicalDeatils, "/VehicalDeatils");
+				
 				//await this.createData(oModel, oPayload.VehicalDeatils, "/History");
 
-				//  // Replace with your actual Twilio Account SID and Auth Token
-				// const accountSid = 'ACc087461333853e771f27f1589f7eb162';
-				// const authToken = '9e08ecf3299732c3019de82c6a8101a0';
-				// var to = "+91" + phone;
-
-				// // Function to send SMS using Twili
-				// debugger
-				// const toNumber = to; // Replace with recipient's phone number
-				// const fromNumber = '+13203173039'; // Replace with your Twilio phone number
-				// const messageBody = 'Hello '
-				// 	+ driverName +
-				// 	',\n'
-				// 	+
-				// 	'Your vehicle ('
-				// 	+ vehicalNo +
-				// 	') has been assigned to parking lot '
-				// 	+
-				// 	plotNo
-				// 	+
-				// 	'.\n'
-				// 	+
-				// 	'Please park your vehicle in the assigned slot.\n'
-				// 	+
-				// 	'Thank you,\n'
-				// 	+
-				// 	'By Artihcus Global.\n\n'
-
-
-				// // Twilio API endpoint for sending messages
-				// const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
-
-				// // Payload for the POST request
-				// const payload = {
-				// 	To: toNumber,
-				// 	From: fromNumber,
-				// 	Body: messageBody
-				// };
-
-				// // Send POST request to Twilio API using jQuery.ajax
-				// $.ajax({
-				// 	url: url,
-				// 	type: 'POST',
-				// 	headers: {
-				// 		'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
-				// 	},
-				// 	data: payload,
-				// 	success: function (data) {
-				// 		console.log('SMS sent successfully:', data);
-				// 		// Handle success, e.g., show a success message
-				// 		sap.m.MessageToast.show('SMS sent successfully!');
-				// 	},
-				// 	error: function (xhr, status, error) {
-				// 		console.error('Error sending SMS:', error);
-				// 		// Handle error, e.g., show an error message
-				// 		sap.m.MessageToast.show('Failed to send SMS: ' + error);
-				// 	}
-				// });
-
-
-
-
-				// Function to make an announcement
-				function makeAnnouncement(message, lang = 'en-US') {
-					// Check if the browser supports the Web Speech API
-					if ('speechSynthesis' in window) {
-						// Create a new instance of SpeechSynthesisUtterance
-						var utterance = new SpeechSynthesisUtterance(message);
-
-						// Set properties (optional)
-						utterance.pitch = 1; // Range between 0 (lowest) and 2 (highest)
-						utterance.rate = 0.75;  // Range between 0.1 (lowest) and 10 (highest)
-						utterance.volume = 1; // Range between 0 (lowest) and 1 (highest)
-						utterance.lang = lang; // Set the language
-
-						// Speak the utterance
-						debugger
-						window.speechSynthesis.speak(utterance);
-
-					} else {
-						console.log('Sorry, your browser does not support the Web Speech API.');
-					}
-
-				}
-
-				// Example usage
-				//makeAnnouncement(`कृपया ध्यान दें। वाहन नंबर ${vehicalNo} को स्लॉट नंबर ${plotNo} द्वारा आवंटित किया गया है।`, 'hi-IN');
-				makeAnnouncement(`దయచేసి వినండి. వాహనం నంబర్ ${vehicalNo} కు స్లాట్ నంబర్ ${plotNo} కేటాయించబడింది.`, 'te-IN');
-
+				
+				
 				sap.m.MessageBox.information(
 					`Vehicel No ${vehicalNo} allocated to Slot No ${plotNo}`,
 					{
@@ -338,11 +253,69 @@ sap.ui.define([
 						actions: sap.m.MessageBox.Action.OK
 					}
 				);
+				//  // Replace with your actual Twilio Account SID and Auth Token
+                // const accountSid = 'ACc087461333853e771f27f1589f7eb162';
+                // const authToken = '9e08ecf3299732c3019de82c6a8101a0';
+                // var to = "+91" + phone;
+ 
+                // // Function to send SMS using Twili
+                // debugger
+                // const toNumber = to; // Replace with recipient's phone number
+                // const fromNumber = '+13203173039'; // Replace with your Twilio phone number
+                // const messageBody = 'Hello '
+                //  + driverName +
+                //  ',\n'
+                //  +
+                //  'Your vehicle ('
+                //  + vehicalNo +
+                //  ') has been assigned to parking lot '
+                //  +
+                //  plotNo
+                //  +
+                //  '.\n'
+                //  +
+                //  'Please park your vehicle in the assigned slot.\n'
+                //  +
+                //  'Thank you,\n'
+                //  +
+                //  'By Artihcus Global.\n\n'
+ 
+ 
+                // // Twilio API endpoint for sending messages
+                // const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`;
+ 
+                // // Payload for the POST request
+                // const payload = {
+                //  To: toNumber,
+                //  From: fromNumber,
+                //  Body: messageBody
+                // };
+ 
+                // // Send POST request to Twilio API using jQuery.ajax
+                // $.ajax({
+                //  url: url,
+                //  type: 'POST',
+                //  headers: {
+                //      'Authorization': 'Basic ' + btoa(accountSid + ':' + authToken)
+                //  },
+                //  data: payload,
+                //  success: function (data) {
+                //      console.log('SMS sent successfully:', data);
+                //      // Handle success, e.g., show a success message
+                //      sap.m.MessageToast.show('SMS sent successfully!');
+                //  },
+                //  error: function (xhr, status, error) {
+                //      console.error('Error sending SMS:', error);
+                //      // Handle error, e.g., show an error message
+                //      sap.m.MessageToast.show('Failed to send SMS: ' + error);
+                //  }
+                // });
+ 
 				const updatedParkingLot = {
                     available: "Not Empty" // Assuming false represents empty parking
                     // Add other properties if needed
                 };
-                oModel.update("/PlotNOs('" + plotNo + "')", updatedParkingLot, {
+                await oModel.update("/PlotNOs('" + plotNo + "')", updatedParkingLot, {
                     success: function () {
  
                     }.bind(this),
@@ -352,7 +325,14 @@ sap.ui.define([
                     }.bind(this)
                 });
 
-				this.triggerPrintForm(oPayload.VehicalDeatils);
+        // Refresh the model to update the bindings on the page
+        oModel.refresh(true);
+		console.log("Before triggerPrintForm");
+		this.triggerPrintForm(oPayload.VehicalDeatils);
+		console.log("After triggerPrintForm");
+	
+
+				
 			} catch (error) {
 				console.error("Error:", error);
 
@@ -772,17 +752,17 @@ sap.ui.define([
 							{
 								available: 'Empty',
 								Count: availableCount,
-								available: "Empty"
+								available: `Empty - ${availableCount}`,
 							},
 							{
 								available: 'Not Empty',
 								Count: occupiedCount,
-								available: "Not Empty"
+								available: `Not Empty - ${occupiedCount}`,
 							},
 							{
 								available:'Reserved',
 								Count: reservedCount,
-								available: "reserved"
+								available: `reserved - ${reservedCount}`,
 							}
 						]
 					};
@@ -836,9 +816,44 @@ sap.ui.define([
 		},
 
 		
+		// triggerPrintForm: function (vehicalDeatils) {
+		// 	// Create a temporary print area
+		// 	debugger
+		// 	var printWindow = window.open('', '', 'height=500,width=800');
+		// 	printWindow.document.write('<html><head><title>Parking Lot Allocation</title>');
+		// 	printWindow.document.write('<style>body{font-family: Arial, sans-serif;} table{width: 100%; border-collapse: collapse;} td, th{border: 1px solid #ddd; padding: 8px;} th{padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #4CAF50; color: white;}</style>');
+		// 	printWindow.document.write('</head><body>');
+		// 	printWindow.document.write('<h2>Parking Lot Allocation</h2>');
+		// 	printWindow.document.write('<table><tr><th>Field</th><th>Value</th></tr>');
+		// 	printWindow.document.write('<tr><td>Vehicle Number</td><td>' + vehicalDeatils.vehicalNo + '</td></tr>');
+		// 	printWindow.document.write('<tr><td>Driver Name</td><td>' + vehicalDeatils.driverName + '</td></tr>');
+		// 	printWindow.document.write('<tr><td>Phone</td><td>' + vehicalDeatils.phone + '</td></tr>');
+		// 	printWindow.document.write('<tr><td>Vehicle Type</td><td>' + vehicalDeatils.vehicalType + '</td></tr>');
+		// 	printWindow.document.write('<tr><td>Plot Number</td><td>' + vehicalDeatils.plotNo_plot_NO + '</td></tr>');
+		// 	printWindow.document.write('<tr><td>Assigned Date</td><td>' + vehicalDeatils.assignedDate + '</td></tr>');
+
+		// 	// Generate barcode
+		// 	debugger
+		// 	const barcodeValue = `${vehicalDeatils.vehicalNo}`;
+		// 	const canvas = document.createElement('canvas');
+		// 	JsBarcode(canvas, barcodeValue, {
+		// 		format: "CODE128",
+		// 		lineColor: "#0aa",
+		// 		width: 4,
+		// 		height: 40,
+		// 		displayValue: true
+		// 	});
+		// 	const barcodeImage = canvas.toDataURL("image/png");
+
+		// 	// Add barcode to print
+		// 	printWindow.document.write('<tr><td>Barcode</td><td><img src="' + barcodeImage + '" alt="Barcode"></td></tr>');
+		// 	printWindow.document.write('</table>');
+		// 	printWindow.document.write('</body></html>');
+		// 	printWindow.document.close();
+		// 	printWindow.print();
+		// },
 		triggerPrintForm: function (vehicalDeatils) {
 			// Create a temporary print area
-			debugger
 			var printWindow = window.open('', '', 'height=500,width=800');
 			printWindow.document.write('<html><head><title>Parking Lot Allocation</title>');
 			printWindow.document.write('<style>body{font-family: Arial, sans-serif;} table{width: 100%; border-collapse: collapse;} td, th{border: 1px solid #ddd; padding: 8px;} th{padding-top: 12px; padding-bottom: 12px; text-align: left; background-color: #4CAF50; color: white;}</style>');
@@ -851,9 +866,8 @@ sap.ui.define([
 			printWindow.document.write('<tr><td>Vehicle Type</td><td>' + vehicalDeatils.vehicalType + '</td></tr>');
 			printWindow.document.write('<tr><td>Plot Number</td><td>' + vehicalDeatils.plotNo_plot_NO + '</td></tr>');
 			printWindow.document.write('<tr><td>Assigned Date</td><td>' + vehicalDeatils.assignedDate + '</td></tr>');
-
+		
 			// Generate barcode
-			debugger
 			const barcodeValue = `${vehicalDeatils.vehicalNo}`;
 			const canvas = document.createElement('canvas');
 			JsBarcode(canvas, barcodeValue, {
@@ -864,15 +878,23 @@ sap.ui.define([
 				displayValue: true
 			});
 			const barcodeImage = canvas.toDataURL("image/png");
-
+		
 			// Add barcode to print
-			printWindow.document.write('<tr><td>Barcode</td><td><img src="' + barcodeImage + '" alt="Barcode"></td></tr>');
+			printWindow.document.write('<tr><td>Barcode</td><td><img id="barcodeImg" src="' + barcodeImage + '" alt="Barcode"></td></tr>');
 			printWindow.document.write('</table>');
 			printWindow.document.write('</body></html>');
 			printWindow.document.close();
-			printWindow.print();
+		
+			// Delay the print to ensure the document is fully loaded
+			printWindow.onload = function () {
+				// Check if the image is fully loaded
+				var barcodeImg = printWindow.document.getElementById('barcodeImg');
+				barcodeImg.onload = function () {
+					printWindow.print();
+				};
+			};
 		},
-
+		
 
 		onModel: function () {
 			const oModel = this.getView().getModel("ModelV2");

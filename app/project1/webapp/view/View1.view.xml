@@ -640,7 +640,7 @@
                                 <ColumnListItem
                                     id="emptyslotsCLI"
                                     class="classemptytable"
-                                    visible="{ path: 'available'}"
+                                
                                 >
                                     <cells>
                                         <Text
