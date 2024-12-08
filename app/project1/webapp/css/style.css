@@ -118,3 +118,35 @@
 .text{
     color:rgb(17, 45, 228)
 }
+.customIconColor {
+    color: blue;
+}
+.customPopoverContent {
+    width: 600px;
+    height: 200px;
+    overflow: auto; /* Optional: Add this to handle overflow content */
+   
+}
+.sapUiContent::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("https://singlepointcapital.com/wp-content/uploads/2024/06/Truck-Parking-Challenges-Solutions-in-2024.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(10px);
+    z-index: -1;
+}
+ 
+.sapUiSmallMargin {
+    background-color: rgba(8, 0, 0, 0.548);
+    padding: 2rem;
+    border-radius: 2rem;
+    position: relative;
+    z-index: 1;  
+}
+/* styles.css */

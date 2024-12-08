@@ -118,3 +118,10 @@
         text-align: center;
     }
 }
+.FormItem {
+    margin-bottom: 10px; /* Adjust spacing between items */
+}
+
+.FlexBox {
+    width: 80%; /* Adjust the width of the FlexBox as needed */
+}

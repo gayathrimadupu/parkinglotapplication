@@ -1,0 +1,59 @@
+<core:FragmentDefinition
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+>
+    <Popover
+        id="idnotificationDialog"
+        title="Notifications"
+        placement="PreferredLeftOrFlip"
+        resizable="true"
+          contentWidth="600px"
+    >
+        <customHeader>
+            <Bar id="idbarnotify">
+                <contentLeft>
+                    <Text
+                        id="idtextnotify"
+                        text="Notifications"
+                        
+                    />
+                </contentLeft>
+                <contentRight>
+                    <Button
+                        id="cancelbtn"
+                        icon="sap-icon://sys-cancel"
+                        press="onCloseNotificationDialog"
+                        type="Reject"
+                    />
+                </contentRight>
+            </Bar>
+        </customHeader>
+        <Table
+            id="idUserLoans"
+            alternateRowColors="true"
+            backgroundDesign="Transparent"
+            items="{/Reservation}"
+        >
+            <columns>
+                <Column id="idIsbnColumn">
+                    <Title
+                        id="idIsbntitle"
+                        text="Parking Lot Reservations"
+                    />
+                </Column>
+            </columns>
+ 
+            <items>
+                <ColumnListItem id="idColumnListBooksLoan">
+                    <cells>
+                        <Text
+                            id="idBISBNvalue"
+                            text="{notify}"
+                        />
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Popover>
+</core:FragmentDefinition>

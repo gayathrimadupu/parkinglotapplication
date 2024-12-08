@@ -45,13 +45,7 @@
                         />
                     </layoutData>
                 </ToolbarSpacer>
-                <Button
-                    visible="false"
-                    icon="sap-icon://search"
-                    type="Transparent"
-                    id="searchButton"
-                    tooltip="Search"
-                />
+                 
                 <OverflowToolbarButton
                     id="_IDGenOverflowToolbarButton1"
                     icon="sap-icon://print"
@@ -76,6 +70,31 @@
                         />
                     </layoutData>
                 </ToolbarSeparator>
+             
+
+                <Button
+                    id="_IDGenButton1"
+                    icon="sap-icon://bell"
+                    type="Transparent"
+                    tooltip="Notification"
+                    press="OnpressNotify"
+                    text=""
+                >
+                
+                    <customData>
+                        <BadgeCustomData
+                            id="idnotification7"
+                             value="{/Reservation/$count}"
+                               visible="{= ${/Reservation/$count} > 0 }"
+                        />
+                    </customData>
+                    <!-- <layoutData>
+                        <OverflowToolbarLayoutData
+                            id="_IDGenOverflowToolbarLayoutData8"
+                            priority="NeverOverflow"
+                        />
+                    </layoutData> -->
+                </Button>
               
                 <tnt:ToolHeaderUtilitySeparator
                     id="_IDGenToolHeaderUtilitySeparator1"
@@ -179,6 +198,7 @@
                                     <ToolbarSpacer
                                         id="idTableHeaderSpacertable2"
                                     />
+                                    
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
@@ -211,26 +231,22 @@
                                         <Text
                                             id="idtextitemsno"
                                             text="{plot_NO}"
+                                         
                                         />
                                     </cells>
-                                    <!-- <cells>
-                                        <Text
-                                            id="idtextitemstype"
-                                            text="{inBoundOroutBound}"
-                                        />
-                                    </cells> -->
+                                    
                                     <cells>
-                                        <Text
-                                            id="idProcessvalue"
-                                            text="{
-                                               path: 'available',
-                                                formatter:'.statusTextFormatter'
-                                            }"
-                                        />
+
+
+                                        <Text id="idProcessvalue"
+                                        text="{available}" />
+                                       <!-- <ObjectStatus
+    id="idProcessvalue"
+    text="{path: 'available', formatter: '.statusTextFormatter'}"
+    state="{path: 'available', formatter: '.statusStateFormatter'}"
+/> -->
                                     </cells>
-                                     <cells>
-                    
-                </cells>
+                                     
                                 </ColumnListItem>
                             </items>
                         </Table>
@@ -331,7 +347,7 @@
                     />
                     <Input
                         id="productInput"
-                        placeholder="Select ParkingLot"
+                        
                         showSuggestion="true"
                         showValueHelp="true"
                         visible="{ path: 'available'}"
@@ -346,7 +362,7 @@
                                 {
                                     path: 'available',
                                     operator: 'EQ',
-                                    value1: true
+                                    value1: 'Empty'
                                 }
                             ]
                         }"
@@ -426,16 +442,18 @@
                                         text="Assigned Slots"
                                     />
                                     <ToolbarSpacer id="idTableHeaderSpacer" />
-                                    <Button
+                                      <Button id="id111"  press="onScannerPress" icon="sap-icon://bar-code"/>
+                                    <!-- <Button
                                         id="idprintbutton"
                                         icon="sap-icon://print"
                                         type="Success"
                                         tooltip="Print"
                                         text="Print"
-                                        press="OnPrintpress"
-                                    />
+                                        press="onPrint"
+                                    /> -->
+                           
                                     <Button text=" Unassign " press=".Unassign"  type="Success"/>
-                                     <Button text="Update Slot" press=".onUpdateSlotPress" type="Emphasized" />
+                                    
            
                                 </OverflowToolbar>
                        
@@ -485,6 +503,13 @@
                                           class="text"
                                     />
                                 </Column>
+                                 <Column id="idcomlEMPTY">
+                                      <Title
+                                        id="_IDGenEMPTY"
+                                    
+                                          class="text"
+                                    />
+                                </Column>
                                 
             
                             </columns>
@@ -519,10 +544,27 @@
                                         />
                                     </cells>
                                     <cells>
-                                        <Text
-                                            id="_IDGenText17"
-                                            text="{plotNo_plot_NO}"
-                                        />
+                                         <VBox id="idedittext">
+                                            <Input
+                                                id="_IDGenText88"
+                                                value="{plotNo_plot_NO}"
+                                                editable="false"
+                                                visible="true"
+                                            />
+                                            <Select
+                                                visible="false"
+                                                id="parkingLotSelect"
+                                                required="true"
+                                                editable="true"
+                                                items="{path: '/PlotNOs', filters: [{path: 'available', operator: 'EQ', value1:'Empty' }], templateShareable: true}"
+                                            >
+                                                <core:Item
+                                                    id="_IDGenItem3"
+                                                    key="{plot_NO}"
+                                                    text="{plot_NO}"
+                                                />
+                                            </Select>
+                                        </VBox>
                                     </cells>
                                     <cells>
                                         <Text
@@ -530,6 +572,12 @@
                                             text="{assignedDate}"
                                             
                                         />
+                                    </cells>
+                                    <cells>
+                                   <Button text= "edit"
+                                    press="onEditpress"  
+                                    type="Success"/>
+
                                     </cells>
                                     
                                 </ColumnListItem>
@@ -592,7 +640,7 @@
                                 <ColumnListItem
                                     id="emptyslotsCLI"
                                     class="classemptytable"
-                                    visible="{ path: 'available'}"
+                                
                                 >
                                     <cells>
                                         <Text
@@ -648,6 +696,7 @@
                                         text="assign"
                                         type="Success"
                                     />
+                                      <Button id="_IDRefresh" icon="sap-icon://synchronize" press="onrefresh" type="Success" /> 
                                 </OverflowToolbar>
                             </headerToolbar>
                             <columns>
@@ -677,7 +726,7 @@
                                     class="class01"
                                 >
                                     <Title
-                                        text="Phone"
+                                        text="Driver Number"
                                         id="idtextreservaton3"
                                        class="text"
                                     />
@@ -691,7 +740,7 @@
                                 </Column>
                                 <Column id="idcolumnreservation5">
                                     <Title
-                                        text="Expected Time"
+                                        text="Expected Date Time"
                                         id="idtextreservaton5"
                                          class="text"
                                     />
@@ -1123,12 +1172,11 @@
                         text="Date"
                          class="bold-label dark-black-text"
                     />
-                   <DatePicker
-    id="idinputdatepicker"
-    valueFormat="yyyy-MM-dd"
-    displayFormat="yyyy-MM-dd"
-    minDate="{ path: 'todayDate' }"
-/>
+                     <DateTimePicker
+        id="idinputdatetimepicker"
+        valueFormat="yyyy-MM-dd HH:mm:ss"
+        displayFormat="yyyy-MM-dd HH:mm:ss"
+    />
                     <HBox
                         id="_IDReserveHBox1"
                         alignItems="Center"

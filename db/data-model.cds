@@ -8,7 +8,7 @@ using {cuid} from '@sap/cds/common';
 entity PlotNOs {
   key plot_NO           : String;
       inBoundOroutBound : String;
-      available         : Boolean;
+      available         : String;
       vehical           : Association to VehicalDeatils
 }
 
@@ -48,8 +48,16 @@ entity Reservation {
       Expectedtime : DateTime;
       plotNo       : Association to PlotNOs;
       vendorname     : String;
-      vendorNumber :Integer64
+      vendorNumber :Integer64;
+      notify : String;
 }
+// define entity Notifications {
+//     key id          : UUID;
+//         nvendorName : String;
+//         parkinglot  : Association to PlotNOs;
+//         message     : String;
+//         ndate       : Date;
+// }
 
 // entity Reservations {
 //   key ID            : UUID;

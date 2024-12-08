@@ -33,7 +33,7 @@
                         text="LOT RESERVATION"
                         class="Reserveheading"
                     />
-                     <Label
+                    <Label
                         id="idVendorNumberLabel"
                         text="Vendor Number"
                         class="bold-label dark-black-text"
@@ -54,7 +54,6 @@
                         placeholder="Enter Vendor Name"
                     />
 
-                  
                     <!-- Vehicle Number -->
                     <Label
                         id="idVehicleNumberLabel"
@@ -92,7 +91,7 @@
                     />
 
                     <!-- Vehicle Type -->
-                    
+
                     <!-- Parking Lot -->
                     <Label
                         id="idParkinglotLabel"
@@ -111,7 +110,7 @@
                             filters: [{
                                 path: 'available',
                                 operator: 'EQ',
-                                value1: true
+                                value1: 'Empty'
                             }]
                         }"
                     >
@@ -120,19 +119,25 @@
                             text="{plot_NO}"
                         />
                     </ComboBox>
-                      <Label
+                    <Label
                         id="idVehicletypeLabel"
                         text="Vehicle Type"
                         class="bold-label dark-black-text"
                     />
-                  <ComboBox
-    id="InputVehicletype"
-    placeholder="Select Vehicle Type"
-    selectedKey=""
->
-    <core:Item key="inbound" text="Inbound" />
-    <core:Item key="outbound" text="Outbound" />
-</ComboBox>
+                    <ComboBox
+                        id="InputVehicletype"
+                        placeholder="Select Vehicle Type"
+                        selectedKey=""
+                    >
+                        <core:Item
+                            key="inbound"
+                            text="Inbound"
+                        />
+                        <core:Item
+                            key="outbound"
+                            text="Outbound"
+                        />
+                    </ComboBox>
 
                     <!-- Date -->
                     <Label
@@ -140,14 +145,17 @@
                         text="Date"
                         class="bold-label dark-black-text"
                     />
-                    <DatePicker
-                        id="idinputdatepicker"
-                        valueFormat="yyyy-MM-dd"
-                        displayFormat="yyyy-MM-dd"
-                        minDate="{ path: 'todayDate' }"
-                        value=""
+                    <DateTimePicker
+                        id="idinputdatetimepicker"
+                        value="{
+                path:'/valueDTP5',
+                type:'sap.ui.model.type.DateTime',
+                formatOptions: {
+                    style: 'medium',
+                    strictParsing: true
+                }
+            }"
                     />
-
                     <HBox
                         id="_IDReserveHBox1"
                         alignItems="Center"
@@ -160,7 +168,8 @@
                             press="onReservePressbtn"
                             type="Success"
                             class="classButton"
-                        />
+                            />
+
                     </HBox>
                 </f:SimpleForm>
             </VBox>
